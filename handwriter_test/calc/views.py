@@ -1,3 +1,5 @@
+from django.shortcuts import render
+from django.http import HttpResponse
 
 
 import numpy as np
@@ -7,53 +9,56 @@ from random import randint
 import random
 from PIL import Image
 #input the string
-f = open("D:/handwriter/TheHandwriter/Handwritten_Digits/input_data.txt", "r")
-contents = f.read()
-contents=contents.strip()
-words=contents.split(" ")
+def hand_w(input_string):
+    contents=input_string
+    contents=contents.strip()
+    words=contents.split(" ")
 
 
-print(words)
-print(len(words))
-tau=len(words)
-i=0
-while(i<tau):
-    if(words[i].startswith('\n') or words[i].startswith('\\n')):
-        if(words[i].startswith('\n')):
-            word_t=(words[i][1:])
-        else:
-            word_t=(words[i][2:])
-        words.insert(i,'\n')
-        words[i+1]=word_t
-        tau=tau+1
-    i=i+1
+    print(words)
+    print(len(words))
+    tau=len(words)
+    i=0
+    while(i<tau):
+        if(words[i].startswith('\n') or words[i].startswith('\\n')):
+            if(words[i].startswith('\n')):
+                word_t=(words[i][1:])
+            else:
+                word_t=(words[i][2:])
+            words.insert(i,'\n')
+            words[i+1]=word_t
+            tau=tau+1
+        i=i+1
 
-try:
-    while True:
-        words.remove('')
-except ValueError:
-    pass
+    try:
+        while True:
+            words.remove('')
+    except ValueError:
+        pass
 
-#generate random errors
-l=0
-pop=0
-errors_for_number_for_words=13
+    #generate random errors
+    l=0
+    pop=0
+    errors_for_number_for_words=13
 
-randomlist = []
-if(((len(words))/errors_for_number_for_words)-3>=0):
-    pop=int(((len(words))/errors_for_number_for_words)-3)
-for i in range(0,pop):
-    n = random.randint(2, len(words) - 3)
-    while(words[n]=='\n'):
-        n = random.randint(2,len(words)-3)
-    randomlist.append(n)
-for i in range(0,pop):
-    word____err=words[randomlist[i]]
-    word____err="~"+word____err
-    words[randomlist[i]]=word____err
+    randomlist = []
+    if(((len(words))/errors_for_number_for_words)-3>=0):
+        pop=int(((len(words))/errors_for_number_for_words)-3)
+    for i in range(0,pop):
+        n = random.randint(2, len(words) - 3)
+        while(words[n]=='\n'):
+            n = random.randint(2,len(words)-3)
+        randomlist.append(n)
+    for i in range(0,pop):
+        word____err=words[randomlist[i]]
+        word____err="~"+word____err
+        words[randomlist[i]]=word____err
 
-print(words)
-print(len(words))
+    print(words)
+    print(len(words))
+
+    image=func_two(words)
+    return image
 
 def generate_word(img_prev, word__k, k,N___K,K___K,add_blank):
     #Random Set of Letters
@@ -303,125 +308,144 @@ def generate_blank(img_prev__k, N__k, k__k):
 
 
 #f-word number
-f=0
-#line output
-output=0
-#array of sentences
-sentences=[]
+def func_two(words):
+    f=0
+    #line output
+    output=0
+    #array of sentences
+    sentences=[]
 
-MY_OUTPUT=''
-MY_SENTENCE_OUTPUT=[]
-while(f<len(words)):
-    k=60
-    #Adding 60 characters in a line
-    while(k>0):
-        try:
-            if(words[f]!='\n'):
-                if(k==60):
-                    X=randint(1,2)
-                    output=generate_blank(img_prev__k=0,N__k=X,k__k=False)
-                    k=k-X
-                    output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=3, K___K=True, add_blank=True)
-                    MY_OUTPUT = MY_OUTPUT + words[f] + '   '
-                    k=k-(len(words[f])+3)
-                    f=f+1
-                else:
-                    if(k-len(words[f])>=0):
-                        t=min(3,k-len(words[f]))
-                        output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=t, K___K=True, add_blank=True)
-                        MY_OUTPUT=MY_OUTPUT+words[f]
-                        MY_OUTPUT = MY_OUTPUT.ljust(t + len(MY_OUTPUT), ' ')
-                        k=k-(len(words[f])+t)
+    MY_OUTPUT=''
+    MY_SENTENCE_OUTPUT=[]
+    while(f<len(words)):
+        k=60
+        #Adding 60 characters in a line
+        while(k>0):
+            try:
+                if(words[f]!='\n'):
+                    if(k==60):
+                        X=randint(1,2)
+                        output=generate_blank(img_prev__k=0,N__k=X,k__k=False)
+                        k=k-X
+                        output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=3, K___K=True, add_blank=True)
+                        MY_OUTPUT = MY_OUTPUT + words[f] + '   '
+                        k=k-(len(words[f])+3)
                         f=f+1
-
                     else:
-                        output=generate_blank(img_prev__k=output,N__k=k,k__k=True)
+                        if(k-len(words[f])>=0):
+                            t=min(3,k-len(words[f]))
+                            output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=t, K___K=True, add_blank=True)
+                            MY_OUTPUT=MY_OUTPUT+words[f]
+                            MY_OUTPUT = MY_OUTPUT.ljust(t + len(MY_OUTPUT), ' ')
+                            k=k-(len(words[f])+t)
+                            f=f+1
+
+                        else:
+                            output=generate_blank(img_prev__k=output,N__k=k,k__k=True)
+                            MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
+                            k=-1
+                else:
+                    if(k!=60):
+                        output = generate_blank(img_prev__k=output, N__k=k, k__k=True)
+                        MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
+                        k = -1
+                        f=f+1
+                    else:
+                        output = generate_blank(img_prev__k=output, N__k=k, k__k=False)
                         MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
                         k=-1
-            else:
-                if(k!=60):
-                    output = generate_blank(img_prev__k=output, N__k=k, k__k=True)
-                    MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
-                    k = -1
-                    f=f+1
-                else:
-                    output = generate_blank(img_prev__k=output, N__k=k, k__k=False)
-                    MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
-                    k=-1
-                    f=f+1
-        except IndexError:
-            output = generate_blank(img_prev__k=output, N__k=k, k__k=True)
-            MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
-            k=-1
-            pass
+                        f=f+1
+            except IndexError:
+                output = generate_blank(img_prev__k=output, N__k=k, k__k=True)
+                MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
+                k=-1
+                pass
 
-    MY_OUTPUT = MY_OUTPUT + '!'
-    MY_SENTENCE_OUTPUT.append(MY_OUTPUT)
-    MY_OUTPUT = ''
-    sentences.append(output)
-    output = 0
+        MY_OUTPUT = MY_OUTPUT + '!'
+        MY_SENTENCE_OUTPUT.append(MY_OUTPUT)
+        MY_OUTPUT = ''
+        sentences.append(output)
+        output = 0
 
 
-for i in range(len(MY_SENTENCE_OUTPUT)):
-    print(MY_SENTENCE_OUTPUT[i])
+    for i in range(len(MY_SENTENCE_OUTPUT)):
+        print(MY_SENTENCE_OUTPUT[i])
 
-final_output = sentences[0]
-print(final_output.shape)
-for i in range(1,len(sentences)):
-    print(sentences[i].shape)
-    final_output = np.concatenate((final_output, sentences[i]), axis=0)
+    final_output = sentences[0]
+    print(final_output.shape)
+    for i in range(1,len(sentences)):
+        print(sentences[i].shape)
+        final_output = np.concatenate((final_output, sentences[i]), axis=0)
 
-#BORDER VALUES FOR PHYSICS PROJECT
-# border = cv2.copyMakeBorder(
-#     final_output,
-#     top=120,
-#     bottom=40,
-#     left=100,
-#     right=30,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[255,255,255]
-# )
-# border = cv2.copyMakeBorder(
-#     border,
-#     top=5,
-#     bottom=5,
-#     left=5,
-#     right=5,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[38,38,38]
-# )
-# border = cv2.copyMakeBorder(
-#     border,
-#     top=100,
-#     bottom=100,
-#     left=100,
-#     right=100,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[255,255,255]
-#)
+    #BORDER VALUES FOR PHYSICS PROJECT
+    # border = cv2.copyMakeBorder(
+    #     final_output,
+    #     top=120,
+    #     bottom=40,
+    #     left=100,
+    #     right=30,
+    #     borderType=cv2.BORDER_CONSTANT,
+    #     value=[255,255,255]
+    # )
+    # border = cv2.copyMakeBorder(
+    #     border,
+    #     top=5,
+    #     bottom=5,
+    #     left=5,
+    #     right=5,
+    #     borderType=cv2.BORDER_CONSTANT,
+    #     value=[38,38,38]
+    # )
+    # border = cv2.copyMakeBorder(
+    #     border,
+    #     top=100,
+    #     bottom=100,
+    #     left=100,
+    #     right=100,
+    #     borderType=cv2.BORDER_CONSTANT,
+    #     value=[255,255,255]
+    #)
 
 
-#REAL BORDER VALUES
-border = cv2.copyMakeBorder(
-    final_output,
-    top=120,
-    bottom=40,
-    left=100,
-    right=30,
-    borderType=cv2.BORDER_CONSTANT,
-    value=[255,255,255]
-)
+    #REAL BORDER VALUES
+    border = cv2.copyMakeBorder(
+        final_output,
+        top=120,
+        bottom=40,
+        left=100,
+        right=30,
+        borderType=cv2.BORDER_CONSTANT,
+        value=[255,255,255]
+    )
 
-#COMP BORDERS
-# border = cv2.copyMakeBorder(
-#     final_output,
-#     top=240,
-#     bottom=40,
-#     left=100,
-#     right=30,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[255,255,255]
-# )
+    #COMP BORDERS
+    # border = cv2.copyMakeBorder(
+    #     final_output,
+    #     top=240,
+    #     bottom=40,
+    #     left=100,
+    #     right=30,
+    #     borderType=cv2.BORDER_CONSTANT,
+    #     value=[255,255,255]
+    # )
 
-path='D:/handwriter/TheHandwriter/Handwritten_Digits/FINAL_RESULToutput.jpg'
-cv2.imwrite(path, border)
+    path='D:\handwriter\TheHandwriter\handwriter_test\static\FINAL_RESULToutput.png'
+    cv2.imwrite(path, border)
+
+    return border
+# Create your views here.
+
+def home(request):
+    return render(request, 'home.html', {'name': ''})
+
+val1=''
+def add(request):
+    global val1
+
+    val1 = request.GET['text_string']
+    image=hand_w(val1)
+    return render(request, "result.html")
+
+
+
+
