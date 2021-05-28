@@ -1,4 +1,3 @@
-
 import math, random
 import cv2
 import PIL
@@ -7,94 +6,94 @@ import numpy as np
 chars_path  = 'D:\\TheHandwriter\\Handwritten_Digits\\'
 set_path    = chars_path + 'Set_{}\\'
 
-# Input the string
+char__lst   = [('.', 'dot'), (',', 'comma'), ('"', 'quote'), ("'", 'squote'), ('!', '!'), ('-', '-'),
+                ('%', '%'), ('|', '|'), ('\\', 'back'), ('=', '='), ('(', '('), (')', ')'),
+                ('*', '*'), ('_', '_'), ('/', '/'), (':', 'colon'), ('>', '>'), ('<', '<'),
+                ('?', '?'), ('}', '}'), ('{', '{'), (';', ';'), ('+', '+'), ('&', '&'),
+                ('[', '['), (']', ']')]
+
+# Utility function to picture to use given a character and error value
+def get_path_to_picture( _char, _err, _my_path ):
+
+    # If lower case, digit or upper case then use self
+    if _char.islower() or _char.isdigit():
+        return _my_path.format( _char )
+    if _char.isupper():
+        return _my_path.format( _char * 2 )
+
+    # If space/newline/invalid then use blank
+    if _char == ' ' or _char == '\n'  or _char == '':
+        return chars_path + 'Set_1\\blank2.jpg'
+
+    # If tilda then error
+    if _char == '~':
+        return chars_path + 'Errors\\Error{}.jpg'.format( _err )
+
+    # Go through list of specials if nothing is found
+    to_ret_if_nothing = chars_path + 'Set_1\\blank1.jpg'
+    for pair in char__lst:
+        if _char == pair[0]:
+            return _my_path.format( pair[1] )
+
+    return to_ret_if_nothing
+
+
+# Source string
 f           = open(chars_path + 'input_data.txt' 'r')
 contents    = f.read().strip()
 words       = contents.split(" ")
-
 tau         = len(words)
+
 print(words, '\n', tau)
 
-i = 0
-while i < tau:
-    if words[i][0] == '\n' or words[i][0] == '\\n':
-        if(words[i].startswith('\n')):
-            word_t=(words[i][1:])
-        else:
-            word_t=(words[i][2:])
-        words.insert(i,'\n')
-        words[i+1]=word_t
-        tau=tau+1
-    i += 1
+for i in range(tau):
+
+    # words.lstrip()
+    if words[i][0] == '\n':
+        word_t = words[i][1:]
+    elif words[i].startswith('\\n'):
+        word_t = words[i][2:]
+
+    words.insert( i, '\n' )
+    words[i + 1] = word_t
+    tau += 1
 
 try:
-    while True:
-        words.remove('')
-except ValueError:
-    pass
+    while True: words.remove('')
+except ValueError: pass
 
-#generate random errors
-l=0
-pop=0
-errors_for_number_for_words=13
-
+# Generate random errors
+l, pop, errors_for_number_for_words = 0, 0, 13
 randomlist = []
-if(((len(words))/errors_for_number_for_words)-3>=0):
-    pop=int(((len(words))/errors_for_number_for_words)-3)
+
+tau = len( words )
+tau /= errors_for_number_for_words
+if tau - 3 >= 0:
+    pop = int( tau - 3 )
+
 for i in range(0,pop):
-    n = random.randint(2, len(words) - 3)
-    while(words[n]=='\n'):
-        n = random.randint(2,len(words)-3)
+    n = random.randint( 2, len(words) - 3 )
+    while words[n] == '\n' :
+        n = random.randint( 2, len(words) - 3 )
     randomlist.append(n)
-for i in range(0,pop):
+
+for i in range( pop ):
     word____err=words[randomlist[i]]
     word____err="~"+word____err
     words[randomlist[i]]=word____err
 
-print(words)
-print(len(words))
+print(words, '\n', len(words))
 
 def generate_word( img_prev, word__k, k, N___K, K___K, add_blank ):
 
     # Random Set of Letters and errors
     value       = random.randint( 2, 3 )
-    my_path     = set_path.format( value ) + '\\{}.jpg'
     value_err   = random.randint( 1, 11 )
+    my_path     = set_path.format( value ) + '\\{}.jpg'
 
     # Retrieving path of relevant character
     sentence__k = list( word__k )
-    init__k     = str( sentence__k[0] )
-
-    char__lst   = [('.', 'dot'), (',', 'comma'), ('"', 'quote'), ("'", 'squote'),
-                ('!', '!'), ('-', '-'), ('%', '%'), ('|', '|'),
-                ('\\', 'back'), ('=', '='), ('(', '('), (')', ')'),
-                ('*', '*'), ('_', '_'), ('/', '/'), (':', 'colon'),
-                ('>', '>'), ('<', '<'), ('?', '?'), ('}', '}'),
-                ('{', '{'), (';', ';'), ('+', '+'), ('&', '&'),
-                ('[', '['), (']', ']')]
-
-    # If lower case, digit or upper case then use self
-    if init__k.islower() or init__k.isdigit():
-        path__k = my_path.format(sentence__k[0])
-    elif init__k.isupper():
-        path__k = my_path.format(sentence__k[0] * 2)
-
-    # If space or newline or invalid then use blank
-    elif init__k == ' ' or init__k == '' or init__k == '\n':
-        path__k = chars_path + 'Set_1\\blank2.jpg'
-
-    # If tilda then error
-    elif (init__k == '~'):
-        path__k = chars_path + 'Errors\\Error{}.jpg'.format(value_err)
-
-    # Go through list of specials if nothing is found
-    else:
-        path__k = chars_path + 'Set_1\\blank1.jpg'
-        for pair in char__lst:
-            if init__k == pair[0]:
-                path__k = my_path.format(pair[1])
-                break
-
+    path__k = get_path_to_picture( str( sentence__k[0] ), value_err, my_path )
     print(path__k)
 
     # Creating the first image
@@ -125,40 +124,22 @@ def generate_word( img_prev, word__k, k, N___K, K___K, add_blank ):
     #doing the above for n-1 characters
 
     for i in range(1, len(sentence__k)):
-        value_err   = random.randint(1, 11)
+
         value       = random.randint(2, 3)
+        value_err   = random.randint(1, 11)
 
-        #DEGREE OF ROTATION FOR PHYSICS PROJECT
-        #degree=random.randint(-6,6)
-
-        #REAL DEGREE OF ROTATION
-        degree = random.randint(-10,10)
-
-        init__ki = str( sentence__k[i] )
-
-        if init__ki.islower() or init__ki.isdigit():
-            path = my_path.format(sentence__k[i])
-        elif init__k.isupper():
-            path = my_path.format(sentence__k[i] * 2)
-        elif init__ki == '~':
-            path = chars_path + 'Errors\\Error{}.jpg'.format(value_err)
-        elif init__ki == ' ' or str(sentence__k[i]) == '' or str(sentence__k[i]) == '\n':
-            path = chars_path + 'Set_1\\blank1.jpg'
-        else:
-            path = chars_path + 'Set_1\\blank1.jpg'
-            for pair in char__lst:
-                if init__ki == pair[0]:
-                    path = my_path.format(pair[1])
-                    break
+        # Degree of rotation
+        degree      = random.randint(-10,10)
+        path        = get_path_to_picture( str( sentence__k[i] ), value_err, my_path )
 
         print(path)
-
 
         img2 = cv2.imread(path)
         try:
             hsv = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
         except:
             print(path)
+
         black_low = np.array([0, 0, 0])
         black_high = np.array([50, 50, 50])
         mask = cv2.inRange(hsv, black_low, black_high)
@@ -184,9 +165,9 @@ def generate_word( img_prev, word__k, k, N___K, K___K, add_blank ):
 
 
     #This is there to add the image of previous words from img_prev
-    if (k):
+    if k:
         final_img = np.concatenate((img_prev, final_img), axis=1)
-    if(add_blank):
+    if add_blank:
         final_img = generate_blank(img_prev__k=final_img, N__k=N___K, k__k=K___K)
 
     return final_img
@@ -287,57 +268,16 @@ for i in range(1,len(sentences)):
     print(sentences[i].shape)
     final_output = np.concatenate((final_output, sentences[i]), axis=0)
 
-#BORDER VALUES FOR PHYSICS PROJECT
-# border = cv2.copyMakeBorder(
-#     final_output,
-#     top=120,
-#     bottom=40,
-#     left=100,
-#     right=30,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[255,255,255]
-# )
-# border = cv2.copyMakeBorder(
-#     border,
-#     top=5,
-#     bottom=5,
-#     left=5,
-#     right=5,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[38,38,38]
-# )
-# border = cv2.copyMakeBorder(
-#     border,
-#     top=100,
-#     bottom=100,
-#     left=100,
-#     right=100,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[255,255,255]
-#)
-
-
 #REAL BORDER VALUES
 border = cv2.copyMakeBorder(
     final_output,
-    top=120,
-    bottom=40,
-    left=100,
-    right=30,
-    borderType=cv2.BORDER_CONSTANT,
-    value=[255,255,255]
+    top = 120,
+    bottom = 40,
+    left = 100,
+    right = 30,
+    borderType = cv2.BORDER_CONSTANT,
+    value = [255, 255, 255]
 )
 
-#COMP BORDERS
-# border = cv2.copyMakeBorder(
-#     final_output,
-#     top=240,
-#     bottom=40,
-#     left=100,
-#     right=30,
-#     borderType=cv2.BORDER_CONSTANT,
-#     value=[255,255,255]
-# )
-
-path='D:/handwriter/TheHandwriter/Handwritten_Digits/FINAL_RESULToutput.jpg'
+path = chars_path + 'FINAL_RESULT_output.jpg'
 cv2.imwrite(path, border)
