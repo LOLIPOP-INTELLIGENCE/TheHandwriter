@@ -18,12 +18,8 @@ def check_area( contour ):
     else: return 2
 
 # Load image and convert to grayscale (temporary for finding contours)
-<<<<<<< HEAD
-img = cv2.imread('scanner/handwriting_input.png')
-=======
 img = cv2.imread('scanner\scan2_.jpg')
 
->>>>>>> 7a0eaf658e98d455d26d673dac9342132b1a29f5
 imgGrey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Convert the image from grayscale to black and white by applying a threshold of 240
