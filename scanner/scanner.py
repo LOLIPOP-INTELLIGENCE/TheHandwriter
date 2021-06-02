@@ -9,19 +9,23 @@
 # Warp cropped image to match dimensions, label and store
 
 import cv2, numpy as np
+import math
 
 def check_area( contour ):
     area = cv2.contourArea( contour )
-    if area < 20000: return 0
-    elif area < 30000: return 1
+    if area < 1200: return 0
+    elif area < 2400: return 1
     else: return 2
 
 # Load image and convert to grayscale (temporary for finding contours)
-img = cv2.imread('scanner\scan.jpg')
+img = cv2.imread('scanner\scan2_.jpg')
+
 imgGrey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Convert the image from grayscale to black and white by applying a threshold of 240
-_, thrash = cv2.threshold(imgGrey, 240, 255, cv2.THRESH_BINARY)
+thrash = cv2.Canny(imgGrey, 127, 255)
+cv2.imshow('canny', thrash)
+
 contours, hierarchy = cv2.findContours(thrash, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 hierarchy = hierarchy[0]
 
@@ -45,19 +49,25 @@ for i in range(len(contours)):
 
         final_list[check_area(contour)].append([i, rect, list(heir), cv2.contourArea(contour)])
 
-final_list[0].sort(key = lambda e : e[-1])
-final_list[1].sort(key = lambda e : e[-1])
-final_list[2].sort(key = lambda e : e[-1])
+too_small = [elem[0] for elem in final_list[0]] + [elem[0] for elem in final_list[2]]
+too_small = set(too_small)
+
+cntr = 0
 
 for index, rect, heir, area in final_list[1]:
     x, y, w, h = rect
+    nxt, prv, child, parent = heir
+
+    # The contours must not have any children of their own (apart from noise)
+    # if child == -1 or child not in too_small: continue
     cv2.rectangle(img, (x, y), (x+w, y+h), (0,255,0), 1)
-    print(area, heir)
+    cntr += 1
+
+print(cntr, '\n')
+print(len(final_list[0]))
+print(len(final_list[1]))
+print(len(final_list[2]))
 
 cv2.imshow("shapes", img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-print(len(final_list[0]))
-print(len(final_list[1]))
-print(len(final_list[2]))
