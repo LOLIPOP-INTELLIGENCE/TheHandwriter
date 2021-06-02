@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 # Load image and convert to grayscale (temporary for finding contours)
-img = cv2.imread('scan.jpg')
+img = cv2.imread('scanner/handwriting_input.png')
 imgGrey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Convert the image from grayscale to black and white by applying a threshold of 240

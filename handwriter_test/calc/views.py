@@ -446,6 +446,20 @@ def add(request):
     image=hand_w(val1)
     return render(request, "result.html")
 
+def h1(request):
+    return HttpResponse("<h1>Handwriting 1</h1>")
 
+def h2(request):
+    return HttpResponse("<h1>Handwriting 2</h1>")
 
+def h3(request):
+    return HttpResponse("<h1>Handwriting 3</h1>")
 
+def h4(request):
+    return HttpResponse("<h1>Handwriting 4</h1>")
+
+def h5(request):
+    return HttpResponse("<h1>Handwriting 5</h1>")
+
+def h6(request):
+    return HttpResponse("<h1>Handwriting 6</h1>")
