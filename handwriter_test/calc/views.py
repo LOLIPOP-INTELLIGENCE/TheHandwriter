@@ -446,6 +446,13 @@ def add(request):
     image=hand_w(val1)
     return render(request, "choice.html")
 
+def upload(request):
+    if request.method == 'POST':
+        uploaded_file = request.FILES['img']
+        print(uploaded_file.name)
+    return HttpResponse("done")
+
+
 def h1(request):
     return render(request, "result.html")
     
