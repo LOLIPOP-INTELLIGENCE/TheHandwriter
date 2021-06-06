@@ -444,7 +444,7 @@ def add(request):
 
     val1 = request.GET['text_string']
     image=hand_w(val1)
-    return render(request, "result.html")
+    return render(request, "choice.html")
 
 def h1(request):
     return render(request, "result.html")
