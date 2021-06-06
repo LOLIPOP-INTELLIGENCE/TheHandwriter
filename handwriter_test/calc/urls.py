@@ -11,5 +11,6 @@ urlpatterns = [
     path('h4', views.h4, name='h4'),
     path('h5', views.h5, name='h5'),
     path('h6', views.h6, name='h6'),
+    path('own_handwriting', views.own_handwriting, name='own_handwriting'),
 
 ]

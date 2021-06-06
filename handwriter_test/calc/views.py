@@ -463,3 +463,6 @@ def h5(request):
 
 def h6(request):
     return render(request, "result.html")
+
+def own_handwriting(request):
+    return render(request, "io.html")
