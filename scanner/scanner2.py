@@ -20,7 +20,7 @@ def detect_box( image, line_min_width = 24 ):
 
     # Get the resultant or of the two kernelled images
     img_bin_final       = img_bin_h | img_bin_v
-    final_kernel        = np.ones((4,4), np.uint8)
+    final_kernel        = np.ones((6, 6), np.uint8)
     img_bin_final       = cv2.dilate( img_bin_final, final_kernel, iterations = 1 )
 
     cv2.imshow( 'kernel', img_bin_final )
