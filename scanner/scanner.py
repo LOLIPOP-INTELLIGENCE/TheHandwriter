@@ -1,11 +1,11 @@
 import cv2, pygame, numpy as np
 
-name_lst = [['a_small', 'b_small', 'c_small', 'd_small', 'e_small', 'f_small', 'g_small', 'h_small', 'i_small', 'j_small', 'k_small', 'l_small', 'm_small', 'n_small', 'o_small', 'p_small', 'q_small', 'r_small', 's_small', 't_small'],
-            ['u_small', 'v_small', 'w_small', 'x_small', 'y_small', 'z_small', 'a_big', 'b_big', 'c_big', 'd_big', 'e_big', 'f_big', 'g_big', 'h_big', 'i_big', 'j_big', 'k_big', 'l_big', 'm_big', 'n_big'],
-            ['o_big', 'p_big', 'q_big', 'r_big', 's_big', 't_big', 'u_big', 'v_big', 'w_big', 'x_big', 'y_big', 'z_big', 'dot', 'comma', 'question']]
+name_lst = [['a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s', 'm_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s'],
+            ['u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b', 'i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b'],
+            ['o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot', 'comma', 'question']]
 
 # Utility function to get cropped image
-crop_img = lambda  _x, _y, _w, _h, _img : _img[_y:_y+_h , _x:_x+_w]
+crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
 
 # Function to resize the image to constant width
 def preprocess( _surf ):
@@ -46,7 +46,7 @@ def detect_box( _image ):
 
     # Get the resultant or of the two kernelled images
     img_bin_final       = img_bin_h | img_bin_v
-    final_kernel        = np.ones((4, 4), np.uint8)
+    final_kernel        = np.ones((9, 9), np.uint8)
     img_bin_final       = cv2.dilate( src = img_bin_final, kernel = final_kernel, iterations = 1 )
 
     # Get connected components and remove residual components
@@ -72,7 +72,7 @@ def detect_box( _image ):
     for i in range( len( name_lst ) ):
         for j in range( len( name_lst[i] ) ):
             x, y, w, h = lst[i][j]
-            cropped_img = crop_img( x, y, w, h, image )
+            cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
             cv2.imwrite( 'scanner\\results\\{}.jpg'.format( name_lst[i][j] ), cropped_img )
 
 preprocess('scanner\\scans\\real_filled.jpeg')
