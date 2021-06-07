@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.core.files.storage import FileSystemStorage
 
 import numpy as np
 import cv2
@@ -444,22 +444,35 @@ def add(request):
 
     val1 = request.GET['text_string']
     image=hand_w(val1)
+    return render(request, "choice.html")
+
+def upload(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save("uploaded_img.jpg", myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'io.html', {
+            'uploaded_file_url': "uploaded_img.jpg",
+        })
+    return render(request, 'io.html')
+def h1(request):
+    return render(request, "result.html")
+    
+def h2(request):
     return render(request, "result.html")
 
-def h1(request):
-    return HttpResponse("<h1>Handwriting 1</h1>")
-
-def h2(request):
-    return HttpResponse("<h1>Handwriting 2</h1>")
-
 def h3(request):
-    return HttpResponse("<h1>Handwriting 3</h1>")
+    return render(request, "result.html")
 
 def h4(request):
-    return HttpResponse("<h1>Handwriting 4</h1>")
+    return render(request, "result.html")
 
 def h5(request):
-    return HttpResponse("<h1>Handwriting 5</h1>")
+    return render(request, "result.html")
 
 def h6(request):
-    return HttpResponse("<h1>Handwriting 6</h1>")
+    return render(request, "result.html")
+
+def own_handwriting(request):
+    return render(request, "io.html")
