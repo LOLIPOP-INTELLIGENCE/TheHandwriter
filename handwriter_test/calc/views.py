@@ -140,82 +140,85 @@ def hand_w(input_string):
     image=func_two(words)
     return image
 
-def generate_word(img_prev, word__k, k,N___K,K___K,add_blank):
+def generate_word(img_prev, word__k, k,N___K,K___K,add_blank, base_path):
     #Random Set of Letters
     value = randint(2,3)
     #Random Error
     value_err = randint(1,11)
 
+    # base_path = 'D:/TheHandwriter/Handwritten_Digits/'
+    # base_path = 'D:/TheHandwriter/Handwritten_Digits/'
+
     #Retrieving path of revelant character
     sentence__k = list(word__k)
     if(str(sentence__k[0]).islower()):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_'+str(value)+'/' + sentence__k[0] + '.jpg'
+        path__k = base_path + 'Set_'+str(value)+'/' + sentence__k[0] + '.jpg'
     elif(str(sentence__k[0])=='.'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_'+str(value)+'/' + 'dot' + '.jpg'
+        path__k = base_path + 'Set_'+str(value)+'/' + 'dot' + '.jpg'
     elif (str(sentence__k[0]) == ','):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'comma' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + 'comma' + '.jpg'
     elif (str(sentence__k[0]) == '"'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'quote' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + 'quote' + '.jpg'
     elif (str(sentence__k[0]) == '\''):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'Squote' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + 'Squote' + '.jpg'
 
     elif (str(sentence__k[0]) == '!'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/!' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/!' + '.jpg'
     elif (str(sentence__k[0]) == '-'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/-' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/-' + '.jpg'
     elif (str(sentence__k[0]) == '%'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/%' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/%' + '.jpg'
     elif (str(sentence__k[0]) == '|'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/|' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/|' + '.jpg'
     elif (str(sentence__k[0]) == '\\'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/back' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/back' + '.jpg'
     elif (str(sentence__k[0]) == '='):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '=' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '=' + '.jpg'
     elif (str(sentence__k[0]) == '('):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '(' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '(' + '.jpg'
     elif (str(sentence__k[0]) == ')'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + ')' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + ')' + '.jpg'
     elif (str(sentence__k[0]) == '*'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '*' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '*' + '.jpg'
     elif (str(sentence__k[0]) == '_'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '_' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '_' + '.jpg'
     elif (str(sentence__k[0]) == '/'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '/' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '/' + '.jpg'
     elif (str(sentence__k[0]) == ':'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'colon' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + 'colon' + '.jpg'
     elif (str(sentence__k[0]) == '>'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '>' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '>' + '.jpg'
     elif (str(sentence__k[0]) == '<'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '<' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '<' + '.jpg'
     elif (str(sentence__k[0]) == '?'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '?' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '?' + '.jpg'
     elif (str(sentence__k[0]) == '}'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '}' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '}' + '.jpg'
     elif (str(sentence__k[0]) == '{'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '{' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + '{' + '.jpg'
     elif (str(sentence__k[0]) == ';'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + ';' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + ';' + '.jpg'
     elif (str(sentence__k[0]) == '+'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/+' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/+' + '.jpg'
     elif (str(sentence__k[0]) == '&'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/&' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/&' + '.jpg'
     elif (str(sentence__k[0]) == '['):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/[' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/[' + '.jpg'
     elif (str(sentence__k[0]) == ']'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/]' + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/]' + '.jpg'
 
 
 
     elif (str(sentence__k[0]) == ' 'or str(sentence__k[0]) == '' or str(sentence__k[0]) == '\n'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_1/' + 'blank2' + '.jpg'
+        path__k = base_path + 'Set_1/' + 'blank2' + '.jpg'
     elif (str(sentence__k[0]) == '~'):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Errors/' + 'Error' +str(value_err)+ '.jpg'
+        path__k = base_path + 'Errors/' + 'Error' +str(value_err)+ '.jpg'
     elif (str(sentence__k[0]).isdigit()):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + sentence__k[0] + '.jpg'
+        path__k = base_path + 'Set_' + str(value) + '/' + sentence__k[0] + '.jpg'
     elif(str(sentence__k[0]).isupper()):
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_'+str(value)+'/' + sentence__k[0] + sentence__k[0]+'.jpg'
+        path__k = base_path + 'Set_'+str(value)+'/' + sentence__k[0] + sentence__k[0]+'.jpg'
     else:
-        path__k = 'D:/TheHandwriter/Handwritten_Digits/Set_1/' + 'blank1' + '.jpg'
+        path__k = base_path + 'Set_1/' + 'blank1' + '.jpg'
 
     print(path__k)
 
@@ -256,72 +259,72 @@ def generate_word(img_prev, word__k, k,N___K,K___K,add_blank):
         degree = random.randint(-10,10)
 
         if (str(sentence__k[i]).islower()):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_'+str(value)+'/' + sentence__k[i] + '.jpg'
+            path = base_path + alue)+'/' + sentence__k[i] + '.jpg'
         elif (str(sentence__k[i]) == '.'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'dot' + '.jpg'
+            path = base_path + str(value) + '/' + 'dot' + '.jpg'
         elif (str(sentence__k[i]) == ','):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'comma' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + 'comma' + '.jpg'
         elif (str(sentence__k[i]) == '\"'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'quote' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + 'quote' + '.jpg'
         elif (str(sentence__k[i]) == '\''):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'Squote' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + 'Squote' + '.jpg'
         elif (str(sentence__k[i]) == ' ' or str(sentence__k[i]) == '' or str(sentence__k[i]) == '\n'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_1/' + 'blank1' + '.jpg'
+            path = base_path + 'Set_1/' + 'blank1' + '.jpg'
         elif (str(sentence__k[i]) == '~'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Errors/' + 'Error' +str(value_err)+'.jpg'
+            path = base_path + 'Errors/' + 'Error' +str(value_err)+'.jpg'
         elif (str(sentence__k[i]).isdigit()):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + sentence__k[i] + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + sentence__k[i] + '.jpg'
         elif(str(sentence__k[i]).isupper()):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_'+str(value)+'/' + sentence__k[i] + sentence__k[i] + '.jpg'
+            path = base_path + 'Set_'+str(value)+'/' + sentence__k[i] + sentence__k[i] + '.jpg'
 
         elif (str(sentence__k[i]) == '!'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/!' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/!' + '.jpg'
         elif (str(sentence__k[i]) == '-'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/-' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/-' + '.jpg'
         elif (str(sentence__k[i]) == '%'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/%' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/%' + '.jpg'
         elif (str(sentence__k[i]) == '|'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/|' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/|' + '.jpg'
         elif (str(sentence__k[i]) == '\\'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/back' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/back' + '.jpg'
         elif (str(sentence__k[i]) == '='):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '=' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '=' + '.jpg'
         elif (str(sentence__k[i]) == '('):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '(' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '(' + '.jpg'
         elif (str(sentence__k[i]) == ')'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + ')' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + ')' + '.jpg'
         elif (str(sentence__k[i]) == '*'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '*' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '*' + '.jpg'
         elif (str(sentence__k[i]) == '_'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '_' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '_' + '.jpg'
         elif (str(sentence__k[i]) == '/'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'forward' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + 'forward' + '.jpg'
         elif (str(sentence__k[i]) == ':'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + 'colon' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + 'colon' + '.jpg'
         elif (str(sentence__k[i]) == '>'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '>' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '>' + '.jpg'
         elif (str(sentence__k[i]) == '<'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '<' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '<' + '.jpg'
         elif (str(sentence__k[i]) == '?'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '?' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '?' + '.jpg'
         elif (str(sentence__k[i]) == '}'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '}' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '}' + '.jpg'
         elif (str(sentence__k[i]) == '{'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + '{' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + '{' + '.jpg'
         elif (str(sentence__k[i]) == ';'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/' + ';' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/' + ';' + '.jpg'
         elif (str(sentence__k[i]) == '+'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/+' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/+' + '.jpg'
         elif (str(sentence__k[i]) == '&'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/&' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/&' + '.jpg'
         elif (str(sentence__k[i]) == '['):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/[' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/[' + '.jpg'
         elif (str(sentence__k[i]) == ']'):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_' + str(value) + '/]' + '.jpg'
+            path = base_path + 'Set_' + str(value) + '/]' + '.jpg'
 
 
         else:
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_1/' + 'blank1' + '.jpg'
+            path = base_path + 'Set_1/' + 'blank1' + '.jpg'
         print(path)
         img2 = cv2.imread(path)
         try:
@@ -363,17 +366,19 @@ def generate_word(img_prev, word__k, k,N___K,K___K,add_blank):
 
 
 #Very similar logic for generating blank space
-def generate_blank(img_prev__k, N__k, k__k):
+def generate_blank(img_prev__k, N__k, k__k, base_path):
+
+    # base_path = 'D:/TheHandwriter/Handwritten_Digits/'
 
     if(N__k>0):
-        path = 'D:/TheHandwriter/Handwritten_Digits/Set_1/' + 'blank' +str(1)+ '.jpg'
+        path = base_path + 'Set_1/' + 'blank' +str(1)+ '.jpg'
         print(path)
         img = cv2.imread(path, 0)
         img = cv2.resize(img, (40, 114))
         img_np = np.array(img)
         final_img = img_np
         for i in range(1, N__k):
-            path = 'D:/TheHandwriter/Handwritten_Digits/Set_1/' + 'blank' +str(1)+ '.jpg'
+            path = base_path + 'Set_1/' + 'blank' +str(1)+ '.jpg'
             img2 = cv2.imread(path, 0)
             img2 = cv2.resize(img2, (40, 114))
             img_np2 = np.array(img2)
