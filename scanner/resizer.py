@@ -10,12 +10,8 @@ def preprocess( _surf ):
         _surf           = pygame.transform.rotate( _surf, 90 )
         width, height   = height, width
 
-    new_width       = 1200
+    new_width       = 1600
     new_height      = round( ( height * new_width ) / width )
 
     _surf = pygame.transform.smoothscale( _surf, (new_width, new_height) )
     pygame.image.save( _surf, 'scanner\\scan_final_.jpg' )
-
-pygame.init()
-
-preprocess( 'scanner\\HandwritingTemplateFinal.jpg' )

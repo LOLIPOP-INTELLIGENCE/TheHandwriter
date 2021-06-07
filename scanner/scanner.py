@@ -1,84 +1,71 @@
-# Resize image (pad if ratio not valid)
-
-# Go through image and find contours
-# Reject contours with areas too big or too small
-
-# Sort contours based on y coordinate into rows
-# Sort rows based on x coordinate into cols
-
-# Warp cropped image to match dimensions, label and store
 
 import cv2, math, numpy as np
-# import scanner.resizer as rsz
+import resizer as rsz
 
-def get_img_part( _x1, _y1, _x2, _y2, _img ):
-    return _img[ _x1:_x2 , _y1:_y2 ]
+name_lst = [['a_small', 'b_small', 'c_small', 'd_small', 'e_small', 'f_small', 'g_small', 'h_small', 'i_small', 'j_small', 'k_small', 'l_small', 'm_small', 'n_small', 'o_small', 'p_small', 'q_small', 'r_small', 's_small', 't_small'],
+            ['u_small', 'v_small', 'w_small', 'x_small', 'y_small', 'z_small', 'a_big', 'b_big', 'c_big', 'd_big', 'e_big', 'f_big', 'g_big', 'h_big', 'i_big', 'j_big', 'k_big', 'l_big', 'm_big', 'n_big'],
+            ['o_big', 'p_big', 'q_big', 'r_big', 's_big', 't_big', 'u_big', 'v_big', 'w_big', 'x_big', 'y_big', 'z_big', 'dot', 'comma', 'question']]
 
-def check_area( _contour ):
+crop_img = lambda  _x, _y, _w, _h, _img : _img[_y:_y+_h , _x:_x+_w]
 
-    return 1
+def detect_box( image, line_min_width = 38 ):
 
-    area            = cv2.contourArea( _contour )
-    optimal_area    = 2300
-    percent_diff    = 33
+    image = cv2.imread( image )
 
-    min_thresh      = int( ( optimal_area * ( 100 - percent_diff ) ) / 100 )
-    max_thresh      = int( ( optimal_area * ( 100 + percent_diff ) ) / 100 )
+    # Minimum line widths for horizontal and vertical axis (in pixels)
+    line_min_width_ver  = 60
+    line_min_width_hor  = 38
 
-    if area < min_thresh: return 0  # too small
-    if area < max_thresh: return 1  # perfect size
+    # Convert ot grayscale and binarize
+    gray_scale          = cv2.cvtColor( image, cv2.COLOR_BGR2GRAY )
+    th1, img_bin        = cv2.threshold( gray_scale, 200, 255, cv2.THRESH_BINARY )
 
-    return 2                        # too big
+    # Run kernels to remove non-essential details
+    kernal_h            = np.ones( (1, line_min_width), np.uint8 )
+    kernal_v            = np.ones( (line_min_width, 1), np.uint8 )
+    img_bin_h           = cv2.morphologyEx( ~img_bin, cv2.MORPH_OPEN, kernal_h )
+    img_bin_v           = cv2.morphologyEx( ~img_bin, cv2.MORPH_OPEN, kernal_v )
 
-# Load image and convert to grayscale (temporary for finding contours)
-img         = cv2.imread( 'scanner\scan_final_ .jpg' )
-img_grey    = cv2.cvtColor( img, cv2.COLOR_BGR2GRAY )
+    # Get the resultant or of the two kernelled images
+    img_bin_final       = img_bin_h | img_bin_v
+    final_kernel        = np.ones((4, 4), np.uint8)
+    img_bin_final       = cv2.dilate( img_bin_final, final_kernel, iterations = 1 )
 
-# Convert the image from grayscale to black and white by applying a threshold of 240
-canny_img   = cv2.Canny( img_grey, 32, 255 )
-# canny_img   = img_grey
-cv2.imshow('canny', canny_img)
+    # Get connected components and remove residual components
+    ret, labels, stats, centroids = cv2.connectedComponentsWithStats(~img_bin_final, connectivity = 8, ltype = cv2.CV_32S)
+    stats = stats[2:]
 
-_           = cv2.findContours( canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE )
-contours    = _[0]
-hierarchy   = _[1][0]
+    max_rows            = 20
+    row                 = 0
+    lst                 = [[] for i in range( max_rows )]
+    unfilt_lst          = []
 
-final_list  = [[], [], []]
+    for x, y, w, h, area in stats:
+        unfilt_lst.append([y, x, h, w])
 
-for i in range( len( contours ) ):
+    unfilt_lst.sort()
 
-    contour     = contours[i]
-    heir        = hierarchy[i]
+    for y, x, h, w in unfilt_lst:
+        lst[ row // max_rows ].append([x, y, w, h])
+        row += 1
 
-    approx      = cv2.approxPolyDP( contour, 0.01 * cv2.arcLength( contour, True ), True )
+    for i in range( max_rows ):
+        lst[i].sort()
 
-    if len( approx ) == 4:
-        rect        = cv2.boundingRect( contour )
-        box         = cv2.minAreaRect( approx )
-        box         = cv2.boxPoints( box )
-        box         = np.int0( box )
+    for i in range( max_rows ):
+        j = 0
+        for x, y, w, h in lst[i]:
+            cropped_img = crop_img( x, y, w, h, image )
+            cv2.imwrite( 'scanner\\results\\{}.jpg'.format( name_lst[i][j] ), cropped_img )
+            j += 1
 
-        final_list[check_area( contour )].append( [i, rect, list( heir ), cv2.contourArea( contour )])
+    for y, x, h, w in unfilt_lst:
+        cv2.rectangle( image, (x, y), (x+w, y+h), (0, 255, 0), 1 )
 
-too_small   = [elem[0] for elem in final_list[0]] + [elem[0] for elem in final_list[2]]
-too_small   = set( too_small )
+    cv2.imshow( 'final', image )
 
-cntr        = 0
+rsz.preprocess('scanner\\scans\\real_filled.jpeg')
+detect_box('scanner\\scan_final_.jpg')
 
-for index, rect, heir, area in final_list[1]:
-    x, y, w, h = rect
-    nxt, prv, child, parent = heir
-
-    # The contours must not have any children of their own (apart from noise)
-    if child == -1 or child not in too_small: continue
-    cv2.rectangle( img, (x, y), (x+w, y+h), (0, 255, 0), 1 )
-    cntr += 1
-
-print(cntr, '\n')
-print(len(final_list[0]))
-print(len(final_list[1]))
-print(len(final_list[2]))
-
-cv2.imshow('shapes', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
