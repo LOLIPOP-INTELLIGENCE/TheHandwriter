@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
+import os
 
+import time
 import numpy as np
 import cv2
 import math
@@ -9,6 +11,8 @@ from random import randint
 import random
 from PIL import Image
 #input the string
+
+
 def hand_w(input_string):
     contents=input_string
     contents=contents.strip()
@@ -450,10 +454,14 @@ def upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save("uploaded_img.jpg", myfile)
+        cur_time = time.time_ns()
+        os.mkdir("media_cdn\\AllHandwritings\\scan_{}".format(cur_time))
+        os.system("python ./handwriter_test/manage.py collectstatic --noinput")
+        filename = fs.save("AllHandwritings\\scan_{}\\useruploaded_img.jpg".format(cur_time), myfile)
+
         uploaded_file_url = fs.url(filename)
-        return render(request, 'io.html', {
-            'uploaded_file_url': "uploaded_img.jpg",
+        return render(request, 'result.html', {
+            'uploaded_file_url': "useruploaded_img.jpg",
         })
     return render(request, 'io.html')
 def h1(request):
