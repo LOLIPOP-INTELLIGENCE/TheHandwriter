@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.core.files.storage import FileSystemStorage
 
 import numpy as np
 import cv2
@@ -447,12 +447,15 @@ def add(request):
     return render(request, "choice.html")
 
 def upload(request):
-    if request.method == 'POST':
-        uploaded_file = request.FILES['img']
-        print(uploaded_file.name)
-    return HttpResponse("done")
-
-
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save("uploaded_img.jpg", myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'io.html', {
+            'uploaded_file_url': "uploaded_img.jpg",
+        })
+    return render(request, 'io.html')
 def h1(request):
     return render(request, "result.html")
     
