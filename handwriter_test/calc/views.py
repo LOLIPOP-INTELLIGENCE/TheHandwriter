@@ -10,8 +10,84 @@ import math
 from random import randint
 import random
 from PIL import Image
+import pygame
 #input the string
 
+# Function to resize the image to constant width
+def preprocess( _path, _final_path ):
+
+    # Load the image and get dinensions
+    print('in preprocess', _path)
+    _surf           = pygame.image.load( _path )
+    width, height   = list( _surf.get_size() ).copy()
+
+    # Rotate the image if height > width (in portrait mode)
+    if width < height:
+        _surf           = pygame.transform.rotate( _surf, 90 )
+        width, height   = height, width
+
+    # Calculate new dimensions (width remains constant)
+    new_width       = 1800
+    new_height      = round( ( height * new_width ) / width )
+
+    # Resize and save image
+    _surf = pygame.transform.smoothscale( _surf, (new_width, new_height) )
+    pygame.image.save( _surf, _final_path )
+
+# Function to go through image and find rects
+def detect_box( _path, _final_path ):
+
+    name_lst = [['a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s', 'm_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s'],
+            ['u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b', 'i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b'],
+            ['o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot', 'comma', 'question']]
+
+    # Utility function to get cropped image
+    crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
+
+    # Load the image
+    image               = cv2.imread( _path )
+    line_min_width      = 38
+
+    # Convert to grayscale and binarize
+    gray_scale          = cv2.cvtColor( image, cv2.COLOR_BGR2GRAY )
+    th1, img_bin        = cv2.threshold( gray_scale, 200, 255, cv2.THRESH_BINARY )
+
+    # Remove non-essential details by kernelling the image
+    kernal_h            = np.ones( (1, line_min_width), np.uint8 )
+    kernal_v            = np.ones( (line_min_width, 1), np.uint8 )
+    img_bin_h           = cv2.morphologyEx( ~img_bin, cv2.MORPH_OPEN, kernal_h )
+    img_bin_v           = cv2.morphologyEx( ~img_bin, cv2.MORPH_OPEN, kernal_v )
+
+    # Get the resultant or of the two kernelled images
+    img_bin_final       = img_bin_h | img_bin_v
+    final_kernel        = np.ones((9, 9), np.uint8)
+    img_bin_final       = cv2.dilate( src = img_bin_final, kernel = final_kernel, iterations = 1 )
+
+    # Get connected components and remove residual components
+    ret, labels, stats, centroids = cv2.connectedComponentsWithStats( image = ~img_bin_final, connectivity = 8, ltype = cv2.CV_32S )
+    stats = stats[2:]
+
+    # Containers to store the bounding rects
+    max_rows            = 20
+    unfilt_lst          = []
+    lst                 = [[] for i in range( max_rows )]
+
+    # Go through stats and remove non-essential details, change order from col-first to row-first
+    for x, y, w, h, area in stats: unfilt_lst.append([y, x, h, w])
+    unfilt_lst.sort()
+
+    # Process unfiltered list into rows and coloumns of rects and sort each row based on coloumn
+    for row in range( len( unfilt_lst ) ):
+        y, x, h, w = unfilt_lst[row]
+        lst[ row // max_rows ].append([x, y, w, h])
+    for i in range( max_rows ): lst[i].sort()
+
+    # Crop and save each image with the correct name
+    for i in range( len( name_lst ) ):
+        for j in range( len( name_lst[i] ) ):
+            x, y, w, h = lst[i][j]
+            cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
+            cv2.imwrite( '{}\\{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 
 def hand_w(input_string):
     contents=input_string
@@ -454,19 +530,27 @@ def upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
+
         cur_time = time.time_ns()
-        os.mkdir("media_cdn\\AllHandwritings\\scan_{}".format(cur_time))
+        dir_path = "scan_{}".format( cur_time )
+
+        os.mkdir("media_cdn\\AllHandwritings\\{}".format( dir_path ))
         os.system("python ./handwriter_test/manage.py collectstatic --noinput")
-        filename = fs.save("AllHandwritings\\scan_{}\\useruploaded_img.jpg".format(cur_time), myfile)
+
+        filename = fs.save("AllHandwritings\\{}\\submission.jpg".format( dir_path ), myfile)
+
+        preprocess("media_cdn\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
+        detect_box("media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}".format( dir_path ))
 
         uploaded_file_url = fs.url(filename)
         return render(request, 'result.html', {
             'uploaded_file_url': "useruploaded_img.jpg",
         })
     return render(request, 'io.html')
+
 def h1(request):
     return render(request, "result.html")
-    
+
 def h2(request):
     return render(request, "result.html")
 
