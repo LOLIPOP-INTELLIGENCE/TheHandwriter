@@ -1,5 +1,4 @@
-import cv2, math, numpy as np
-import pygame
+import cv2, pygame, numpy as np
 
 name_lst = [['a_small', 'b_small', 'c_small', 'd_small', 'e_small', 'f_small', 'g_small', 'h_small', 'i_small', 'j_small', 'k_small', 'l_small', 'm_small', 'n_small', 'o_small', 'p_small', 'q_small', 'r_small', 's_small', 't_small'],
             ['u_small', 'v_small', 'w_small', 'x_small', 'y_small', 'z_small', 'a_big', 'b_big', 'c_big', 'd_big', 'e_big', 'f_big', 'g_big', 'h_big', 'i_big', 'j_big', 'k_big', 'l_big', 'm_big', 'n_big'],
