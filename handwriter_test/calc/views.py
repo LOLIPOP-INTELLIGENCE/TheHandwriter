@@ -39,7 +39,7 @@ def detect_box( _path, _final_path ):
 
     name_lst = [['a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s', 'm_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s'],
             ['u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b', 'i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b'],
-            ['o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot', 'comma', 'question']]
+            ['o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot_x', 'comma_x', 'question_x', 'blank1_x']]
 
     # Utility function to get cropped image
     crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
@@ -89,7 +89,7 @@ def detect_box( _path, _final_path ):
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
             cv2.imwrite( '{}\\{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 
-def hand_w(input_string):
+def hand_w(input_string, _base_path):
     contents=input_string
     contents=contents.strip()
     words=contents.split(" ")
@@ -137,9 +137,146 @@ def hand_w(input_string):
     print(words)
     print(len(words))
 
-    image=func_two(words)
-    return image
+    return func_two(words, _base_path)
 
+def generate_word(img_prev, word__k, k,N___K,K___K,add_blank, base_path):
+
+    base_path = base_path
+
+    #Random Set of Letters
+    value = randint(2,3)
+    #Random Error
+    value_err = randint(1,11)
+
+    #Retrieving path of revelant character
+    sentence__k     = list(word__k)
+    str_sent__k0    = str( sentence__k[0] )
+    str_val         = str( value )
+
+    special_dct     = {'?':'question', ' ':'blank2', '\n':'blank2', '~':'error'}
+
+    fil_name        = '{}.jpg'
+
+    if str_sent__k0.islower():      fil_name = fil_name.format( str_sent__k0 + '_s' )
+    elif str_sent__k0.isupper():    fil_name = fil_name.format( str_sent__k0 + '_b' )
+    elif str_sent__k0.isdigit():    fil_name = fil_name.format( str_sent__k0 + '_d' )
+    else:                           fil_name = fil_name.format( special_dct.get( str_sent__k0, 'blank1' ) + '_x' )
+
+    path__k = base_path + fil_name
+
+    print('not in loop', path__k)
+
+    #creating the first image
+    degree=random.randint(-10,10)
+    img = cv2.imread(path__k)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    black_low = np.array([0, 0, 0])
+    black_high = np.array([50, 50, 50])
+    mask = cv2.inRange(hsv, black_low, black_high)
+    color_shade=randint(0,50)
+    img[mask > 0] = (color_shade,color_shade,color_shade)
+    border = cv2.copyMakeBorder(
+        img,
+        top=0,
+        bottom=0,
+        left=3,
+        right=3,
+        borderType=cv2.BORDER_CONSTANT,
+        value=[255, 255, 255]
+    )
+    im_pil = Image.fromarray(border)
+    im_np = im_pil.rotate(degree,fillcolor='white')
+    im_np = np.asarray(im_np)
+    img = cv2.resize(im_np, (40, 114))
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_np = np.array(img)
+    final_img = img_np
+    #doing the above for n-1 characters
+    for i in range(1, len(sentence__k)):
+        value_err = randint(1, 11)
+        value = randint(2, 3)
+
+        #DEGREE OF ROTATION FOR PHYSICS PROJECT
+        #degree=random.randint(-6,6)
+
+        #REAL DEGREE OF ROTATION
+        degree          = random.randint(-10,10)
+        str_sent__ki    = str( sentence__k[i] )
+        str_val         = str( value )
+
+        fil_name        = '{}.jpg'
+
+        if str_sent__ki.islower():      fil_name = fil_name.format( str_sent__ki + '_s' )
+        elif str_sent__ki.isupper():    fil_name = fil_name.format( str_sent__ki + '_b' )
+        elif str_sent__ki.isdigit():    fil_name = fil_name.format( str_sent__ki + '_d' )
+        else:                           fil_name = fil_name.format( special_dct.get( str_sent__ki, 'blank1' ) + '_x' )
+
+        path            = base_path + fil_name
+
+        print('in i loop', path)
+        img2 = cv2.imread(path)
+        try:
+            hsv = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
+        except:
+            print(path)
+        black_low = np.array([0, 0, 0])
+        black_high = np.array([50, 50, 50])
+        mask = cv2.inRange(hsv, black_low, black_high)
+        color_shade = randint(0, 100)
+        img2[mask > 0] = (color_shade, color_shade, color_shade)
+        border = cv2.copyMakeBorder(
+            img2,
+            top=0,
+            bottom=0,
+            left=3,
+            right=3,
+            borderType=cv2.BORDER_CONSTANT,
+            value=[255, 255, 255]
+        )
+        im_pil = Image.fromarray(border)
+        im_np = im_pil.rotate(degree,fillcolor='white')
+        im_np = np.asarray(im_np)
+        img2 = cv2.resize(im_np, (40, 114))
+        img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+        img_np2 = np.array(img2)
+        final_img = np.concatenate((img_np, img_np2), axis=1)
+        img_np = final_img
+
+
+    #This is there to add the image of previous words from img_prev
+    if (k):
+        final_img = np.concatenate((img_prev, final_img), axis=1)
+    if(add_blank):
+        final_img = generate_blank(img_prev__k=final_img, N__k=N___K, k__k=K___K,base_path=base_path)
+
+    return final_img
+
+
+
+#Very similar logic for generating blank space
+def generate_blank(img_prev__k, N__k, k__k, base_path):
+
+    if(N__k>0):
+        path = base_path + 'blank1_x.jpg'
+        print(path)
+        img = cv2.imread(path, 0)
+        img = cv2.resize(img, (40, 114))
+        img_np = np.array(img)
+        final_img = img_np
+        for i in range(1, N__k):
+            path = base_path + 'blank1_x.jpg'
+            img2 = cv2.imread(path, 0)
+            img2 = cv2.resize(img2, (40, 114))
+            img_np2 = np.array(img2)
+            final_img = np.concatenate((img_np, img_np2), axis=1)
+            img_np = final_img
+        if (k__k):
+            final_img = np.concatenate((img_prev__k, final_img), axis=1)
+
+        return final_img
+    else:
+        return img_prev__k
+'''
 def generate_word(img_prev, word__k, k,N___K,K___K,add_blank, base_path):
     #Random Set of Letters
     value = randint(2,3)
@@ -390,10 +527,10 @@ def generate_blank(img_prev__k, N__k, k__k, base_path):
         return final_img
     else:
         return img_prev__k
-
+'''
 
 #f-word number
-def func_two(words):
+def func_two(words,_base_path):
     f=0
     #line output
     output=0
@@ -410,38 +547,38 @@ def func_two(words):
                 if(words[f]!='\n'):
                     if(k==60):
                         X=randint(1,2)
-                        output=generate_blank(img_prev__k=0,N__k=X,k__k=False)
+                        output=generate_blank(img_prev__k=0,N__k=X,k__k=False,base_path=_base_path)
                         k=k-X
-                        output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=3, K___K=True, add_blank=True)
+                        output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=3, K___K=True, add_blank=True,base_path=_base_path)
                         MY_OUTPUT = MY_OUTPUT + words[f] + '   '
                         k=k-(len(words[f])+3)
                         f=f+1
                     else:
                         if(k-len(words[f])>=0):
                             t=min(3,k-len(words[f]))
-                            output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=t, K___K=True, add_blank=True)
+                            output = generate_word(img_prev=output, word__k=words[f], k=True, N___K=t, K___K=True, add_blank=True,base_path=_base_path)
                             MY_OUTPUT=MY_OUTPUT+words[f]
                             MY_OUTPUT = MY_OUTPUT.ljust(t + len(MY_OUTPUT), ' ')
                             k=k-(len(words[f])+t)
                             f=f+1
 
                         else:
-                            output=generate_blank(img_prev__k=output,N__k=k,k__k=True)
+                            output=generate_blank(img_prev__k=output,N__k=k,k__k=True,base_path=_base_path)
                             MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
                             k=-1
                 else:
                     if(k!=60):
-                        output = generate_blank(img_prev__k=output, N__k=k, k__k=True)
+                        output = generate_blank(img_prev__k=output, N__k=k, k__k=True,base_path=_base_path)
                         MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
                         k = -1
                         f=f+1
                     else:
-                        output = generate_blank(img_prev__k=output, N__k=k, k__k=False)
+                        output = generate_blank(img_prev__k=output, N__k=k, k__k=False,base_path=_base_path)
                         MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
                         k=-1
                         f=f+1
             except IndexError:
-                output = generate_blank(img_prev__k=output, N__k=k, k__k=True)
+                output = generate_blank(img_prev__k=output, N__k=k, k__k=True,base_path=_base_path)
                 MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
                 k=-1
                 pass
@@ -514,8 +651,8 @@ def func_two(words):
     #     value=[255,255,255]
     # )
 
-    path='D:\TheHandwriter\handwriter_test\static\FINAL_RESULToutput.png'
-    cv2.imwrite(path, border)
+    # path='D:\TheHandwriter\handwriter_test\static\FINAL_RESULToutput.png'
+    # cv2.imwrite(path, border)
 
     return border
 # Create your views here.
@@ -527,8 +664,8 @@ val1=''
 def add(request):
     global val1
 
-    val1 = request.GET['text_string']
-    image=hand_w(val1)
+    # val1 = request.GET['text_string']
+    # image=hand_w(val1)
     return render(request, "choice.html")
 
 def upload(request):
@@ -546,6 +683,11 @@ def upload(request):
 
         preprocess("media_cdn\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
         detect_box("media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}".format( dir_path ))
+
+        fixed_txt = 'Hello we are cool'
+        # use fixed txt to generate the output
+        img = hand_w( fixed_txt, "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
+        cv2.imwrite( "media_cdn\\AllHandwritings\\{}\\result.jpg".format( dir_path ), img )
 
         uploaded_file_url = fs.url(filename)
         return render(request, 'result.html', {
