@@ -715,3 +715,17 @@ def h6(request):
 
 def own_handwriting(request):
     return render(request, "io.html")
+
+def base_converter( _num, _base = 64 ):
+
+    if _num:
+        charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_#'
+        res     = ''
+
+        while _num:
+            rem     = _num % _base
+            _num    //= _base
+            res     += charset[rem]
+
+        return res[::-1]
+    return '0'
