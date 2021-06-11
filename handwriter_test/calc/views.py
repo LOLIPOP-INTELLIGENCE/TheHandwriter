@@ -164,10 +164,10 @@ def generate_word(img_prev, word__k, k,N___K,K___K,add_blank, base_path):
 
     path__k = base_path + fil_name
 
-    print('not in loop', path__k)
+    # print('not in loop', path__k)
 
     #creating the first image
-    degree=random.randint(-10,10)
+    degree=random.randint(-10,0)
     img = cv2.imread(path__k)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     black_low = np.array([0, 0, 0])
@@ -213,7 +213,7 @@ def generate_word(img_prev, word__k, k,N___K,K___K,add_blank, base_path):
 
         path            = base_path + fil_name
 
-        print('in i loop', path)
+        # print('in i loop', path)
         img2 = cv2.imread(path)
         try:
             hsv = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
@@ -651,8 +651,8 @@ def func_two(words,_base_path):
     #     value=[255,255,255]
     # )
 
-    # path='D:\TheHandwriter\handwriter_test\static\FINAL_RESULToutput.png'
-    # cv2.imwrite(path, border)
+    path='D:\TheHandwriter\handwriter_test\static\FINAL_RESULToutput.png'
+    cv2.imwrite(path, border)
 
     return border
 # Create your views here.
@@ -663,13 +663,14 @@ def home(request):
 val1=''
 def add(request):
     global val1
-
-    # val1 = request.GET['text_string']
+    print('in add function', request.session)
+    val1 = request.GET['text_string']
     # image=hand_w(val1)
     return render(request, "choice.html")
 
 def upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
+        print('upload ', request.session)
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
 
@@ -684,10 +685,10 @@ def upload(request):
         preprocess("media_cdn\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
         detect_box("media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}".format( dir_path ))
 
-        fixed_txt = 'Hello we are cool'
+        # fixed_txt = 'Hello we are cool'
         # use fixed txt to generate the output
-        img = hand_w( fixed_txt, "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
-        cv2.imwrite( "media_cdn\\AllHandwritings\\{}\\result.jpg".format( dir_path ), img )
+        img = hand_w( val1, "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
+        # cv2.imwrite( "media_cdn\\AllHandwritings\\{}\\result.jpg".format( dir_path ), img )
 
         uploaded_file_url = fs.url(filename)
         return render(request, 'result.html', {
