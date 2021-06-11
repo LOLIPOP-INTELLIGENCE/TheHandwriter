@@ -370,7 +370,6 @@ def add(request):
 
     print('\n\nAdd:', request.session['uid'], '\n\n')
 
-    # image=hand_w(user_input)
     return render(request, "choice.html")
 
 def upload(request):
@@ -390,8 +389,6 @@ def upload(request):
         preprocess("media_cdn\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
         detect_box("media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}".format( dir_path ))
 
-        # fixed_txt = 'Hello we are cool'
-        # use fixed txt to generate the output
         img = hand_w( user_input, "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
         # cv2.imwrite( "media_cdn\\AllHandwritings\\{}\\result.jpg".format( dir_path ), img )
 
