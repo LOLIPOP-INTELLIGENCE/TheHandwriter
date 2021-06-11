@@ -1,4 +1,0 @@
-A4 paper dimensions (without bleed area) - 297 * 210 mm
-Width of a dot(.) is 1
-
-Use opencv to extrapolate largest rectangle from the template
