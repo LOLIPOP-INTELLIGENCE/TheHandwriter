@@ -352,7 +352,7 @@ def func_two(words,_base_path):
         value=[255,255,255]
     )
 
-    path = 'handwriter_test\static\FINAL_RESULToutput.png'
+    path = 'D:\TheHandwriter\handwriter_test\static\FINAL_RESULToutput.png'
     cv2.imwrite(path, border)
 
     return border
@@ -360,21 +360,28 @@ def func_two(words,_base_path):
 def home(request):
     return render(request, 'home.html', {'name': ''})
 
-user_input=''
+# user_input=''
 def add(request):
-    global user_input
-    user_input = request.GET['text_string']
+    # global user_input
+    # user_input = request.GET['text_string']
 
-    my_uid = base_converter( time.time_ns() )
-    request.session['uid'] = my_uid
+    # my_uid = base_converter( time.time_ns() )
+    request.session['txt'] = request.GET['text_string']
 
-    print('\n\nAdd:', request.session['uid'], '\n\n')
+    # print('\n\nAdd:', request.session['uid'], '\n\n')
 
     return render(request, "choice.html")
 
 def upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        print('\n\nUpl:', request.session['uid'], '\n\n')
+    # user_input=''
+    # if request.method == 'GET':
+    #     user_input=request.GET['text_string']   
+    #     print(user_input)
+
+    if request.method == 'POST':
+        #  and request.FILES['myfile']
+        # print('\n\nUpl:', request.session['uid'], '\n\n')
+        # txt_name=request.POST['text_string']
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
 
@@ -382,21 +389,20 @@ def upload(request):
         dir_path = "scan_{}".format( cur_time )
 
         os.mkdir("media_cdn\\AllHandwritings\\{}".format( dir_path ))
-        os.system("python ./handwriter_test/manage.py collectstatic --noinput")
+        # print('\t\t', os.getcwd())
+        os.system("python ./manage.py collectstatic --noinput")
 
         filename = fs.save("AllHandwritings\\{}\\submission.jpg".format( dir_path ), myfile)
 
         preprocess("media_cdn\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
         detect_box("media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}".format( dir_path ))
 
-        img = hand_w( user_input, "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
+        img = hand_w(request.session['txt'], "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
         # cv2.imwrite( "media_cdn\\AllHandwritings\\{}\\result.jpg".format( dir_path ), img )
 
         uploaded_file_url = fs.url(filename)
-        return render(request, 'result.html', {
-            'uploaded_file_url': "useruploaded_img.jpg",
-        })
-    return render(request, 'io.html')
+        return render(request, 'result.html')
+    # return render(request, 'io.html')
 
 def own_handwriting(request):
     return render(request, "io.html")
