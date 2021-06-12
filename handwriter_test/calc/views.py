@@ -385,8 +385,8 @@ def upload(request):
         img = hand_w(request.session['txt'], "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
 
         uploaded_file_url = fs.url(filename)
-        print("media_cdn\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg")
-        return render(request, 'result.html', {'image': "D:\\TheHandwriter\\handwriter_test\\media_cdn\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"})
+        img_path = os.getcwd() + "\\media_cdn\\AllHandwritings\\{}\\result.jpg".format( dir_path )
+        return render(request, 'result.html', {'image': img_path})
 
 def own_handwriting(request):
     return render(request, "io.html")
