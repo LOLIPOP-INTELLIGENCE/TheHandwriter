@@ -3,6 +3,7 @@
 handwriter_test/calc/__pycache__/
 handwriter_test/handwriter_test/__pycache__/
 handwriter_test/db.sqlite3
+.vscode/settings.json
 
 __pycache__/
 *.py[cod]

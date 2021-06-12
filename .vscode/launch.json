@@ -5,12 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "handwriter_test/manage.py",
-            "args": ["runserver"],
-            "console": "integratedTerminal"
+            "name":     "Python: Current File",
+            "type":     "python",
+            "request":  "launch",
+            "program":  "handwriter_test/manage.py",
+            "args":     ["runserver"],
+            "cwd":      "${workspaceFolder}/handwriter_test",
+            "console":  "integratedTerminal"
         }
     ]
 }
