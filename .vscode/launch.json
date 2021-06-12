@@ -8,7 +8,7 @@
             "name":     "Python: Current File",
             "type":     "python",
             "request":  "launch",
-            "program":  "handwriter_test/manage.py",
+            "program":  "${workspaceFolder}/handwriter_test/manage.py",
             "args":     ["runserver"],
             "cwd":      "${workspaceFolder}/handwriter_test",
             "console":  "integratedTerminal"
