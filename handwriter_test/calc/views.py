@@ -364,9 +364,9 @@ def add(request):
     request.session['txt'] = request.GET['text_string']
 
     return render(request, "choice.html")
-
+dir_path=''
 def upload(request):
-
+    global dir_path
     if request.method == 'POST':
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -385,7 +385,8 @@ def upload(request):
         img = hand_w(request.session['txt'], "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
 
         uploaded_file_url = fs.url(filename)
-        return render(request, 'result.html')
+        print("media_cdn\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg")
+        return render(request, 'result.html', {'image': "D:\\TheHandwriter\\handwriter_test\\media_cdn\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"})
 
 def own_handwriting(request):
     return render(request, "io.html")
