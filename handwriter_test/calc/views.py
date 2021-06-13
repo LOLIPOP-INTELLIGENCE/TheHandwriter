@@ -374,19 +374,20 @@ def upload(request):
         cur_time = base_converter( time.time_ns() )
         dir_path = "scan_{}".format( cur_time )
 
-        os.mkdir("media_cdn\\AllHandwritings\\{}".format( dir_path ))
-        os.system("python ./manage.py collectstatic --noinput")
+        os.mkdir("media\\AllHandwritings\\{}".format( dir_path ))
+        # os.system("python ./manage.py collectstatic --noinput")
 
         filename = fs.save("AllHandwritings\\{}\\submission.jpg".format( dir_path ), myfile)
 
-        preprocess("media_cdn\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
-        detect_box("media_cdn\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media_cdn\\AllHandwritings\\{}".format( dir_path ))
+        preprocess("media\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
+        detect_box("media\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media\\AllHandwritings\\{}".format( dir_path ))
 
-        img = hand_w(request.session['txt'], "media_cdn\\AllHandwritings\\{}\\".format( dir_path ) )
+        img = hand_w(request.session['txt'], "media\\AllHandwritings\\{}\\".format( dir_path ) )
 
         uploaded_file_url = fs.url(filename)
-        print("media_cdn\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg")
-        return render(request, 'result.html', {'image': "D:\\TheHandwriter\\handwriter_test\\media_cdn\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"})
+        print("media\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg")
+        new_url = "media\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"
+        return render(request, 'result.html', {'image':new_url})
 
 def own_handwriting(request):
     return render(request, "io.html")
