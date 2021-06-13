@@ -8,6 +8,25 @@ import cv2, pygame
 import math, random
 from PIL import Image
 
+own_handwriting = lambda request : render( request, "io.html" )
+home            = lambda request : render( request, "home.html" )
+
+# Utility function to shorten a large number into a unique ID
+def to_id( _num, _base = 64 ):
+
+    if _num <= 0: return '0'
+
+    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_#'
+    res     = ''
+
+    while _num:
+        rem     = _num % _base
+        _num    //= _base
+        res     += charset[rem]
+
+    # return res[::-1]
+    return res
+
 # Function to resize the image to constant width
 def preprocess( _path, _final_path ):
 
@@ -463,51 +482,39 @@ def generate_image(words,_base_path):
 
     return border
 
-def home(request):
-    return render(request, 'home.html')
-
 def add(request):
-    request.session['txt'] = request.GET['text_string']
+    request.session["txt"] = request.GET["text_string"]
+    return render( request, "choice.html" )
 
-    return render(request, "choice.html")
-dir_path=''
 def upload(request):
-    global dir_path
-    if request.method == 'POST':
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
 
-        cur_time = base_converter( time.time_ns() )
-        dir_path = "scan_{}".format( cur_time )
+    if request.method == "POST":
 
-        os.mkdir("media\\AllHandwritings\\{}".format( dir_path ))
-        # os.system("python ./manage.py collectstatic --noinput")
+        # Get the file, input text and reference to filesystem object
+        myfile      = request.FILES["myfile"]
+        inp_text    = request.session["txt"]
+        fs          = FileSystemStorage()
 
-        filename = fs.save("AllHandwritings\\{}\\submission.jpg".format( dir_path ), myfile)
+        # Get the current time and convert it to an ID
+        cur_time    = to_id( time.time_ns() )
 
-        preprocess("media\\AllHandwritings\\{}\\submission.jpg".format( dir_path ), "media\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ))
-        detect_box("media\\AllHandwritings\\{}\\processed_submission.jpg".format( dir_path ), "media\\AllHandwritings\\{}".format( dir_path ))
+        # Relative paths to the scan folder, submission, processed submission and result
+        dir_path    = "media\\AllHandwritings\\scan_{}".format( cur_time )
+        sub_path    = dir_path + "\\submission.jpg"
+        pro_path    = dir_path + "\\processed_submission.jpg"
+        res_path    = dir_path + "\\result.jpg"
 
-        img = handwrite(request.session['txt'], "media\\AllHandwritings\\{}\\".format( dir_path ) )
+        # Create directory and save submission
+        os.mkdir( dir_path )
+        filename    = fs.save( "AllHandwritings\\scan_{}\\submission.jpg".format( cur_time ), myfile )
 
-        uploaded_file_url = fs.url(filename)
-        new_url = "media\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"
-        return render(request, 'result.html', {'image':new_url})
+        # Preprocess submission and detect boxes
+        preprocess( sub_path, pro_path )
+        detect_box( pro_path, dir_path )
 
+        # Generate handwritten image
+        img         = handwrite( inp_text, dir_path + '\\' )
+        upload_url  = fs.url( filename )
+        new_url     = res_path
 
-def own_handwriting(request):
-    return render(request, "io.html")
-
-def base_converter( _num, _base = 64 ):
-
-    if _num:
-        charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_#'
-        res     = ''
-
-        while _num:
-            rem     = _num % _base
-            _num    //= _base
-            res     += charset[rem]
-
-        return res[::-1]
-    return '0'
+        return render( request, 'result.html', {'image':new_url} )
