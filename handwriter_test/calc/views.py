@@ -102,6 +102,7 @@ def detect_box( _path, _final_path ):
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
             cv2.imwrite( '{}\\{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 
+# Function to handwrite a given input string
 def handwrite(input_string, _base_path):
     contents=input_string
     contents=contents.strip()
@@ -156,7 +157,7 @@ def handwrite(input_string, _base_path):
 
     return generate_image(words, _base_path)
 
-
+# Function to generate a handwritten image for a given word
 def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base_path):
 
     base_path = base_path
@@ -279,33 +280,30 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
     if (prev_img_exists):
         final_img = np.concatenate((img_prev, final_img), axis=1)
     if(add_blank):
-        final_img = generate_blank(img_prev=final_img, N__k=N___K, img_prev_exists=K___K,base_path=base_path)
+        final_img = generate_blank(final_img, N___K, K___K,base_path)
 
     return final_img
 
-#Very similar logic for generating blank space
-def generate_blank(img_prev, N__k, img_prev_exists, base_path):
+# Function to generate blanks
+def generate_blank( _img_prev, _num_spaces, _prev_exists, _base_path ):
 
-    if(N__k>0):
-        path = base_path + 'blank1_x.jpg'
-        print(path)
-        img = cv2.imread(path, 0)
-        img = cv2.resize(img, (40, 114))
-        img_np = np.array(img)
-        final_img = img_np
-        for i in range(1, N__k):
-            path = base_path + 'blank1_x.jpg'
-            img2 = cv2.imread(path, 0)
-            img2 = cv2.resize(img2, (40, 114))
-            img_np2 = np.array(img2)
-            final_img = np.concatenate((img_np, img_np2), axis=1)
-            img_np = final_img
-        if (img_prev_exists):
-            final_img = np.concatenate((img_prev, final_img), axis=1)
+    # Return 1 previous image if number of spaces is 0
+    if _num_spaces <= 0: return _img_prev
 
-        return final_img
-    else:
-        return img_prev
+    # Load space texture amd prepare final image
+    path        = _base_path + 'blank1_x.jpg'
+    final       = np.array( cv2.resize( cv2.imread( path, 0 ), (40, 114) ) )
+    spc         = np.array( cv2.resize( cv2.imread( path, 0 ), (40, 114) ) )
+
+    # Concatenate space texture until finished
+    for i in range( _num_spaces - 1 ):
+        final   = np.concatenate( (final, spc), axis = 1 )
+
+    # If the previous image exists then concatenate it
+    if _prev_exists:
+        final   = np.concatenate( (_img_prev, final), axis = 1 )
+
+    return final
 
 def generate_image(words,_base_path):
     word_num=0
@@ -336,7 +334,7 @@ def generate_image(words,_base_path):
                         # N__k is X(the number of spaces to add)
                         # k__k is false because we are not concatenating the previous image
                         X=random.randint(1,2)
-                        line_output=generate_blank(img_prev=0,N__k=X,img_prev_exists=False,base_path=_base_path)
+                        line_output=generate_blank(0,X,False,_base_path)
 
                         # From 60 characters, we remove X characters as we have added that many spaces
                         k=k-X
@@ -392,7 +390,7 @@ def generate_image(words,_base_path):
                         else:
 
                             # We generate k number of blank spaces since we cannot accomodate any word on that line
-                            line_output=generate_blank(img_prev=line_output,N__k=k,img_prev_exists=True,base_path=_base_path)
+                            line_output=generate_blank(line_output,k,True,_base_path)
 
                             # Debug var
                             MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
@@ -407,7 +405,7 @@ def generate_image(words,_base_path):
                     if(k!=60):
 
                         # We generate as many blank spaces as are left on that line, ie k
-                        line_output = generate_blank(img_prev=line_output, N__k=k, img_prev_exists=True,base_path=_base_path)
+                        line_output = generate_blank(line_output, k, True,_base_path)
 
                         #Debug Variable
                         MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
@@ -423,7 +421,7 @@ def generate_image(words,_base_path):
 
                         # We generate 60 blanks, which is = k.
                         # Note the only difference here is that k__k is false since we don't have a previous image
-                        line_output = generate_blank(img_prev=line_output, N__k=k, img_prev_exists=False,base_path=_base_path)
+                        line_output = generate_blank(line_output, k, False,_base_path)
 
                         #Debug var
                         MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
@@ -436,7 +434,7 @@ def generate_image(words,_base_path):
 
             # In the case that some random error occurs, we just add that many blank spaces to the line:)
             except IndexError:
-                line_output = generate_blank(img_prev=line_output, N__k=k, img_prev_exists=True,base_path=_base_path)
+                line_output = generate_blank(line_output, k, True,_base_path)
 
                 #Debug Variable
                 MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
