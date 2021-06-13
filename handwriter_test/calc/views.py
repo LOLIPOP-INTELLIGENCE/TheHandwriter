@@ -385,9 +385,9 @@ def upload(request):
         img = hand_w(request.session['txt'], "media\\AllHandwritings\\{}\\".format( dir_path ) )
 
         uploaded_file_url = fs.url(filename)
-        print("media\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg")
         new_url = "media\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"
         return render(request, 'result.html', {'image':new_url})
+
 
 def own_handwriting(request):
     return render(request, "io.html")
