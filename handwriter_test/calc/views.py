@@ -362,8 +362,8 @@ def home(request):
 
 def add(request):
     request.session['txt'] = request.GET['text_string']
-
     return render(request, "choice.html")
+
 dir_path=''
 def upload(request):
     global dir_path
@@ -375,7 +375,6 @@ def upload(request):
         dir_path = "scan_{}".format( cur_time )
 
         os.mkdir("media\\AllHandwritings\\{}".format( dir_path ))
-        # os.system("python ./manage.py collectstatic --noinput")
 
         filename = fs.save("AllHandwritings\\{}\\submission.jpg".format( dir_path ), myfile)
 
@@ -385,7 +384,8 @@ def upload(request):
         img = hand_w(request.session['txt'], "media\\AllHandwritings\\{}\\".format( dir_path ) )
 
         uploaded_file_url = fs.url(filename)
-        new_url = "media\\AllHandwritings\\{}\\".format( dir_path )+"result.jpg"
+        new_url = "media\\AllHandwritings\\{}\\result.jpg".format( dir_path )
+
         return render(request, 'result.html', {'image':new_url})
 
 

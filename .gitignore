@@ -4,7 +4,7 @@ handwriter_test/calc/__pycache__/
 handwriter_test/handwriter_test/__pycache__/
 handwriter_test/db.sqlite3
 .vscode/settings.json
-handwriter_test/media_cdn/AllHandwritings/
+handwriter_test/media/AllHandwritings/
 
 __pycache__/
 *.py[cod]
