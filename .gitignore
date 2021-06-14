@@ -5,6 +5,7 @@ handwriter_test/handwriter_test/__pycache__/
 handwriter_test/db.sqlite3
 .vscode/settings.json
 handwriter_test/media/AllHandwritings/
+keys/
 
 __pycache__/
 *.py[cod]

@@ -172,7 +172,23 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
     character_first    = str( characters[0] )
     str_set         = str( set )
 
-    special_dct     = {'?':'question', ' ':'blank2', '\n':'blank2', '~':'error'}
+    special_dct     =   {'?':'question',
+                        '!':'exclamation',
+                        ',':'comma',
+                        '.':'dot',
+                        '/':'f_slash',
+                        '\\':'b_slash',
+                        '(':'o_bracket',
+                        '{':'o_curly',
+                        '[':'o_square',
+                        ')':'c_bracket',
+                        '}':'c_curly',
+                        ']':'c_square',
+                        ':':'colon',
+                        ';':'semicolon',
+                        ' ':'blank2',
+                        '\n':'blank2',
+                        '~':'error'}
 
     fil_name        = '{}.jpg'
 
@@ -205,12 +221,9 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
     #Adding a white padding of 3 pixels to the left and right of the image
     border = cv2.copyMakeBorder(
         img,
-        top=0,
-        bottom=0,
-        left=3,
-        right=3,
-        borderType=cv2.BORDER_CONSTANT,
-        value=[255, 255, 255]
+        top = 0, bottom = 0, left = 3, right = 3,
+        borderType = cv2.BORDER_CONSTANT,
+        value = (255, 255, 255)
     )
 
     #Adding the rotation
