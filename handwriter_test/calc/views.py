@@ -291,9 +291,9 @@ def generate_blank( _img_prev, _num_spaces, _prev_exists, _base_path ):
     if _num_spaces <= 0: return _img_prev
 
     # Load space texture amd prepare final image
-    path        = _base_path + 'blank1_x.jpg'
-    final       = np.array( cv2.resize( cv2.imread( path, 0 ), (40, 114) ) )
+    path        = _base_path + 'blank_x.jpg'
     spc         = np.array( cv2.resize( cv2.imread( path, 0 ), (40, 114) ) )
+    final       = np.copy( spc )
 
     # Concatenate space texture until finished
     for i in range( _num_spaces - 1 ):
