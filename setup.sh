@@ -16,3 +16,8 @@ mkdir ./handwriter_test/media/AllHandwritings
 
 # Run collectstatic command
 python3 ./manage.py collectstatic
+
+# Creates database tables
+python3 ./manage.py makemigrations
+python3 ./manage.py migrate
+
