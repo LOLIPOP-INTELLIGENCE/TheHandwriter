@@ -247,10 +247,6 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
 
         fil_name        = '{}.jpg'
 
-        a_b.jpg
-        a_s.jpg
-        A_b.jpg a_b.jpg
-
         if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
         elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
         elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
