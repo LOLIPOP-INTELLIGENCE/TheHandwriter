@@ -193,7 +193,7 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
     fil_name        = '{}.jpg'
 
     if character_first.islower():      fil_name = fil_name.format( character_first + '_s' )
-    elif character_first.isupper():    fil_name = fil_name.format( character_first + '_b' )
+    elif character_first.isupper():    fil_name = fil_name.format( character_first.lower() + '_b' )
     elif character_first.isdigit():    fil_name = fil_name.format( character_first + '_d' )
     else:                           fil_name = fil_name.format( special_dct.get( character_first, 'blank1' ) + '_x' )
 
@@ -247,8 +247,12 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
 
         fil_name        = '{}.jpg'
 
+        a_b.jpg
+        a_s.jpg
+        A_b.jpg a_b.jpg
+
         if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
-        elif characters_i.isupper():    fil_name = fil_name.format( characters_i + '_b' )
+        elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
         elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
         else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1' ) + '_x' )
 
