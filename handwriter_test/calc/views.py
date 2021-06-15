@@ -100,7 +100,7 @@ def detect_box( _path, _final_path ):
         for j in range( len( name_lst[i] ) ):
             x, y, w, h = lst[i][j]
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
-            cv2.imwrite( '{}\\{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
+            cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 
 # Function to handwrite a given input string
 def handwrite(input_string, _base_path):
@@ -113,11 +113,11 @@ def handwrite(input_string, _base_path):
     num_words=len(words)
     i=0
 
-    # Consider this input - ['mediators', 'are', '\\n\\n\\n\\n', 'seeking', 'to', 'cement']
-    # The below while loop along with the try except is trying to convert "\\n\\n\\n\\n" to ['mediators', 'are', '\n', '\n', '\n', '\n', 'seeking', 'to', 'cement']
+    # Consider this input - ['mediators', 'are', '/n/n/n/n', 'seeking', 'to', 'cement']
+    # The below while loop along with the try except is trying to convert "/n/n/n/n" to ['mediators', 'are', '\n', '\n', '\n', '\n', 'seeking', 'to', 'cement']
     # Reason to do this is because later in the program if the program finds a '\n' as a word, it will fill the current line with empty spaces
     while(i<num_words):
-        if(words[i].startswith('\n') or words[i].startswith('\\n')):
+        if(words[i].startswith('\n') or words[i].startswith('/n')):
             if(words[i].startswith('\n')):
                 word_t=(words[i][1:])
             else:
@@ -510,21 +510,21 @@ def upload(request):
         cur_time    = to_id( time.time_ns() )
 
         # Relative paths to the scan folder, submission, processed submission and result
-        dir_path    = "media\\AllHandwritings\\scan_{}".format( cur_time )
-        sub_path    = dir_path + "\\submission.jpg"
-        pro_path    = dir_path + "\\processed_submission.jpg"
-        res_path    = dir_path + "\\result.jpg"
+        dir_path    = "media/AllHandwritings/scan_{}".format( cur_time )
+        sub_path    = dir_path + "/submission.jpg"
+        pro_path    = dir_path + "/processed_submission.jpg"
+        res_path    = dir_path + "/result.jpg"
 
         # Create directory and save submission
         os.mkdir( dir_path )
-        filename    = fs.save( "AllHandwritings\\scan_{}\\submission.jpg".format( cur_time ), myfile )
+        filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
 
         # Preprocess submission and detect boxes
         preprocess( sub_path, pro_path )
         detect_box( pro_path, dir_path )
 
         # Generate handwritten image
-        img         = handwrite( inp_text, dir_path + '\\' )
+        img         = handwrite( inp_text, dir_path + '/' )
         upload_url  = fs.url( filename )
         new_url     = res_path
 
