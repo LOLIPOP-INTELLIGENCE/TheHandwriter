@@ -104,12 +104,13 @@ def detect_box( _path, _final_path ):
 
 # Function to handwrite a given input string
 def handwrite(input_string, _base_path):
+    print(input_string)
     contents=input_string
     contents=contents.strip()
 
     # Splitting the input file by words - "word"
     words=contents.split(" ")
-
+    print(words)
     num_words=len(words)
     i=0
 

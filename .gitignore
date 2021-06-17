@@ -6,6 +6,8 @@ handwriter_test/db.sqlite3
 .vscode/settings.json
 handwriter_test/media/AllHandwritings/
 keys/
+handwriter_test/nohup.out
+
 
 __pycache__/
 *.py[cod]
