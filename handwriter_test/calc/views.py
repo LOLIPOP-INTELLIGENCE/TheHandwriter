@@ -183,7 +183,7 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
                         ',':'comma',
                         '.':'dot',
                         '/':'f_slash',
-                        '\\':'b_slash',
+                        '/':'b_slash',
                         '(':'o_bracket',
                         '{':'o_curly',
                         '[':'o_square',
@@ -543,7 +543,7 @@ def h1(request):
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
     res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media\\DisplayedHandwritings\\set_1\\' , res_path )
+    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_1/' , res_path )
     new_url     = res_path
     
     return render( request, 'result.html', {'image':new_url} )
@@ -555,7 +555,7 @@ def h2(request):
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
     res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media\\DisplayedHandwritings\\set_2\\' , res_path )
+    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_2/' , res_path )
     new_url     = res_path
     
     return render( request, 'result.html', {'image':new_url} )
@@ -567,7 +567,7 @@ def h3(request):
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
     res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media\\DisplayedHandwritings\\set_3\\' , res_path )
+    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_3/' , res_path )
     new_url     = res_path
     
     return render( request, 'result.html', {'image':new_url} )
@@ -579,7 +579,7 @@ def h4(request):
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
     res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media\\DisplayedHandwritings\\set_4\\' , res_path )
+    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_4/' , res_path )
     new_url     = res_path
     
     return render( request, 'result.html', {'image':new_url} )
@@ -591,7 +591,7 @@ def h5(request):
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
     res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media\\DisplayedHandwritings\\set_5\\' , res_path )
+    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_5/' , res_path )
     new_url     = res_path
     
     return render( request, 'result.html', {'image':new_url} )
@@ -603,7 +603,7 @@ def h6(request):
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
     res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media\\DisplayedHandwritings\\set_6\\' , res_path )
+    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_6/' , res_path )
     new_url     = res_path
     
     return render( request, 'result.html', {'image':new_url} )
