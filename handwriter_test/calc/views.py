@@ -105,13 +105,13 @@ def detect_box( _path, _final_path ):
 # Function to handwrite a given input string
 def handwrite(input_string, _base_path, _saved_path=None):
 
-    print(input_string)
+    # print(input_string)
     contents=input_string
     contents=contents.strip()
 
     # Splitting the input file by words - "word"
     words=contents.split(" ")
-    print(words)
+    # print(words)
     num_words=len(words)
     i=0
 
@@ -472,14 +472,14 @@ def generate_image(words,_base_path):
         line_output = 0
 
     # Debug printing
-    for i in range(len(MY_SENTENCE_OUTPUT)):
-        print(MY_SENTENCE_OUTPUT[i])
+    # for i in range(len(MY_SENTENCE_OUTPUT)):
+    #     print(MY_SENTENCE_OUTPUT[i])
 
     # Concatenatig all sentences to produce the final image
     final_output = sentences[0]
-    print(final_output.shape)
+    # print(final_output.shape)
     for i in range(1,len(sentences)):
-        print(sentences[i].shape)
+        # print(sentences[i].shape)
         final_output = np.concatenate((final_output, sentences[i]), axis=0)
 
     # Adding a border for the page
