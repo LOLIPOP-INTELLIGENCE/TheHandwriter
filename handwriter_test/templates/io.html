@@ -17,7 +17,7 @@
             </div>
             <div class="cell" id="i5oi">
                 <div id="ipwa4"></div>
-                <form class="form" id="im93y">
+                <!-- <form class="form" id="im93y"> -->
                     <div class="form-group"></div>
                     <img
                         id="ihojb"
@@ -26,13 +26,15 @@
                     <a href="{% static 'template_final_realscanner.jpg' %}" download>
 
                     <div class="form-group"><button type="submit" class="button" id="i2i35">Download</button></div>
-                </form>
+                <!-- </form> -->
+            </a>
+                <img
+                        id="i3v5y"
+                        src="{% static 'upload_img.png' %}"/>
                 <form class="form" method="post" action="upload" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group"></div>
-                    <img
-                        id="i3v5y"
-                        src="{% static 'upload_img.png' %}"
+                    
                     <div class="form-group">
                         <input type="file" name="myfile">
                         <button type="submit" class="button">Upload</button>
