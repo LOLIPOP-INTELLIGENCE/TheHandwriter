@@ -379,7 +379,7 @@ def generate_image( _words, _base_path ):
                             max_line_char -= len( _words[word_num] ) + right_pad
 
                             # Successfuly added the word, and increment f
-                            word_num+=word_num
+                            word_num+= 1
 
 
                         # This is the case when the full word cannot be accomodated in the same line and so we just add blank
@@ -438,7 +438,6 @@ def generate_image( _words, _base_path ):
 
                 # END OF LINE
                 max_line_char = -1
-                pass
 
         # Debug var
         MY_OUTPUT = MY_OUTPUT + '!'
