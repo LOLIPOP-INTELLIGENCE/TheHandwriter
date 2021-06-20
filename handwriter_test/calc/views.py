@@ -206,6 +206,7 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
     elif character_first.isdigit():    fil_name = fil_name.format( character_first + '_d' )
     else:                           fil_name = fil_name.format( special_dct.get( character_first, 'blank1' ) + '_x' )
 
+
     #path holds the path to the first character in a word. If the word is Hello, 'path' is the path to 'H'
     path = base_path + fil_name
 
@@ -309,23 +310,35 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
 # Function to generate blanks
 def generate_blank( _img_prev, _num_spaces, _prev_exists, _base_path ):
 
-    # Return 1 previous image if number of spaces is 0
-    if _num_spaces <= 0: return _img_prev
+    img_width       = 64 * _num_spaces
+    img_height      = 114
 
-    # Load space texture amd prepare final image
-    path        = _base_path + 'blank_x.jpg'
-    spc         = np.array( cv2.resize( cv2.imread( path, 0 ), (40, 114) ) )
-    final       = np.copy( spc )
-# handwriter_test\media\DisplayedHandwritings\set_6\blank_x.jpg
-    # Concatenate space texture until finished
-    for i in range( _num_spaces - 1 ):
-        final   = np.concatenate( (final, spc), axis = 1 )
+    # img_width       += random.randint( 8 )
 
-    # If the previous image exists then concatenate it
+    res             = np.ones( [img_height, img_width] ) * 255
+
     if _prev_exists:
-        final   = np.concatenate( (_img_prev, final), axis = 1 )
+        return np.concatenate( (_img_prev, res), axis = 1 )
 
-    return final
+    return res
+
+#     # Return 1 previous image if number of spaces is 0
+#     if _num_spaces <= 0: return _img_prev
+
+#     # Load space texture amd prepare final image
+#     path        = _base_path + 'blank_x.jpg'
+#     spc         = np.array( cv2.resize( cv2.imread( path, 0 ), (40, 114) ) )
+#     final       = np.copy( spc )
+# # handwriter_test\media\DisplayedHandwritings\set_6\blank_x.jpg
+#     # Concatenate space texture until finished
+#     for i in range( _num_spaces - 1 ):
+#         final   = np.concatenate( (final, spc), axis = 1 )
+
+#     # If the previous image exists then concatenate it
+#     if _prev_exists:
+#         final   = np.concatenate( (_img_prev, final), axis = 1 )
+
+#     return final
 
 def generate_image(words,_base_path):
     word_num=0
@@ -368,13 +381,13 @@ def generate_image(words,_base_path):
                         # K__K is true because when we call generate_blank() function inside the generate_word() function, we
                         # would have generated the word and hence we want the generate_blank() function to also concatenate the word
                         # add_blank is also true since we want 3 blank spaces
-                        line_output = generate_word(img_prev=line_output, word__k=words[word_num], prev_img_exists=True, N___K=3, K___K=True, add_blank=True,base_path=_base_path)
+                        line_output = generate_word(img_prev=line_output, word__k=words[word_num], prev_img_exists=True, N___K=1, K___K=True, add_blank=True,base_path=_base_path)
 
                         #Debug
-                        MY_OUTPUT = MY_OUTPUT + words[word_num] + '   '
+                        MY_OUTPUT = MY_OUTPUT + words[word_num] + ' '
 
                         # Remove the number of characters of word[f] and 3 spaces from k
-                        k=k-(len(words[word_num])+3)
+                        k=k-(len(words[word_num])+1)
 
                         # Successfuly added the first word
                         word_num=word_num+1
@@ -390,7 +403,7 @@ def generate_image(words,_base_path):
                             # t tells us how many blank spaces we can add after adding our current word
                             # The standrad is 3 spaces but in the case that after adding the word, there is only 1 character left
                             # we take the minimum of 3 and k-len(words[f)
-                            t=min(3,k-len(words[word_num]))
+                            t=min(1,k-len(words[word_num]))
 
                             # Now we generate the word
                             # The parameters mean the same as they did above when k was == 60
