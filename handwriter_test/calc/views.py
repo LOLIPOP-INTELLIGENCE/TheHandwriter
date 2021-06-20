@@ -107,17 +107,15 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 def handwrite( _input_string, _base_path, _saved_path = None ):
 
     # print(input_string)
-    contents=_input_string
-    contents=contents.strip()
+    contents=_input_string.strip()
 
     # Splitting the input file by words - "word"
-    words=contents.split(" ")
+    words=contents.split(' ')
     num_words=len(words)
 
     # Consider this input - ['mediators', 'are', '/n/n/n/n', 'seeking', 'to', 'cement']
     # The below while loop along with the try except is trying to convert "/n/n/n/n" to ['mediators', 'are', '\n', '\n', '\n', '\n', 'seeking', 'to', 'cement']
     # Reason to do this is because later in the program if the program finds a '\n' as a word, it will fill the current line with empty spaces
-    i = 0
     for i in range(num_words):
         if(words[i].startswith('\n') or words[i].startswith('/n')):
             if(words[i].startswith('\n')):
@@ -134,36 +132,13 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
     except ValueError:
         pass
 
-    #generate random errors
-    l=0
-    pop=0
-
-    # errors_for_number_for_words is the number of words for which the program adds one error
-    # If it is 5 => For every 5 words there is 1 error
-    errors_for_number_for_words=13
-
-    # The below code adds an error character, a ~ to the begining of a word selected randomly with a frequency of errors_for_number_for_words
-    randomlist = []
-    if(((len(words))/errors_for_number_for_words)-3>=0):
-        pop=int(((len(words))/errors_for_number_for_words)-3)
-    for i in range(0,pop):
-        n = random.randint(2, len(words) - 3)
-        while(words[n]=='\n'):
-            n = random.randint(2,len(words)-3)
-        randomlist.append(n)
-    for i in range(0,pop):
-        word____err=words[randomlist[i]]
-        word____err="~"+word____err
-        words[randomlist[i]]=word____err
-
     # return generate_image(words, _base_path)
     img = generate_image(words, _base_path)
 
-    if _saved_path != None:
+    if _saved_path:
         cv2.imwrite(_saved_path, img)
 
     return img
-
 # Function to generate a handwritten image for a given word
 def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_concat, _add_blank, _base_path ):
 
@@ -204,7 +179,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
 
 
     #path holds the path to the first character in a word. If the word is Hello, 'path' is the path to 'H'
-    path = base_path + fil_name
+    path = _base_path + fil_name
 
     #creating the first image
 
@@ -258,7 +233,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
         else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1' ) + '_x' )
 
-        path            = base_path + fil_name
+        path            = _base_path + fil_name
 
         img2 = cv2.imread(path)
         try:
@@ -289,17 +264,17 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         img_np = final_img
 
 
-    # This is there to add the image of previous words from img_prev
+    # This is there to add the image of previous words from _img_prev
     # Decide wether to add the previous part of the sentence to this word
     # For example, let the sentence be - "Hello there my name is Teddy"
     # After generating "Hello", k will be false since we don't have a previous image
-    # After generating "there", k will be true and we will concatenate img_prev to final_img
-    # Similarly, after generating "my", k will be true and the image for "Hello there"(stored in img_prev)
+    # After generating "there", k will be true and we will concatenate _img_prev to final_img
+    # Similarly, after generating "my", k will be true and the image for "Hello there"(stored in _img_prev)
     # will be concatenated with final_img
     if (_prev_exists):
-        final_img = np.concatenate((img_prev, final_img), axis=1)
-    if(add_blank):
-        final_img = generate_blank(final_img, N___K, K___K,base_path)
+        final_img = np.concatenate((_img_prev, final_img), axis=1)
+    if(_add_blank and _space_concat):
+        final_img = generate_blank(final_img, _num_spaces)
 
     return final_img
 
@@ -313,7 +288,8 @@ def generate_blank( _img_prev, _num_spaces ):
 
     res             = np.ones( [img_height, img_width] ) * 255
 
-    if _img_prev:
+    # print('\t\t\t', _img_prev)
+    if _img_prev is not None:
         return np.concatenate( (_img_prev, res), axis = 1 )
 
     return res
@@ -367,7 +343,7 @@ def generate_image( _words, _base_path ):
                         # K__K is true because when we call generate_blank() function inside the generate_word() function, we
                         # would have generated the word and hence we want the generate_blank() function to also concatenate the word
                         # add_blank is also true since we want 3 blank spaces
-                        line_output     = generate_word(img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, N___K=1, K___K=True, add_blank=True,base_path=_base_path)
+                        line_output     = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, _num_spaces=1, _space_concat=True, _add_blank=True, _base_path=_base_path)
 
                         # Debug
                         MY_OUTPUT       += _words[word_num] + ' '
@@ -393,7 +369,7 @@ def generate_image( _words, _base_path ):
 
                             # Now we generate the word
                             # The parameters mean the same as they did above when k was == 60
-                            line_output = generate_word(img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, N___K=right_pad, K___K=True, add_blank=True,base_path=_base_path)
+                            line_output = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, _num_spaces=right_pad, _space_concat=True, _add_blank=True, _base_path=_base_path)
 
                             # Debug variable
                             MY_OUTPUT=MY_OUTPUT+_words[word_num]
@@ -545,16 +521,13 @@ def upload(request):
         return render( request, 'result.html', {'image':new_url} )
 
 def h1( request ):
-    inp_text    = request.session["txt"]
-    # Get the current time and convert it to an ID
-    cur_time    = to_id( time.time_ns() )
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/res_{}".format( cur_time )
-    res_path    = dir_path + ".jpg"
-    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_1/' , res_path )
-    new_url     = res_path
 
-    return render( request, 'result.html', {'image':new_url} )
+    # Relative paths to the scan folder, submission, processed submission and result
+    dir_path    = "media/DisplayedHandwritings/res_imgs/res_{}".format( to_id( time.time_ns() ) )
+    res_path    = dir_path + ".jpg"
+    handwrite( request.session["txt"],'media/DisplayedHandwritings/set_1/' , res_path )
+
+    return render( request, 'result.html', {'image':res_path} )
 
 def h2(request):
     inp_text    = request.session["txt"]
