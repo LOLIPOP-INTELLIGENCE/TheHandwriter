@@ -7,6 +7,8 @@ handwriter_test/db.sqlite3
 handwriter_test/media/AllHandwritings/
 keys/
 handwriter_test/nohup.out
+handwriter_test/media/DisplayedHandwritings/res_imgs/
+handwriter_test/media/DisplayedHandwritings/set_*/result.jpg
 
 
 __pycache__/

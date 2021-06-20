@@ -48,7 +48,7 @@ def preprocess( _path, _final_path ):
     pygame.image.save( _surf, _final_path )
 
 # Function to go through image and find rects
-def detect_box( _path, _final_path ):
+def detect_box( _path, _final_path, _white_lo = 225 ):
 
     name_lst = [['a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s', 'm_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s'],
             ['u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b', 'i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b'],
@@ -98,8 +98,9 @@ def detect_box( _path, _final_path ):
     # Crop and save each image with the correct name
     for i in range( len( name_lst ) ):
         for j in range( len( name_lst[i] ) ):
-            x, y, w, h = lst[i][j]
+            x, y, w, h  = lst[i][j]
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
+
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 
 # Function to handwrite a given input string
@@ -159,8 +160,10 @@ def handwrite(input_string, _base_path, _saved_path=None):
 
     # return generate_image(words, _base_path)
     img = generate_image(words, _base_path)
+
     if _saved_path != None:
         cv2.imwrite(_saved_path, img)
+
     return img
 
 # Function to generate a handwritten image for a given word
@@ -217,12 +220,12 @@ def generate_word(img_prev, word__k, prev_img_exists,N___K,K___K,add_blank, base
     #The below code converts all the black pixel values of that character to a standard value
     #For example consider an image has a black pixel of (0,0,0) and a black pixel of (30,30,30). For a standard look for the character,
     #we convert all the black pixels to a random value between 0-50
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    black_low = np.array([0, 0, 0])
-    black_high = np.array([50, 50, 50])
-    mask = cv2.inRange(hsv, black_low, black_high)
-    color_shade=random.randint(0,50)
-    img[mask > 0] = (color_shade,color_shade,color_shade)
+    hsv             = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    black_low       = np.array([0, 0, 0]) # anything from 0 to 50 is "black"
+    black_high      = np.array([50, 50, 50])
+    mask            = cv2.inRange(hsv, black_low, black_high)
+    color_shade     = random.randint(0,50)
+    img[mask > 0]   = (color_shade,color_shade,color_shade)
 
     #Adding a white padding of 3 pixels to the left and right of the image
     border = cv2.copyMakeBorder(
@@ -493,8 +496,14 @@ def generate_image(words,_base_path):
         value=[255,255,255]
     )
 
+    white_lo        = 200
+    white_hi        = 255
+
+    mask            = cv2.inRange( border, white_lo, white_hi )
+    border[mask > 0]= 255
 
     path = _base_path + 'result.jpg'
+
     cv2.imwrite(path, border)
 
     return border
@@ -536,16 +545,16 @@ def upload(request):
 
         return render( request, 'result.html', {'image':new_url} )
 
-def h1(request):
+def h1( request ):
     inp_text    = request.session["txt"]
     # Get the current time and convert it to an ID
     cur_time    = to_id( time.time_ns() )
     # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + '.jpg'
+    dir_path    = "media/DisplayedHandwritings/res_imgs/res_{}".format( cur_time )
+    res_path    = dir_path + ".jpg"
     img         = handwrite( inp_text,'media/DisplayedHandwritings/set_1/' , res_path )
     new_url     = res_path
-    
+
     return render( request, 'result.html', {'image':new_url} )
 
 def h2(request):
@@ -554,10 +563,10 @@ def h2(request):
     cur_time    = to_id( time.time_ns() )
     # Relative paths to the scan folder, submission, processed submission and result
     dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_2/' , res_path )
+    res_path    = dir_path + ".jpg"
+    img         = handwrite( inp_text, 'media/DisplayedHandwritings/set_2/' , res_path )
     new_url     = res_path
-    
+
     return render( request, 'result.html', {'image':new_url} )
 
 def h3(request):
@@ -569,7 +578,7 @@ def h3(request):
     res_path    = dir_path + '.jpg'
     img         = handwrite( inp_text,'media/DisplayedHandwritings/set_3/' , res_path )
     new_url     = res_path
-    
+
     return render( request, 'result.html', {'image':new_url} )
 
 def h4(request):
@@ -581,7 +590,7 @@ def h4(request):
     res_path    = dir_path + '.jpg'
     img         = handwrite( inp_text,'media/DisplayedHandwritings/set_4/' , res_path )
     new_url     = res_path
-    
+
     return render( request, 'result.html', {'image':new_url} )
 
 def h5(request):
@@ -593,7 +602,7 @@ def h5(request):
     res_path    = dir_path + '.jpg'
     img         = handwrite( inp_text,'media/DisplayedHandwritings/set_5/' , res_path )
     new_url     = res_path
-    
+
     return render( request, 'result.html', {'image':new_url} )
 
 def h6(request):
@@ -605,6 +614,6 @@ def h6(request):
     res_path    = dir_path + '.jpg'
     img         = handwrite( inp_text,'media/DisplayedHandwritings/set_6/' , res_path )
     new_url     = res_path
-    
+
     return render( request, 'result.html', {'image':new_url} )
 
