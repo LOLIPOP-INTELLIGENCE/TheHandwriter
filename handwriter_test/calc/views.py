@@ -139,6 +139,7 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
         cv2.imwrite(_saved_path, img)
 
     return img
+
 # Function to generate a handwritten image for a given word
 def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_concat, _add_blank, _base_path ):
 
@@ -281,12 +282,10 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
 # Function to generate blanks
 def generate_blank( _img_prev, _num_spaces ):
 
-    img_width       = 64 * _num_spaces
-    img_height      = 114
+    img_width   = 40 * _num_spaces
+    img_height  = 114
 
-    # img_width       += random.randint( 8 )
-
-    res             = np.ones( [img_height, img_width] ) * 255
+    res         = np.ones( [img_height, img_width] ) * 255
 
     # print('\t\t\t', _img_prev)
     if _img_prev is not None:
@@ -519,72 +518,13 @@ def upload(request):
 
         return render( request, 'result.html', {'image':new_url} )
 
-def h1( request ):
+def hx( request, _x ):
 
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/res_{}".format( to_id( time.time_ns() ) )
-    res_path    = dir_path + ".jpg"
-    handwrite( request.session["txt"],'media/DisplayedHandwritings/set_1/' , res_path )
+    # Get input text and paths to resultant image, input set
+    inp_txt     = request.session["txt"]
+    set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
+    res_path    = "media/DisplayedHandwritings/res_imgs/res_{}.jpg".format( to_id( time.time_ns() ) )
 
-    return render( request, 'result.html', {'image':res_path} )
+    handwrite( inp_txt, set_path , res_path )
 
-def h2(request):
-    inp_text    = request.session["txt"]
-    # Get the current time and convert it to an ID
-    cur_time    = to_id( time.time_ns() )
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + ".jpg"
-    img         = handwrite( inp_text, 'media/DisplayedHandwritings/set_2/' , res_path )
-    new_url     = res_path
-
-    return render( request, 'result.html', {'image':new_url} )
-
-def h3(request):
-    inp_text    = request.session["txt"]
-    # Get the current time and convert it to an ID
-    cur_time    = to_id( time.time_ns() )
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_3/' , res_path )
-    new_url     = res_path
-
-    return render( request, 'result.html', {'image':new_url} )
-
-def h4(request):
-    inp_text    = request.session["txt"]
-    # Get the current time and convert it to an ID
-    cur_time    = to_id( time.time_ns() )
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_4/' , res_path )
-    new_url     = res_path
-
-    return render( request, 'result.html', {'image':new_url} )
-
-def h5(request):
-    inp_text    = request.session["txt"]
-    # Get the current time and convert it to an ID
-    cur_time    = to_id( time.time_ns() )
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_5/' , res_path )
-    new_url     = res_path
-
-    return render( request, 'result.html', {'image':new_url} )
-
-def h6(request):
-    inp_text    = request.session["txt"]
-    # Get the current time and convert it to an ID
-    cur_time    = to_id( time.time_ns() )
-    # Relative paths to the scan folder, submission, processed submission and result
-    dir_path    = "media/DisplayedHandwritings/res_imgs/scan_{}".format( cur_time )
-    res_path    = dir_path + '.jpg'
-    img         = handwrite( inp_text,'media/DisplayedHandwritings/set_6/' , res_path )
-    new_url     = res_path
-
-    return render( request, 'result.html', {'image':new_url} )
-
+    return render( request, 'result.html', {'image': res_path} )
