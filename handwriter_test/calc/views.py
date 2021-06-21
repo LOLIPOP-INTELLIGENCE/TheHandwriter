@@ -8,9 +8,6 @@ import cv2, pygame
 import math, random
 from PIL import Image
 
-own_handwriting = lambda request : render( request, "io.html" )
-home            = lambda request : render( request, "home.html" )
-
 # Utility function to shorten a large number into a unique ID
 def to_id( _num, _base = 64 ):
 
