@@ -105,9 +105,15 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
 
     words_final = []
     lines       = _input_string.strip().split( '\r\n' )
+
     for line in lines:
         words_in_line   = line.split( ' ' )
-        words_final     += words_in_line + ['\n']
+
+        for word in words_in_line:
+            if len( word ) > 0:
+                words_final.append( word )
+
+        words_final.append( '\n' )
 
     img         = generate_image( words_final, _base_path )
 
@@ -376,7 +382,7 @@ def generate_image( _words, _base_path ):
                     if max_line_char !=60 :
 
                         # We generate as many blank spaces as are left on that line, ie k
-                        line_output = generate_blank(line_output, k)
+                        line_output = generate_blank(line_output, max_line_char)
 
                         #Debug Variable
                         MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
