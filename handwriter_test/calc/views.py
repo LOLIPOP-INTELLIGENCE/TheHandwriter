@@ -158,7 +158,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
     path = _base_path + fil_name
 
     #Read image
-    img = cv2.cvtColor( cv2.imread( path ), cv2.BGR2GRAY )
+    img = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
     # Convert all "greys" to black
     black_low       = np.array( 0 )
@@ -194,7 +194,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1' ) + '_x' )
 
         path            = _base_path + fil_name
-        img2            = cv2.cvtColor( cv2.imread( path ), cv2.BGR2GRAY )
+        img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
         black_low = np.array( 0 )
         black_high = np.array( 50 )
