@@ -215,7 +215,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         im_pil = Image.fromarray( border )
         im_np = np.asarray( im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' ) )
         img2 = cv2.resize( im_np, (40, 114) )
-        img = np.concatenate( (img, img2), axis = 1 ) if img else img2
+        img = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
 
     if (_prev_exists):
         final_img = np.concatenate((_img_prev, img), axis=1)
