@@ -110,7 +110,7 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
         words_in_line   = line.split( ' ' )
 
         for word in words_in_line:
-            if len( word ) > 0:
+            if len( word ):
                 words_final.append( word )
 
         words_final.append( '\n' )
@@ -124,15 +124,9 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
 # Function to generate a handwritten image for a given word
 def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_concat, _add_blank, _base_path ):
 
-    #Random Set of Letters
-    set = random.randint(2,3)
-    #Random Error Character
-    value_err = random.randint(1,11)
-
     #Retrieving path of revelant character
-    characters     = list(_curr_word)
-    character_first    = str( characters[0] )
-    str_set         = str( set )
+    characters          = list(_curr_word )
+    character_first     = str( characters[0] )
 
     special_dct     =   {'?':'question',
                         '!':'exclamation',
@@ -152,7 +146,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
                         '\n':'blank2',
                         '~':'error'}
 
-    fil_name        = '{}.jpg'
+    fil_name            = '{}.jpg'
 
     if character_first.islower():      fil_name = fil_name.format( character_first + '_s' )
     elif character_first.isupper():    fil_name = fil_name.format( character_first.lower() + '_b' )
@@ -163,25 +157,16 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
     #path holds the path to the first character in a word. If the word is Hello, 'path' is the path to 'H'
     path = _base_path + fil_name
 
-    #creating the first image
-
-    #To create more difference between characters, we add a rotation of the image by -10º to 10º
-    degree=random.randint(-10,0)
-
     #Read image
-    img = cv2.imread(path)
+    img = cv2.cvtColor( cv2.imread( path ), cv2.BGR2GRAY )
 
-    #The below code converts all the black pixel values of that character to a standard value
-    #For example consider an image has a black pixel of (0,0,0) and a black pixel of (30,30,30). For a standard look for the character,
-    #we convert all the black pixels to a random value between 0-50
-    hsv             = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    black_low       = np.array([0, 0, 0]) # anything from 0 to 50 is "black"
-    black_high      = np.array([50, 50, 50])
-    mask            = cv2.inRange(hsv, black_low, black_high)
-    color_shade     = random.randint(0,50)
-    img[mask > 0]   = (color_shade,color_shade,color_shade)
+    # Convert all "greys" to black
+    black_low       = np.array( 0 )
+    black_high      = np.array( 50 )
+    mask            = cv2.inRange( img, black_low, black_high )
+    img[mask > 0]   = random.randint( 0, 50 )
 
-    #Adding a white padding of 3 pixels to the left and right of the image
+    # Adding a white padding of 3 pixels to the left and right of the image
     border = cv2.copyMakeBorder(
         img,
         top = 0, bottom = 0, left = 3, right = 3,
@@ -189,24 +174,17 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         value = (255, 255, 255)
     )
 
-    #Adding the rotation
-    im_pil = Image.fromarray(border)
-    im_np = im_pil.rotate(degree,fillcolor='white')
+    # Adding the rotation
+    im_pil = Image.fromarray( border )
+    im_np = im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' )
 
-    #Resizing the image and converting to numpy array so that we can concatenate images later on
-    im_np = np.asarray(im_np)
-    img = cv2.resize(im_np, (40, 114))
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img_np = np.array(img)
-    final_img = img_np
+    # Resizing the image and converting to numpy array so that we can concatenate images later on
+    im_np = np.asarray( im_np )
+    img = cv2.resize( im_np, (40, 114) )
+
     #doing the above for n-1 characters
-    for i in range(1, len(characters)):
-        value_err = random.randint(1, 11)
-        value = random.randint(2, 3)
-
-        degree          = random.randint(-10,0)
+    for i in range( 1, len( characters ) ):
         characters_i    = str( characters[i] )
-        str_val         = str( value )
 
         fil_name        = '{}.jpg'
 
@@ -216,17 +194,13 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1' ) + '_x' )
 
         path            = _base_path + fil_name
+        img2            = cv2.cvtColor( cv2.imread( path ), cv2.BGR2GRAY )
 
-        img2 = cv2.imread(path)
-        try:
-            hsv = cv2.cvtColor(img2, cv2.COLOR_BGR2HSV)
-        except:
-            print(path)
-        black_low = np.array([0, 0, 0])
-        black_high = np.array([50, 50, 50])
-        mask = cv2.inRange(hsv, black_low, black_high)
-        color_shade = random.randint(0, 100)
-        img2[mask > 0] = (color_shade, color_shade, color_shade)
+        black_low = np.array( 0 )
+        black_high = np.array( 50 )
+        mask = cv2.inRange( img2, black_low, black_high )
+        img2[mask > 0] = random.randint( 0, 50 )
+
         border = cv2.copyMakeBorder(
             img2,
             top=0,
@@ -236,14 +210,11 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
             borderType=cv2.BORDER_CONSTANT,
             value=[255, 255, 255]
         )
-        im_pil = Image.fromarray(border)
-        im_np = im_pil.rotate(degree,fillcolor='white')
-        im_np = np.asarray(im_np)
-        img2 = cv2.resize(im_np, (40, 114))
-        img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-        img_np2 = np.array(img2)
-        final_img = np.concatenate((img_np, img_np2), axis=1)
-        img_np = final_img
+
+        im_pil = Image.fromarray( border )
+        im_np = np.asarray( im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' ) )
+        img2 = cv2.resize( im_np, (40, 114) )
+        img = np.concatenate((img, img2), axis=1)
 
 
     # This is there to add the image of previous words from _img_prev
@@ -254,7 +225,7 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
     # Similarly, after generating "my", k will be true and the image for "Hello there"(stored in _img_prev)
     # will be concatenated with final_img
     if (_prev_exists):
-        final_img = np.concatenate((_img_prev, final_img), axis=1)
+        final_img = np.concatenate((_img_prev, img), axis=1)
     if(_add_blank and _space_concat):
         final_img = generate_blank(final_img, _num_spaces)
 
