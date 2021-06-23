@@ -247,7 +247,7 @@ def generate_image( _words, _base_path ):
         sentences.append( line_output )
 
     for sentence in sentences:
-        np.size( sentence )
+        print( np.size( sentence ) )
 
     # Concatenatig all sentences to produce the final image
     final_output = sentences[0]
