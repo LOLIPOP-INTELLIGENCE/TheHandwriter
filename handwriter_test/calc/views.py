@@ -398,7 +398,7 @@ def generate_image( _words, _base_path ):
 
                         # We generate 60 blanks, which is = k.
                         # Note the only difference here is that k__k is false since we don't have a previous image
-                        line_output = generate_blank(line_output, max_line_char, False,_base_path)
+                        line_output = generate_blank( None, max_line_char )
 
                         #Debug var
                         MY_OUTPUT = MY_OUTPUT.ljust(max_line_char + len(MY_OUTPUT), ' ')
