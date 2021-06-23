@@ -103,28 +103,11 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 # Function to handwrite a given input string
 def handwrite( _input_string, _base_path, _saved_path = None ):
 
-    # Splitting the input file by words - "word"
-    words       = _input_string.strip().split(' ')
     words_final = []
-
-    for word in words:
-
-        # If current word is empty/error then dont even consider
-        if len( word ) <= 0: continue
-
-        # If current word ends with crlf, then split and append
-        if word.endswith('\r\n'):
-
-            # Dont append empty string if only crlf
-            word = word[:-2]
-            if len( word ) > 0:
-                words_final.append( word )
-
-            words_final.append( '\n' )
-
-        # Append whole word if normal
-        else:
-            words_final.append( word )
+    lines       = _input_string.strip().split( '\r\n' )
+    for line in lines:
+        words_in_line   = line.split( ' ' )
+        words_final     += words_in_line + ['\n']
 
     img         = generate_image( words_final, _base_path )
 
