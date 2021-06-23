@@ -385,7 +385,7 @@ def generate_image( _words, _base_path ):
                         line_output = generate_blank(line_output, max_line_char)
 
                         #Debug Variable
-                        MY_OUTPUT = MY_OUTPUT.ljust(k + len(MY_OUTPUT), ' ')
+                        MY_OUTPUT = MY_OUTPUT.ljust(max_line_char + len(MY_OUTPUT), ' ')
 
                         # END OF LINE
                         max_line_char = -1
