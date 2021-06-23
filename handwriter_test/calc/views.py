@@ -187,7 +187,7 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
 # Function to generate blanks
 def generate_blank( _img_prev, _num_spaces ):
 
-    img_dim     = ( 114, 40 * _num_spaces)
+    img_dim     = ( 114, 40 * _num_spaces )
     res         = np.ones( img_dim ) * 255
 
     if _img_prev is not None:
@@ -247,7 +247,7 @@ def generate_image( _words, _base_path ):
         sentences.append( line_output )
 
     for sentence in sentences:
-        print( np.size( sentence ) )
+        print( np.size( sentence, 0 ), np.size( sentence, 1 ) )
 
     # Concatenatig all sentences to produce the final image
     final_output = sentences[0]
