@@ -103,38 +103,33 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 # Function to handwrite a given input string
 def handwrite( _input_string, _base_path, _saved_path = None ):
 
-    # print(input_string)
-    contents=_input_string.strip()
-
     # Splitting the input file by words - "word"
-    words=contents.split(' ')
-    num_words=len(words)
+    words       = _input_string.strip().split(' ')
+    words_final = []
 
-    # Consider this input - ['mediators', 'are', '/n/n/n/n', 'seeking', 'to', 'cement']
-    # The below while loop along with the try except is trying to convert "/n/n/n/n" to ['mediators', 'are', '\n', '\n', '\n', '\n', 'seeking', 'to', 'cement']
-    # Reason to do this is because later in the program if the program finds a '\n' as a word, it will fill the current line with empty spaces
-    for i in range(num_words):
-        if(words[i].startswith('\n') or words[i].startswith('/n')):
-            if(words[i].startswith('\n')):
-                word_t=(words[i][1:])
-            else:
-                word_t=(words[i][2:])
-            words.insert(i,'\n')
-            words[i+1]=word_t
-            num_words=num_words+1
+    for word in words:
 
-    try:
-        while True:
-            words.remove('')
-    except ValueError:
-        pass
+        # If current word is empty/error then dont even consider
+        if len( word ) <= 0: continue
 
-    # return generate_image(words, _base_path)
-    img = generate_image(words, _base_path)
+        # If current word ends with crlf, then split and append
+        if word.endswith('\r\n'):
+
+            # Dont append empty string if only crlf
+            word = word[:-2]
+            if len( word ) > 0:
+                words_final.append( word )
+
+            words_final.append( '\n' )
+
+        # Append whole word if normal
+        else:
+            words_final.append( word )
+
+    img         = generate_image( words_final, _base_path )
 
     if _saved_path:
-        cv2.imwrite(_saved_path, img)
-
+        cv2.imwrite( _saved_path, img )
     return img
 
 # Function to generate a handwritten image for a given word
