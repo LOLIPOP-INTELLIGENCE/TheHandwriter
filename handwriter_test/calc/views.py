@@ -161,9 +161,7 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
         path            = _base_path + fil_name
         img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
-        black_low       = np.array( 0 )
-        black_high      = np.array( _black_thresh )
-        mask            = cv2.inRange( img2, black_low, black_high )
+        mask            = cv2.inRange( img2, 0, _black_thresh )
         img2[mask > 0]  = random.randint( 0, _black_thresh )
 
         border          = cv2.copyMakeBorder(
@@ -247,6 +245,9 @@ def generate_image( _words, _base_path ):
 
         # Sentences hols all the sentences. line_output is the output for that line
         sentences.append( line_output )
+
+    for sentence in sentences:
+        np.size( sentence )
 
     # Concatenatig all sentences to produce the final image
     final_output = sentences[0]
