@@ -122,10 +122,10 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
     return img
 
 # Function to generate a handwritten image for a given word
-def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_concat, _add_blank, _base_path ):
+def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-5, 7), _black_thresh = 50, _hor_pad = 3, _ver_pad = 0 ):
 
     #Retrieving path of revelant character
-    characters          = list(_curr_word )
+    characters  = list(_curr_word )
     # character_first     = str( characters[0] )
 
     special_dct     =   {'?':'question',
@@ -146,44 +146,8 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
                         '\n':'blank2',
                         '~':'error'}
 
-    # fil_name            = '{}.jpg'
+    img         = None
 
-    # if character_first.islower():      fil_name = fil_name.format( character_first + '_s' )
-    # elif character_first.isupper():    fil_name = fil_name.format( character_first.lower() + '_b' )
-    # elif character_first.isdigit():    fil_name = fil_name.format( character_first + '_d' )
-    # else:                           fil_name = fil_name.format( special_dct.get( character_first, 'blank1' ) + '_x' )
-
-
-    # #path holds the path to the first character in a word. If the word is Hello, 'path' is the path to 'H'
-    # path = _base_path + fil_name
-
-    # #Read image
-    # img = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
-
-    # # Convert all "greys" to black
-    # black_low       = np.array( 0 )
-    # black_high      = np.array( 50 )
-    # mask            = cv2.inRange( img, black_low, black_high )
-    # img[mask > 0]   = random.randint( 0, 50 )
-
-    # # Adding a white padding of 3 pixels to the left and right of the image
-    # border = cv2.copyMakeBorder(
-    #     img,
-    #     top = 0, bottom = 0, left = 3, right = 3,
-    #     borderType = cv2.BORDER_CONSTANT,
-    #     value = (255, 255, 255)
-    # )
-
-    # # Adding the rotation
-    # im_pil = Image.fromarray( border )
-    # im_np = im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' )
-
-    # # Resizing the image and converting to numpy array so that we can concatenate images later on
-    # im_np = np.asarray( im_np )
-    # img = cv2.resize( im_np, (40, 114) )
-    img = None
-
-    #doing the above for n-1 characters
     for i in range( len( characters ) ):
 
         characters_i    = str( characters[i] )
@@ -197,30 +161,28 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         path            = _base_path + fil_name
         img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
-        black_low = np.array( 0 )
-        black_high = np.array( 50 )
-        mask = cv2.inRange( img2, black_low, black_high )
-        img2[mask > 0] = random.randint( 0, 50 )
+        black_low       = np.array( 0 )
+        black_high      = np.array( _black_thresh )
+        mask            = cv2.inRange( img2, black_low, black_high )
+        img2[mask > 0]  = random.randint( 0, _black_thresh )
 
-        border = cv2.copyMakeBorder(
+        border          = cv2.copyMakeBorder(
             img2,
-            top=0,
-            bottom=0,
-            left=3,
-            right=3,
-            borderType=cv2.BORDER_CONSTANT,
-            value=[255, 255, 255]
+            top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
+            borderType = cv2.BORDER_CONSTANT,
+            value = (255,) * 3
         )
 
-        im_pil = Image.fromarray( border )
-        im_np = np.asarray( im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' ) )
-        img2 = cv2.resize( im_np, (40, 114) )
-        img = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
+        im_pil          = Image.fromarray( border )
+        im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+        img2            = cv2.resize( im_np, (40, 114) )
+        img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
 
-    if (_prev_exists):
-        final_img = np.concatenate((_img_prev, img), axis=1)
-    if(_add_blank and _space_concat):
-        final_img = generate_blank(final_img, _num_spaces)
+    if _img_prev is not None:
+        final_img = np.concatenate( (_img_prev, img), axis = 1 )
+
+    if _num_spaces:
+        final_img = generate_blank( final_img, _num_spaces )
 
     return final_img
 
@@ -273,7 +235,7 @@ def generate_image( _words, _base_path ):
                         # N__k is X(the number of spaces to add)
                         # k__k is false because we are not concatenating the previous image
 
-                        spaces_to_add   = random.randint( 1, 2 )
+                        spaces_to_add   = 1
 
                         line_output     = generate_blank( None , spaces_to_add )
 
@@ -287,7 +249,7 @@ def generate_image( _words, _base_path ):
                         # K__K is true because when we call generate_blank() function inside the generate_word() function, we
                         # would have generated the word and hence we want the generate_blank() function to also concatenate the word
                         # add_blank is also true since we want 3 blank spaces
-                        line_output     = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, _num_spaces=1, _space_concat=True, _add_blank=True, _base_path=_base_path)
+                        line_output     = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _num_spaces=1, _base_path=_base_path)
 
                         # Debug
                         MY_OUTPUT       += _words[word_num] + ' '
@@ -313,7 +275,7 @@ def generate_image( _words, _base_path ):
 
                             # Now we generate the word
                             # The parameters mean the same as they did above when k was == 60
-                            line_output = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, _num_spaces=right_pad, _space_concat=True, _add_blank=True, _base_path=_base_path)
+                            line_output = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _num_spaces=right_pad, _base_path=_base_path)
 
                             # Debug variable
                             MY_OUTPUT=MY_OUTPUT+_words[word_num]
