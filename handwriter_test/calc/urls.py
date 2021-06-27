@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.shortcuts import render
 
 urlpatterns = [
-    path('', lambda req : render( req, "home.html" ), name='home'),
+    path('', lambda req : render( req, "hm.html" ), name='hm'),
     path('add', views.add, name='add'),
     path('own_handwriting', lambda req : render( req, "io.html" ), name='own_handwriting'),
     path('upload', views.upload, name='upload'),
