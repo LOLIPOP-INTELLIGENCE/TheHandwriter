@@ -123,6 +123,14 @@ body {
     justify-content: center;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
 .row {
     display: flex;
     justify-content: flex-start;
@@ -135,14 +143,6 @@ body {
     min-height: 75px;
     flex-grow: 1;
     flex-basis: 100%;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
 }
 
 #ien7 {
@@ -428,6 +428,22 @@ body {
     font-family: Tahoma, Geneva, sans-serif;
     color: #233596;
     font-size: 17px;
+}
+
+#iamkvf {
+    width: 96px;
+}
+
+#ic8ryf {
+    color: black;
+    width: 60px;
+    height: 57px;
+}
+
+#incjn5 {
+    color: black;
+    width: 58px;
+    height: 55px;
 }
 
 @media (max-width: 768px) {
