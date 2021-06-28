@@ -204,7 +204,8 @@ def generate_image( _words, _base_path ):
         # Repeat max_line_char times
         while max_line_char > 0:
 
-            print('\t\t', max_line_char, _words[word_num], len(_words[word_num]))
+            curr_word = _words[word_num]
+            curr_len = len( curr_word )
 
             # LF character
             if _words[word_num] == '\n':
@@ -217,15 +218,22 @@ def generate_image( _words, _base_path ):
             # Regular word
             else:
 
-                if max_line_char >= len( _words[word_num] ):
+                if curr_len >= 60:
+                    curr_word, next_word = curr_word[0:59], curr_word[59:]
+                    curr_len = len( curr_word )
+
+                    _words.insert( word_num + 1, next_word )
+                    max_words += 1
+
+                if max_line_char >= curr_len:
 
                     # Number of characters we need to add to the right in case this is the final word
-                    right_pad = int((max_line_char - len( _words[word_num] )) != 0)
+                    right_pad = int((max_line_char - curr_len) != 0)
                     # right_pad = min( 1, max_line_char - len( _words[word_num] ) )
-                    line_output = generate_word( line_output, _words[word_num], right_pad, _base_path )
+                    line_output = generate_word( line_output, curr_word, right_pad, _base_path )
 
                     # Subtracting the length of the word and the number of spaces added(t) from k\
-                    max_line_char -= ( len( _words[word_num] ) + right_pad )
+                    max_line_char -= curr_len + right_pad
                     word_num += 1
 
                     if word_num > max_words:
@@ -234,6 +242,7 @@ def generate_image( _words, _base_path ):
                         break
 
                 else:
+
                     line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
                     break
 
@@ -306,9 +315,8 @@ def upload(request):
         # Generate handwritten image
         img         = handwrite( inp_text, dir_path + '/' )
         upload_url  = fs.url( filename )
-        new_url     = res_path
 
-        return render( request, 'r.html', {'image':new_url} )
+        return render( request, 'r.html', {'image':res_path} )
 
 def hx( request, _x ):
 
