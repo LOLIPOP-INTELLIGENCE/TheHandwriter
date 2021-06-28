@@ -100,6 +100,9 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 
+# Lambda function to generate spaces
+generate_blank = lambda _num_spaces : np.ones( [114, 40 * _num_spaces] ) * 255
+
 # Function to handwrite a given input string
 def handwrite( _input_string, _base_path, _saved_path = None ):
 
@@ -122,10 +125,10 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
     return img
 
 # Function to generate a handwritten image for a given word
-def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_concat, _add_blank, _base_path ):
+def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-5, 7), _black_thresh = 50, _hor_pad = 3, _ver_pad = 0 ):
 
     #Retrieving path of revelant character
-    characters          = list(_curr_word )
+    characters  = list(_curr_word )
     # character_first     = str( characters[0] )
 
     special_dct     =   {'?':'question',
@@ -146,44 +149,8 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
                         '\n':'blank2',
                         '~':'error'}
 
-    # fil_name            = '{}.jpg'
+    img         = None
 
-    # if character_first.islower():      fil_name = fil_name.format( character_first + '_s' )
-    # elif character_first.isupper():    fil_name = fil_name.format( character_first.lower() + '_b' )
-    # elif character_first.isdigit():    fil_name = fil_name.format( character_first + '_d' )
-    # else:                           fil_name = fil_name.format( special_dct.get( character_first, 'blank1' ) + '_x' )
-
-
-    # #path holds the path to the first character in a word. If the word is Hello, 'path' is the path to 'H'
-    # path = _base_path + fil_name
-
-    # #Read image
-    # img = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
-
-    # # Convert all "greys" to black
-    # black_low       = np.array( 0 )
-    # black_high      = np.array( 50 )
-    # mask            = cv2.inRange( img, black_low, black_high )
-    # img[mask > 0]   = random.randint( 0, 50 )
-
-    # # Adding a white padding of 3 pixels to the left and right of the image
-    # border = cv2.copyMakeBorder(
-    #     img,
-    #     top = 0, bottom = 0, left = 3, right = 3,
-    #     borderType = cv2.BORDER_CONSTANT,
-    #     value = (255, 255, 255)
-    # )
-
-    # # Adding the rotation
-    # im_pil = Image.fromarray( border )
-    # im_np = im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' )
-
-    # # Resizing the image and converting to numpy array so that we can concatenate images later on
-    # im_np = np.asarray( im_np )
-    # img = cv2.resize( im_np, (40, 114) )
-    img = None
-
-    #doing the above for n-1 characters
     for i in range( len( characters ) ):
 
         characters_i    = str( characters[i] )
@@ -197,211 +164,91 @@ def generate_word( _img_prev, _curr_word, _prev_exists, _num_spaces, _space_conc
         path            = _base_path + fil_name
         img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
-        black_low = np.array( 0 )
-        black_high = np.array( 50 )
-        mask = cv2.inRange( img2, black_low, black_high )
-        img2[mask > 0] = random.randint( 0, 50 )
+        mask            = cv2.inRange( img2, 0, _black_thresh )
+        img2[mask > 0]  = random.randint( 0, _black_thresh )
 
-        border = cv2.copyMakeBorder(
+        border          = cv2.copyMakeBorder(
             img2,
-            top=0,
-            bottom=0,
-            left=3,
-            right=3,
-            borderType=cv2.BORDER_CONSTANT,
-            value=[255, 255, 255]
+            top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
+            borderType = cv2.BORDER_CONSTANT,
+            value = (255,) * 3
         )
 
-        im_pil = Image.fromarray( border )
-        im_np = np.asarray( im_pil.rotate( random.randint( -5, 7 ), fillcolor = 'white' ) )
-        img2 = cv2.resize( im_np, (40, 114) )
-        img = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
+        im_pil          = Image.fromarray( border )
+        im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+        img2            = cv2.resize( im_np, (40, 114) )
+        img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
 
-    if (_prev_exists):
-        final_img = np.concatenate((_img_prev, img), axis=1)
-    if(_add_blank and _space_concat):
-        final_img = generate_blank(final_img, _num_spaces)
+    if _img_prev is not None:
+        final_img = np.concatenate( (_img_prev, img), axis = 1 )
+
+    if _num_spaces:
+        final_img = np.concatenate( (final_img, generate_blank( _num_spaces )), axis = 1 )
 
     return final_img
 
-# Function to generate blanks
-def generate_blank( _img_prev, _num_spaces ):
-
-    img_width   = 40 * _num_spaces
-    img_height  = 114
-
-    res         = np.ones( [img_height, img_width] ) * 255
-
-    # print('\t\t\t', _img_prev)
-    if _img_prev is not None:
-        return np.concatenate( (_img_prev, res), axis = 1 )
-
-    return res
-
+# Generates the final image using the words as input
 def generate_image( _words, _base_path ):
 
-    word_num        = 0
-
-    # Line output
-    line_output     = 0
-
-    # List of sentences
+    # list of sentence images
     sentences       = []
 
-    # Debug variables
-    MY_OUTPUT       = ''
-    MY_SENTENCE_OUTPUT=[]
-
-    while word_num < len( _words ):
+    word_num        = 0
+    max_words       = len( _words )
+    while word_num < max_words:
 
         # maximum number of characters in a line
-        max_line_char   = 60
+        max_line_char   = 59
+        line_output     = generate_blank( 1 )
 
-        # Repeat max_lin_char times
+        # Repeat max_line_char times
         while max_line_char > 0:
-            try:
 
-                # Handle separate case for \n as a word. Hence checking here first
-                if _words[word_num] != '\n':
+            print('\t\t', max_line_char, _words[word_num], len(_words[word_num]))
 
-                    # If we have not started with the line, ie 60 characters still remain
-                    if max_line_char == 60 :
+            # LF character
+            if _words[word_num] == '\n':
 
-                        # To make it look random, we generate either 1 blank space or 2 before starting with the word
-                        # X-holds the number of spaces to be generated(either 1 or 2)
-                        # Here img_prev_k is 0 because we don't have a previous image to concatenate
-                        # N__k is X(the number of spaces to add)
-                        # k__k is false because we are not concatenating the previous image
+                # line_output = generate_blank( line_output, max_line_char )
+                line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
+                word_num += 1
+                break
 
-                        spaces_to_add   = random.randint( 1, 2 )
+            # Regular word
+            else:
 
-                        line_output     = generate_blank( None , spaces_to_add )
+                if max_line_char >= len( _words[word_num] ):
 
-                        # From 60 characters, we remove X characters as we have added that many spaces
-                        max_line_char   -= spaces_to_add
+                    # Number of characters we need to add to the right in case this is the final word
+                    right_pad = int((max_line_char - len( _words[word_num] )) != 0)
+                    # right_pad = min( 1, max_line_char - len( _words[word_num] ) )
+                    line_output = generate_word( line_output, _words[word_num], right_pad, _base_path )
 
-                        # Now we generate our first word
-                        # f is 0
-                        # k is true because we want to add the previous image(the initial blank space(s)) generated above
-                        # N__K is 3 because we add 3 units of blank space characters
-                        # K__K is true because when we call generate_blank() function inside the generate_word() function, we
-                        # would have generated the word and hence we want the generate_blank() function to also concatenate the word
-                        # add_blank is also true since we want 3 blank spaces
-                        line_output     = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, _num_spaces=1, _space_concat=True, _add_blank=True, _base_path=_base_path)
+                    # Subtracting the length of the word and the number of spaces added(t) from k\
+                    max_line_char -= ( len( _words[word_num] ) + right_pad )
+                    word_num += 1
 
-                        # Debug
-                        MY_OUTPUT       += _words[word_num] + ' '
+                    if word_num > max_words:
+                        if max_line_char:
+                            line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
+                        break
 
-                        # Remove the number of characters of word[f] and 3 spaces from k
-                        max_line_char   -= len( _words[word_num] ) + 1
-
-                        # Successfuly added the first word
-                        word_num        += 1
-
-                    # Now if we do not have 60 characters left in a line
-                    else:
-
-                        # Here we check if we can completely add the word in the given line
-                        # For exmaple, If our sentence is - Hello there my name is bcdgdcdgchdghghcghjs
-                        # Obviously bcdgdcdgchdghghcghjs cannot be added in the same line so the below condition checks for that
-                        if max_line_char - len( _words[word_num] ) >= 0:
-
-                            # t tells us how many blank spaces we can add after adding our current word
-                            # The standrad is 3 spaces but in the case that after adding the word, there is only 1 character left
-                            # we take the minimum of 3 and k-len(words[f)
-                            right_pad=min( 1, max_line_char - len( _words[word_num] ) )
-
-                            # Now we generate the word
-                            # The parameters mean the same as they did above when k was == 60
-                            line_output = generate_word(_img_prev=line_output, _curr_word= _words[word_num], _prev_exists=True, _num_spaces=right_pad, _space_concat=True, _add_blank=True, _base_path=_base_path)
-
-                            # Debug variable
-                            MY_OUTPUT=MY_OUTPUT+_words[word_num]
-                            MY_OUTPUT = MY_OUTPUT.ljust(right_pad + len(MY_OUTPUT), ' ')
-
-                            # Subtracting the length of the word and the number of spaces added(t) from k\
-                            max_line_char -= len( _words[word_num] ) + right_pad
-
-                            # Successfuly added the word, and increment f
-                            word_num+= 1
-
-
-                        # This is the case when the full word cannot be accomodated in the same line and so we just add blank
-                        # spaces to the rest of the line
-                        else:
-
-                            # We generate k number of blank spaces since we cannot accomodate any word on that line
-                            line_output=generate_blank(line_output, max_line_char)
-
-                            # Debug var
-                            MY_OUTPUT = MY_OUTPUT.ljust(max_line_char + len(MY_OUTPUT), ' ')
-
-                            # END OF LINE, k>0 condition will fail in the above while loop
-                            max_line_char = -1
-
-                # This is the case when we have encountered a '\n' word. We now need to add an empty line
                 else:
-
-                    # We check if '\n' is not the first word
-                    if max_line_char !=60 :
-
-                        # We generate as many blank spaces as are left on that line, ie k
-                        line_output = generate_blank(line_output, max_line_char)
-
-                        #Debug Variable
-                        MY_OUTPUT = MY_OUTPUT.ljust(max_line_char + len(MY_OUTPUT), ' ')
-
-                        # END OF LINE
-                        max_line_char = -1
-
-                        # Increment the word('\n')
-                        word_num += 1
-
-                    # This is the case when '\n' is the first word
-                    else:
-
-                        # We generate 60 blanks, which is = k.
-                        # Note the only difference here is that k__k is false since we don't have a previous image
-                        line_output = generate_blank( None, max_line_char )
-
-                        #Debug var
-                        MY_OUTPUT = MY_OUTPUT.ljust(max_line_char + len(MY_OUTPUT), ' ')
-
-                        # End of line
-                        max_line_char = -1
-
-                        # Increment the word('\n')
-                        word_num += 1
-
-            # In the case that some random error occurs, we just add that many blank spaces to the line:)
-            except IndexError:
-                line_output = generate_blank(line_output, max_line_char )
-
-                #Debug Variable
-                MY_OUTPUT = MY_OUTPUT.ljust(max_line_char + len(MY_OUTPUT), ' ')
-
-                # END OF LINE
-                max_line_char = -1
-
-        # Debug var
-        MY_OUTPUT = MY_OUTPUT + '!'
-        MY_SENTENCE_OUTPUT.append(MY_OUTPUT)
-        MY_OUTPUT = ''
+                    line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
+                    break
 
         # Sentences hols all the sentences. line_output is the output for that line
-        sentences.append(line_output)
-        line_output = 0
+        sentences.append( line_output )
 
-    # Debug printing
-    # for i in range(len(MY_SENTENCE_OUTPUT)):
-    #     print(MY_SENTENCE_OUTPUT[i])
+    for sentence in sentences:
+        print( np.size( sentence, 0 ), np.size( sentence, 1 ) )
 
     # Concatenatig all sentences to produce the final image
     final_output = sentences[0]
     # print(final_output.shape)
-    for i in range(1,len(sentences)):
+    for i in range(1, len(sentences)):
         # print(sentences[i].shape)
-        final_output = np.concatenate((final_output, sentences[i]), axis=0)
+        final_output = np.concatenate((final_output, sentences[i]), axis = 0)
 
     # Adding a border for the page
     border = cv2.copyMakeBorder(
