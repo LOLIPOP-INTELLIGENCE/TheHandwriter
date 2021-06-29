@@ -125,7 +125,7 @@ def handwrite( _input_string, _base_path, _saved_path = None ):
     return img
 
 # Function to generate a handwritten image for a given word
-def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-5, 7), _black_thresh = 50, _hor_pad = 3, _ver_pad = 0 ):
+def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 3, _ver_pad = 0 ):
 
     #Retrieving path of revelant character
     characters  = list(_curr_word )
