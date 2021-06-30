@@ -47,9 +47,10 @@ def preprocess( _path, _final_path ):
 # Function to go through image and find rects
 def detect_box( _path, _final_path, _white_lo = 225 ):
 
-    name_lst = [['a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s', 'm_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s'],
-            ['u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b', 'i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b'],
-            ['o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot_x', 'comma_x', 'question_x', 'blank_x']]
+    name_lst = [['1_d', '2_d', '3_d', '4_d', '5_d', '6_d', '7_d', '8_d', '9_d', '0_d', 'a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s'],
+                ['m_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s', 'u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'A_b', 'B_b', 'C_b', 'D_b', 'E_b', 'F_b', 'G_b', 'H_b'],
+                ['I_b', 'J_b', 'K_b', 'L_b', 'M_b', 'N_b', 'O_b', 'P_b', 'Q_b', 'R_b', 'S_b', 'T_b', 'U_b', 'V_b', 'W_b', 'X_b', 'Y_b', 'Z_b', 'dot_x', 'comma_x', 'question_x', 'exclam_x'],
+                ['openb_x', 'closeb_x', 'openc_x', 'closec_x', 'opens_x', 'closes_x', 'plus_x', 'minus_x', 'multiply_x', 'divide_x', 'frontslash_x', 'backslash_x', 'lessthan_x', 'morethan_x', 'equals_x', 'percent_x', 'at_x', 'squote_x', 'dquote_x', 'colon_x', 'scolon_x', 'and_x']]
 
     # Utility function to get cropped image
     crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
@@ -78,7 +79,7 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
     stats = stats[2:]
 
     # Containers to store the bounding rects
-    max_rows            = 20
+    max_rows            = 22
     unfilt_lst          = []
     lst                 = [[] for i in range( max_rows )]
 
@@ -99,7 +100,6 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
 
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
-
 # Lambda function to generate spaces
 generate_blank = lambda _num_spaces : np.ones( [114, 40 * _num_spaces] ) * 255
 
