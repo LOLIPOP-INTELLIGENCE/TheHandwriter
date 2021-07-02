@@ -19,6 +19,7 @@
         <div id="ic87uh">Convert Any Text Into Your Handwriting Easily
         </div>
     </header>
+    
     <section id="inkt5h" class="bdg-sect">
         <div class="row">
             <div id="ifijbm" class="cell"><video allowfullscreen="allowfullscreen" id="ixmv0u" src="img/video2.webm" controls="controls">
@@ -32,7 +33,13 @@
                     </div>
                     <div class="form-group"><textarea id="i40pgl" name="text" rows="20" class="textarea"></textarea>
                     </div>
-                    <div class="form-group"><button type="submit" id="i32dt6" class="button">Next</button></div>
+                    <div class="form-group"><button type="submit" id="i32dt6" class="button" onclick="myFunction()">Next</button>
+                        <script>
+                            function myFunction() {
+                              document.getElementById("i32dt6").innerHTML = "Saved!";
+                            }
+                        </script>
+                    </div>
                 </form>
             </div>
         </div>
