@@ -47,6 +47,11 @@ def preprocess( _path, _final_path ):
 # Function to go through image and find rects
 def detect_box( _path, _final_path, _white_lo = 225 ):
 
+    # name_lst = [['1_d{}', '2_d{}', '3_d{}', '4_d{}', '5_d{}', '6_d{}', '7_d{}', '8_d{}', '9_d{}', '0_d{}', 'a_s{}', 'b_s{}', 'c_s{}', 'd_s{}', 'e_s{}', 'f_s{}', 'g_s{}', 'h_s{}', 'i_s{}', 'j_s{}', 'k_s{}', 'l_s{}'],
+    #             ['m_s{}', 'n_s{}', 'o_s{}', 'p_s{}', 'q_s{}', 'r_s{}', 's_s{}', 't_s{}', 'u_s{}', 'v_s{}', 'w_s{}', 'x_s{}', 'y_s{}', 'z_s{}', 'a_b{}', 'b_b{}', 'c_b{}', 'd_b{}', 'e_b{}', 'f_b{}', 'g_b{}', 'h_b{}'],
+    #             ['i_b{}', 'j_b{}', 'k_b{}', 'l_b{}', 'm_b{}', 'n_b{}', 'o_b{}', 'p_b{}', 'q_b{}', 'r_b{}', 's_b{}', 't_b{}', 'u_b{}', 'v_b{}', 'w_b{}', 'x_b{}', 'y_b{}', 'z_b{}', 'dot_x{}', 'comma_x{}', 'question_x{}', 'exclam_x{}'],
+    #             ['openb_x{}', 'closeb_x{}', 'openc_x{}', 'closec_x{}', 'opens_x{}', 'closes_x{}', 'plus_x{}', 'minus_x{}', 'multiply_x{}', 'divide_x{}', 'frontslash_x{}', 'backslash_x{}', 'lessthan_x{}', 'morethan_x{}', 'equals_x{}', 'percent_x{}', 'at_x{}', 'squote_x{}', 'dquote_x{}', 'colon_x{}', 'scolon_x{}', 'and_x{}']]
+
     name_lst = [['1_d', '2_d', '3_d', '4_d', '5_d', '6_d', '7_d', '8_d', '9_d', '0_d', 'a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s'],
                 ['m_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s', 'u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b'],
                 ['i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b', 'o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot_x', 'comma_x', 'question_x', 'exclam_x'],
@@ -131,23 +136,35 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
     characters  = list(_curr_word )
     # character_first     = str( characters[0] )
 
-    special_dct     =   {'?':'question',
-                        '!':'exclamation',
-                        ',':'comma',
-                        '.':'dot',
-                        '/':'f_slash',
-                        '/':'b_slash',
-                        '(':'o_bracket',
-                        '{':'o_curly',
-                        '[':'o_square',
-                        ')':'c_bracket',
-                        '}':'c_curly',
-                        ']':'c_square',
-                        ':':'colon',
-                        ';':'semicolon',
-                        ' ':'blank2',
+    special_dct     =   {'.':'dot_x',
+                        ',':'comma_x',
+                        '?':'question_x',
+                        '!':'exclam_x',
+                        '(':'openb_x',
+                        ')':'closeb_x',
+                        '{':'openc_x',
+                        '}':'closec_x',
+                        '[':'opens_x',
+                        ']':'closes_x',
+                        '+':'plus_x',
+                        '-':'minus_x',
+                        '*':'multiply_x',
+                        'div':'divide_x',
+                        '/':'frontslash_x',
+                        '\\':'backslash_x',
+                        '<':'lessthan_x',
+                        '>':'morethan_x',
+                        '=':'equals_x',
+                        '%':'percent_x',
+                        '@':'at_x',
+                        '\'':'squote_x',
+                        '"':'dquote_x',
+                        ':':'colon_x',
+                        ';':'scolon_x',
+                        '&':'and_x',
                         '\n':'blank2',
-                        '~':'error'}
+                        '~':'error'
+                        }
 
     img         = None
 
@@ -159,7 +176,7 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
         if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
         elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
         elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
-        else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1' ) + '_x' )
+        else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1_x' ) )
 
         path            = _base_path + fil_name
         img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
