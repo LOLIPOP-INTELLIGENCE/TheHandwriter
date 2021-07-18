@@ -4,6 +4,7 @@
 <html lang="en">
 
 <head>
+    <script data-ad-client="ca-pub-2184819351438335" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{% static '\handwriter_test\static\hm.css' %}">
 </head>
@@ -710,9 +711,13 @@
                     </div>
                     <div class="form-group">
                     </div>
+                    <b>Upload scanned file:</b>
+
                     <div class="form-group"></div>
                     <div class="form-group"><input type="file" name="myfile" /><button type="submit" id="idydja" class="button">Generate Handwriting</button></div>
+                    <text>(Make sure it's in the same orientation as shown above)</text>
                 </form>
+
                 {% if uploaded_file_url %}
                 <p>File uploaded at:
                     <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a>
