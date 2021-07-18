@@ -19,14 +19,8 @@ body {
     background-size: contain, cover;
 }
 
-.form {
-    border-radius: 3px;
-    padding: 10px 15px;
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
 .button {
-    width: 100%;
+    width: 34%;
     margin: 15px 0;
     background-color: #785580;
     border: none;
@@ -72,24 +66,24 @@ body {
     font-family: Tahoma, Geneva, sans-serif;
 }
 
-#i6zg {
-    padding: 10px;
-    font-family: Tahoma, Geneva, sans-serif;
-    color: #163595;
-    text-align: center;
-    font-size: 22px;
-}
-
 #i1let {
     letter-spacing: 3px;
     font-family: Tahoma, Geneva, sans-serif;
     min-height: auto;
-    width: 1491px;
-    background-image: linear-gradient(#1e1a80, #060c58);
+    width: 100%;
+    background-image: linear-gradient(#08398d, #08398d);
     background-repeat: repeat;
     background-position: left top;
     background-attachment: scroll;
     background-size: auto;
     font-size: 20px;
     color: 255, 255, 255;
+    margin: 15px 75px 15px 0;
+    padding: 5px 10px 7px 10px;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    align-self: flex-end;
+    display: flex;
+    label-parent-flex: 46;
 }
