@@ -47,15 +47,18 @@ def preprocess( _path, _final_path ):
 # Function to go through image and find rects
 def detect_box( _path, _final_path, _white_lo = 225 ):
 
-    # name_lst = [['1_d{}', '2_d{}', '3_d{}', '4_d{}', '5_d{}', '6_d{}', '7_d{}', '8_d{}', '9_d{}', '0_d{}', 'a_s{}', 'b_s{}', 'c_s{}', 'd_s{}', 'e_s{}', 'f_s{}', 'g_s{}', 'h_s{}', 'i_s{}', 'j_s{}', 'k_s{}', 'l_s{}'],
-    #             ['m_s{}', 'n_s{}', 'o_s{}', 'p_s{}', 'q_s{}', 'r_s{}', 's_s{}', 't_s{}', 'u_s{}', 'v_s{}', 'w_s{}', 'x_s{}', 'y_s{}', 'z_s{}', 'a_b{}', 'b_b{}', 'c_b{}', 'd_b{}', 'e_b{}', 'f_b{}', 'g_b{}', 'h_b{}'],
-    #             ['i_b{}', 'j_b{}', 'k_b{}', 'l_b{}', 'm_b{}', 'n_b{}', 'o_b{}', 'p_b{}', 'q_b{}', 'r_b{}', 's_b{}', 't_b{}', 'u_b{}', 'v_b{}', 'w_b{}', 'x_b{}', 'y_b{}', 'z_b{}', 'dot_x{}', 'comma_x{}', 'question_x{}', 'exclam_x{}'],
-    #             ['openb_x{}', 'closeb_x{}', 'openc_x{}', 'closec_x{}', 'opens_x{}', 'closes_x{}', 'plus_x{}', 'minus_x{}', 'multiply_x{}', 'divide_x{}', 'frontslash_x{}', 'backslash_x{}', 'lessthan_x{}', 'morethan_x{}', 'equals_x{}', 'percent_x{}', 'at_x{}', 'squote_x{}', 'dquote_x{}', 'colon_x{}', 'scolon_x{}', 'and_x{}']]
-
-    name_lst = [['1_d', '2_d', '3_d', '4_d', '5_d', '6_d', '7_d', '8_d', '9_d', '0_d', 'a_s', 'b_s', 'c_s', 'd_s', 'e_s', 'f_s', 'g_s', 'h_s', 'i_s', 'j_s', 'k_s', 'l_s'],
-                ['m_s', 'n_s', 'o_s', 'p_s', 'q_s', 'r_s', 's_s', 't_s', 'u_s', 'v_s', 'w_s', 'x_s', 'y_s', 'z_s', 'a_b', 'b_b', 'c_b', 'd_b', 'e_b', 'f_b', 'g_b', 'h_b'],
-                ['i_b', 'j_b', 'k_b', 'l_b', 'm_b', 'n_b', 'o_b', 'p_b', 'q_b', 'r_b', 's_b', 't_b', 'u_b', 'v_b', 'w_b', 'x_b', 'y_b', 'z_b', 'dot_x', 'comma_x', 'question_x', 'exclam_x'],
-                ['openb_x', 'closeb_x', 'openc_x', 'closec_x', 'opens_x', 'closes_x', 'plus_x', 'minus_x', 'multiply_x', 'divide_x', 'frontslash_x', 'backslash_x', 'lessthan_x', 'morethan_x', 'equals_x', 'percent_x', 'at_x', 'squote_x', 'dquote_x', 'colon_x', 'scolon_x', 'and_x']]
+    name_lst = [['1_d0', '2_d0', '3_d0', '4_d0', '5_d0', '6_d0', '7_d0', '8_d0', '9_d0', '0_d0', 'a_s0', 'b_s0', 'c_s0', 'd_s0', 'e_s0', 'f_s0', 'g_s0', 'h_s0', 'i_s0', 'j_s0', 'k_s0', 'l_s0'],
+                ['m_s0', 'n_s0', 'o_s0', 'p_s0', 'q_s0', 'r_s0', 's_s0', 't_s0', 'u_s0', 'v_s0', 'w_s0', 'x_s0', 'y_s0', 'z_s0', 'a_b0', 'b_b0', 'c_b0', 'd_b0', 'e_b0', 'f_b0', 'g_b0', 'h_b0'],
+                ['i_b0', 'j_b0', 'k_b0', 'l_b0', 'm_b0', 'n_b0', 'o_b0', 'p_b0', 'q_b0', 'r_b0', 's_b0', 't_b0', 'u_b0', 'v_b0', 'w_b0', 'x_b0', 'y_b0', 'z_b0', 'dot_x0', 'comma_x0', 'question_x0', 'exclam_x0'],
+                ['openb_x0', 'closeb_x0', 'openc_x0', 'closec_x0', 'opens_x0', 'closes_x0', 'plus_x0', 'minus_x0', 'multiply_x0', 'divide_x0', 'frontslash_x0', 'backslash_x0', 'lessthan_x0', 'morethan_x0', 'equals_x0', 'percent_x0', 'at_x0', 'squote_x0', 'dquote_x0', 'colon_x0', 'scolon_x0', 'and_x0'],
+                ['1_d1', '2_d1', '3_d1', '4_d1', '5_d1', '6_d1', '7_d1', '8_d1', '9_d1', '0_d1', 'a_s1', 'b_s1', 'c_s1', 'd_s1', 'e_s1', 'f_s1', 'g_s1', 'h_s1', 'i_s1', 'j_s1', 'k_s1', 'l_s1'],
+                ['m_s1', 'n_s1', 'o_s1', 'p_s1', 'q_s1', 'r_s1', 's_s1', 't_s1', 'u_s1', 'v_s1', 'w_s1', 'x_s1', 'y_s1', 'z_s1', 'a_b1', 'b_b1', 'c_b1', 'd_b1', 'e_b1', 'f_b1', 'g_b1', 'h_b1'],
+                ['i_b1', 'j_b1', 'k_b1', 'l_b1', 'm_b1', 'n_b1', 'o_b1', 'p_b1', 'q_b1', 'r_b1', 's_b1', 't_b1', 'u_b1', 'v_b1', 'w_b1', 'x_b1', 'y_b1', 'z_b1', 'dot_x1', 'comma_x1', 'question_x1', 'exclam_x1'],
+                ['openb_x1', 'closeb_x1', 'openc_x1', 'closec_x1', 'opens_x1', 'closes_x1', 'plus_x1', 'minus_x1', 'multiply_x1', 'divide_x1', 'frontslash_x1', 'backslash_x1', 'lessthan_x1', 'morethan_x1', 'equals_x1', 'percent_x1', 'at_x1', 'squote_x1', 'dquote_x1', 'colon_x1', 'scolon_x1', 'and_x1'],
+                ['1_d2', '2_d2', '3_d2', '4_d2', '5_d2', '6_d2', '7_d2', '8_d2', '9_d2', '0_d2', 'a_s2', 'b_s2', 'c_s2', 'd_s2', 'e_s2', 'f_s2', 'g_s2', 'h_s2', 'i_s2', 'j_s2', 'k_s2', 'l_s2'],
+                ['m_s2', 'n_s2', 'o_s2', 'p_s2', 'q_s2', 'r_s2', 's_s2', 't_s2', 'u_s2', 'v_s2', 'w_s2', 'x_s2', 'y_s2', 'z_s2', 'a_b2', 'b_b2', 'c_b2', 'd_b2', 'e_b2', 'f_b2', 'g_b2', 'h_b2'],
+                ['i_b2', 'j_b2', 'k_b2', 'l_b2', 'm_b2', 'n_b2', 'o_b2', 'p_b2', 'q_b2', 'r_b2', 's_b2', 't_b2', 'u_b2', 'v_b2', 'w_b2', 'x_b2', 'y_b2', 'z_b2', 'dot_x2', 'comma_x2', 'question_x2', 'exclam_x2'],
+                ['openb_x2', 'closeb_x2', 'openc_x2', 'closec_x2', 'opens_x2', 'closes_x2', 'plus_x2', 'minus_x2', 'multiply_x2', 'divide_x2', 'frontslash_x2', 'backslash_x2', 'lessthan_x2', 'morethan_x2', 'equals_x2', 'percent_x2', 'at_x2', 'squote_x2', 'dquote_x2', 'colon_x2', 'scolon_x2', 'and_x2']]
 
     # Utility function to get cropped image
     crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
