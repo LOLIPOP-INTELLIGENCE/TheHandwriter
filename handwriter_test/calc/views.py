@@ -175,11 +175,13 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
 
         characters_i    = str( characters[i] )
 
-        fil_name        = '{}.jpg'
+        fil_name        = '{}' + str(np.random.randint(0,3)) + '.jpg'
+
         if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
         elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
         elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
         else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1_x' ) )
+
 
         path            = _base_path + fil_name
         img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
