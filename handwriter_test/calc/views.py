@@ -250,12 +250,12 @@ def generate_image( _words, _base_path ):
 
                     _words.insert( word_num + 1, next_word )
                     max_words += 1
+                    print(_words)
 
                 if max_line_char >= curr_len:
 
                     # Number of characters we need to add to the right in case this is the final word
-                    # right_pad = int((max_line_char - curr_len) > 2) * 2
-                    right_pad = min( 2, max_line_char - len( _words[word_num] ) )
+                    right_pad = min( 2, max_line_char - curr_len )
                     line_output = generate_word( line_output, curr_word, right_pad, _base_path )
 
                     # Subtracting the length of the word and the number of spaces added(t) from k\
