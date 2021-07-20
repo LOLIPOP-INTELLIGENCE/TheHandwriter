@@ -180,25 +180,29 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
         if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
         elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
         elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
-        else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1_x' ) )
+        else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank' ) )
 
+        if(fil_name[0:5] != 'blank'):
+            path            = _base_path + fil_name
+            img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
-        path            = _base_path + fil_name
-        img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
+            mask            = cv2.inRange( img2, 0, _black_thresh )
+            img2[mask > 0]  = random.randint( 0, _black_thresh )
 
-        mask            = cv2.inRange( img2, 0, _black_thresh )
-        img2[mask > 0]  = random.randint( 0, _black_thresh )
+            border          = cv2.copyMakeBorder(
+                img2,
+                top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
+                borderType = cv2.BORDER_CONSTANT,
+                value = (255,) * 3
+            )
 
-        border          = cv2.copyMakeBorder(
-            img2,
-            top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
-            borderType = cv2.BORDER_CONSTANT,
-            value = (255,) * 3
-        )
+            im_pil          = Image.fromarray( border )
+            im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+            img2            = cv2.resize( im_np, (40, 114) )
 
-        im_pil          = Image.fromarray( border )
-        im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
-        img2            = cv2.resize( im_np, (40, 114) )
+        else:
+            img2            = generate_blank(1)
+
         img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
 
     if _img_prev is not None:
