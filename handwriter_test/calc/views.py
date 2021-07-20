@@ -109,10 +109,10 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 # Lambda function to generate spaces
-generate_blank = lambda _num_spaces : np.ones( [114, 40 * _num_spaces] ) * 255
+generate_blank = lambda _num_spaces : np.ones( [100, 40 * _num_spaces] ) * 255
 
 # Function to handwrite a given input string
-def handwrite( _input_string, _base_path, _saved_path = None ):
+def handwrite( _input_string, _base_path, _saved_path = None ): 
 
     words_final = []
     lines       = _input_string.strip().split( '\r\n' )
@@ -203,6 +203,9 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
         else:
             img2            = generate_blank(1)
 
+        im_pil          = Image.fromarray( border )
+        im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+        img2            = cv2.resize( im_np, (40, 100) )
         img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
 
     if _img_prev is not None:
