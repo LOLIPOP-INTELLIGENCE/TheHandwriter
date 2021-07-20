@@ -67,6 +67,9 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
     image               = cv2.imread( _path )
     line_min_width      = 38
 
+    # Threshold pixel count for detecting empty cell
+    px_thresh           = 64
+
     # Convert to grayscale and binarize
     gray_scale          = cv2.cvtColor( image, cv2.COLOR_BGR2GRAY )
     th1, img_bin        = cv2.threshold( gray_scale, 200, 255, cv2.THRESH_BINARY )
@@ -107,12 +110,21 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
             x, y, w, h  = lst[i][j]
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
 
+            if i >= 4:
+                check_img   = crop_img( img_bin, x+3, y+3, w-6, h-6 )
+
+                total_px = (w-6) * (h-6)
+                white_px = cv2.countNonZero( check_img )
+
+                if (total_px - white_px) < px_thresh:
+                    cropped_img = cv2.imread( '{}/{}.jpg'.format( _final_path, name_lst[i - 4][j] ) )
+
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
 # Lambda function to generate spaces
 generate_blank = lambda _num_spaces : np.ones( [100, 40 * _num_spaces] ) * 255
 
 # Function to handwrite a given input string
-def handwrite( _input_string, _base_path, _saved_path = None ): 
+def handwrite( _input_string, _base_path, _saved_path = None ):
 
     words_final = []
     lines       = _input_string.strip().split( '\r\n' )
