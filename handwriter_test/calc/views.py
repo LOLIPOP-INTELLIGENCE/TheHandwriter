@@ -329,8 +329,12 @@ def upload(request):
     if request.method == "POST":
 
         # Get the file, input text and reference to filesystem object
+        if "txt" not in request.session:
+            inp_text="This is a default output\nPlease follow proper instructions\nto get your output."
+        else:
+            inp_text    = request.session["txt"]
+
         myfile      = request.FILES["myfile"]
-        inp_text    = request.session["txt"]
         fs          = FileSystemStorage()
 
         # Get the current time and convert it to an ID
@@ -359,10 +363,14 @@ def upload(request):
 def hx( request, _x ):
 
     # Get input text and paths to resultant image, input set
-    inp_txt     = request.session["txt"]
+    if "txt" not in request.session:
+        inp_text="This is a default output\nPlease follow proper instructions\nto get your output."
+    else:
+        inp_text= request.session["txt"]
+
     set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
     res_path    = "media/DisplayedHandwritings/res_imgs/res_{}.jpg".format( to_id( time.time_ns() ) )
 
-    handwrite( inp_txt, set_path , res_path )
+    handwrite( inp_text, set_path , res_path )
 
     return render( request, 'r.html', {'image': res_path} )
