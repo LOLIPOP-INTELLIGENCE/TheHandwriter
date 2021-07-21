@@ -330,7 +330,7 @@ def upload(request):
 
         # Get the file, input text and reference to filesystem object
         if "txt" not in request.session:
-            inp_text="This is a default output\nPlease follow proper instructions\nto get your output."
+            inp_text="This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
         else:
             inp_text    = request.session["txt"]
 
@@ -364,7 +364,7 @@ def hx( request, _x ):
 
     # Get input text and paths to resultant image, input set
     if "txt" not in request.session:
-        inp_text="This is a default output\nPlease follow proper instructions\nto get your output."
+        inp_text="This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
     else:
         inp_text= request.session["txt"]
 
