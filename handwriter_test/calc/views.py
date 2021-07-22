@@ -262,7 +262,7 @@ def generate_image( _words, _base_path ):
 
                     _words.insert( word_num + 1, next_word )
                     max_words += 1
-                    print(_words)
+                    # print(_words)
 
                 if max_line_char >= curr_len:
 
@@ -287,8 +287,8 @@ def generate_image( _words, _base_path ):
         # Sentences hols all the sentences. line_output is the output for that line
         sentences.append( line_output )
 
-    for sentence in sentences:
-        print( np.size( sentence, 0 ), np.size( sentence, 1 ) )
+    # for sentence in sentences:
+        # print( np.size( sentence, 0 ), np.size( sentence, 1 ) )
 
     # Concatenatig all sentences to produce the final image
     final_output = sentences[0]
