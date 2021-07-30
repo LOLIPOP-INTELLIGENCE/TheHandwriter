@@ -108,10 +108,10 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
     for i in range( len( name_lst ) ):
         for j in range( len( name_lst[i] ) ):
             x, y, w, h  = lst[i][j]
-            cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
+            cropped_img = crop_img( image, x+6, y+3, w-12, h-6 )
 
             if i >= 4:
-                check_img   = crop_img( img_bin, x+3, y+3, w-6, h-6 )
+                check_img   = crop_img( img_bin, x+6, y+3, w-12, h-6 )
 
                 total_px = (w-6) * (h-6)
                 white_px = cv2.countNonZero( check_img )
