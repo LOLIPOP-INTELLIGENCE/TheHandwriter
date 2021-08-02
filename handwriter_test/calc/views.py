@@ -330,7 +330,7 @@ def upload(request):
 
         # Get the file, input text and reference to filesystem object
         if "txt" not in request.session:
-            inp_text="This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
+            inp_text    = "This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
         else:
             inp_text    = request.session["txt"]
 
@@ -344,7 +344,7 @@ def upload(request):
         dir_path    = "media/AllHandwritings/scan_{}".format( cur_time )
         sub_path    = dir_path + "/submission.jpg"
         pro_path    = dir_path + "/processed_submission.jpg"
-        res_path    = dir_path + "/result.jpg"
+        res_path    = "static/res_{}.jpg".format( cur_time )
 
         # Create directory and save submission
         os.mkdir( dir_path )
@@ -355,8 +355,8 @@ def upload(request):
         detect_box( pro_path, dir_path )
 
         # Generate handwritten image
-        img         = handwrite( inp_text, dir_path + '/' )
-        upload_url  = fs.url( filename )
+        handwrite( inp_text, dir_path + '/' )
+        fs.url( filename )
 
         return render( request, 'r.html', {'image':res_path} )
 
@@ -364,12 +364,12 @@ def hx( request, _x ):
 
     # Get input text and paths to resultant image, input set
     if "txt" not in request.session:
-        inp_text="This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
+        inp_text    = "This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
     else:
-        inp_text= request.session["txt"]
+        inp_text    = request.session["txt"]
 
     set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
-    res_path    = "media/DisplayedHandwritings/res_imgs/res_{}.jpg".format( to_id( time.time_ns() ) )
+    res_path    = "static/res_{}.jpg".format( to_id( time.time_ns() ) )
 
     handwrite( inp_text, set_path , res_path )
 
