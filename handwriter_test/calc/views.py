@@ -355,7 +355,7 @@ def upload(request):
         detect_box( pro_path, dir_path )
 
         # Generate handwritten image
-        handwrite( inp_text, dir_path + '/' )
+        handwrite( inp_text, dir_path + '/', res_path )
         fs.url( filename )
 
         return render( request, 'r.html', {'image':res_path} )
