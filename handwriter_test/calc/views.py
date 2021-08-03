@@ -364,13 +364,13 @@ def hx( request, _x ):
 
     # Get input text and paths to resultant image, input set
     if "txt" not in request.session:
-        inp_text    = "This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
+        res_path    = "static/default.jpg"
     else:
         inp_text    = request.session["txt"]
 
-    set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
-    res_path    = "static/res_{}.jpg".format( to_id( time.time_ns() ) )
+        set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
+        res_path    = "static/res_{}.jpg".format( to_id( time.time_ns() ) )
 
-    handwrite( inp_text, set_path , res_path )
+        handwrite( inp_text, set_path , res_path )
 
     return render( request, 'r.html', {'image': res_path} )
