@@ -28,7 +28,16 @@ def to_id( _num, _base = 64 ):
 def preprocess( _path, _final_path ):
 
     # Load the image and get dinensions
-    _surf           = pygame.image.load( _path )
+    try:
+        _surf           = pygame.image.load( _path )
+    except:
+
+        # -14 is to remove submission.jpg at the end
+        os.remove( _path )
+        os.rmdir( _path[:-14] )
+
+        return None
+
     width, height   = list( _surf.get_size() ).copy()
 
     # Rotate the image if height > width (in portrait mode)
@@ -43,6 +52,9 @@ def preprocess( _path, _final_path ):
     # Resize and save image
     _surf = pygame.transform.smoothscale( _surf, (new_width, new_height) )
     pygame.image.save( _surf, _final_path )
+
+    # Delete original submission
+    os.remove( _path )
 
 # Function to go through image and find rects
 def detect_box( _path, _final_path, _white_lo = 225 ):
@@ -107,7 +119,9 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
     # Crop and save each image with the correct name
     for i in range( len( name_lst ) ):
         for j in range( len( name_lst[i] ) ):
+
             x, y, w, h  = lst[i][j]
+
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
 
             if i >= 4:
