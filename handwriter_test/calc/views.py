@@ -8,6 +8,9 @@ import cv2, pygame
 import math, random
 from PIL import Image
 
+# Maximum number of characters per line
+line_char_limit = 60
+
 # Utility function to shorten a large number into a unique ID
 def to_id( _num, _base = 64 ):
 
@@ -137,33 +140,43 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 # Lambda function to generate spaces
 generate_blank = lambda _num_spaces : np.ones( [100, 40 * _num_spaces] ) * 255
 
-# Function to handwrite a given input string
-def handwrite( _input_string, _base_path, _saved_path = None ):
+# Function to generate final words from raw input text
+def make_line_list( _inp ):
 
-    words_final = []
-    lines       = _input_string.strip().split( '\r\n' )
+    lines = []
+    raw_lines = _inp.strip().split( '\r\n' )
 
-    for line in lines:
-        words_in_line   = line.split( ' ' )
+    for line in raw_lines:
 
-        for word in words_in_line:
-            if len( word ):
-                words_final.append( word )
+        curr_len = len( line )
 
-        words_final.append( '\n' )
+        if curr_len <= line_char_limit:
+            diff = line_char_limit - curr_len
+            lines.append( line + (' ' * diff) )
 
-    img         = generate_image( words_final, _base_path )
+        elif curr_len > line_char_limit:
 
-    if _saved_path:
-        cv2.imwrite( _saved_path, img )
-    return img
+            #! todo
+            last_space = line[:line_char_limit].rfind( ' ' )
 
-# Function to generate a handwritten image for a given word
-def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
+            if last_space != -1:
+                res = line[:last_space+1]
+                rem = line[last_space+1:]
 
-    #Retrieving path of revelant character
-    characters  = list(_curr_word )
-    # character_first     = str( characters[0] )
+                diff = line_char_limit - (last_space + 1)
+                res += ' ' * diff
+
+            else:
+                res = line[:line_char_limit]
+                rem = line[line_char_limit:]
+
+            lines.append( res )
+            lines += make_line_list( rem )
+
+    return lines
+
+# Generates the final image using the words as input
+def generate_image( _words, _base_path ):
 
     special_dct     =   {'.':'dot_x',
                         ',':'comma_x',
@@ -195,52 +208,58 @@ def generate_word( _img_prev, _curr_word, _num_spaces, _base_path, _rot_rng = (-
                         '~':'error'
                         }
 
-    img         = None
+    #! Preload images by using buffer (cache)
 
-    for i in range( len( characters ) ):
+    # Function to generate a handwritten image for a given word
+    def generate_word( _img_prev, _curr_word, _num_spaces, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
 
-        characters_i    = str( characters[i] )
+        #Retrieving path of revelant character
+        characters  = list(_curr_word )
+        # character_first     = str( characters[0] )
 
-        fil_name        = '{}' + str(np.random.randint(0,3)) + '.jpg'
+        img         = None
 
-        if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
-        elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
-        elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
-        else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1_x' ) )
+        for i in range( len( characters ) ):
+
+            characters_i    = str( characters[i] )
+
+            fil_name        = '{}' + str(np.random.randint(0,3)) + '.jpg'
+
+            if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
+            elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
+            elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
+            else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1_x' ) )
 
 
-        path            = _base_path + fil_name
+            path            = _base_path + fil_name
 
-        if(os.path.isfile(path)):
-            img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
+            if(os.path.isfile(path)):
+                img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
 
-            mask            = cv2.inRange( img2, 0, _black_thresh )
-            img2[mask > 0]  = random.randint( 0, _black_thresh )
+                mask            = cv2.inRange( img2, 0, _black_thresh )
+                img2[mask > 0]  = random.randint( 0, _black_thresh )
 
-            border          = cv2.copyMakeBorder(
-                img2,
-                top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
-                borderType = cv2.BORDER_CONSTANT,
-                value = (255,) * 3
-            )
+                border          = cv2.copyMakeBorder(
+                    img2,
+                    top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
+                    borderType = cv2.BORDER_CONSTANT,
+                    value = (255,) * 3
+                )
 
-            im_pil          = Image.fromarray( border )
-            im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
-            img2            = cv2.resize( im_np, (40, 100) )
-        else:
-            img2            = generate_blank(1)
-        img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
+                im_pil          = Image.fromarray( border )
+                im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+                img2            = cv2.resize( im_np, (40, 100) )
+            else:
+                img2            = generate_blank(1)
+            img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
 
-    if _img_prev is not None:
-        final_img = np.concatenate( (_img_prev, img), axis = 1 )
+        if _img_prev is not None:
+            final_img = np.concatenate( (_img_prev, img), axis = 1 )
 
-    if _num_spaces:
-        final_img = np.concatenate( (final_img, generate_blank( _num_spaces )), axis = 1 )
+        if _num_spaces:
+            final_img = np.concatenate( (final_img, generate_blank( _num_spaces )), axis = 1 )
 
-    return final_img
-
-# Generates the final image using the words as input
-def generate_image( _words, _base_path ):
+        return final_img
 
     # list of sentence images
     sentences       = []
@@ -282,7 +301,7 @@ def generate_image( _words, _base_path ):
 
                     # Number of characters we need to add to the right in case this is the final word
                     right_pad = min( 2, max_line_char - curr_len )
-                    line_output = generate_word( line_output, curr_word, right_pad, _base_path )
+                    line_output = generate_word( line_output, curr_word, right_pad )
 
                     # Subtracting the length of the word and the number of spaces added(t) from k\
                     max_line_char -= curr_len + right_pad
@@ -328,49 +347,48 @@ def generate_image( _words, _base_path ):
     mask            = cv2.inRange( border, white_lo, white_hi )
     border[mask > 0]= 255
 
-    path = _base_path + 'result.jpg'
-
-    cv2.imwrite(path, border)
-
     return border
 
-def add(request):
+def add( request ):
     request.session["txt"] = request.GET["text"]
     return render( request, "hm.html" )
 
-def upload(request):
+def upload( request ):
 
     if request.method == "POST":
 
         # Get the file, input text and reference to filesystem object
         if "txt" not in request.session:
-            inp_text    = "This is a default output\nPlease follow the proper instructions\nfrom the homepage\nto get your desired output."
+            res_path    = "static/default.jpg"
         else:
             inp_text    = request.session["txt"]
 
-        myfile      = request.FILES["myfile"]
-        fs          = FileSystemStorage()
+            myfile      = request.FILES["myfile"]
+            fs          = FileSystemStorage()
 
-        # Get the current time and convert it to an ID
-        cur_time    = to_id( time.time_ns() )
+            # Get the current time and convert it to an ID
+            cur_time    = to_id( time.time_ns() )
 
-        # Relative paths to the scan folder, submission, processed submission and result
-        dir_path    = "media/AllHandwritings/scan_{}".format( cur_time )
-        sub_path    = dir_path + "/submission.jpg"
-        pro_path    = dir_path + "/processed_submission.jpg"
-        res_path    = "static/res_{}.jpg".format( cur_time )
+            # Relative paths to the scan folder, submission, processed submission and result
+            dir_path    = "media/AllHandwritings/scan_{}".format( cur_time )
+            sub_path    = dir_path + "/submission.jpg"
+            pro_path    = dir_path + "/processed_submission.jpg"
+            res_path    = "static/res_{}.jpg".format( cur_time )
 
-        # Create directory and save submission
-        os.mkdir( dir_path )
-        filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
+            # Create directory and save submission
+            os.mkdir( dir_path )
+            filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
 
-        # Preprocess submission and detect boxes
-        preprocess( sub_path, pro_path )
-        detect_box( pro_path, dir_path )
+            # Preprocess submission and detect boxes
+            preprocess( sub_path, pro_path )
+            detect_box( pro_path, dir_path )
 
-        # Generate handwritten image
-        handwrite( inp_text, dir_path + '/', res_path )
-        fs.url( filename )
+            # Generate handwritten image
+            final_text  = make_words_final( inp_text )
+            img         = generate_image( final_text, dir_path + '/' )
+            cv2.imwrite( res_path, img )
+
+            fs.url( filename )
 
         return render( request, 'r.html', {'image':res_path} )
 
@@ -385,6 +403,8 @@ def hx( request, _x ):
         set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
         res_path    = "static/res_{}.jpg".format( to_id( time.time_ns() ) )
 
-        handwrite( inp_text, set_path , res_path )
+        final_text  = make_words_final( inp_text )
+        img         = generate_image( final_text, set_path )
+        cv2.imwrite( res_path, img )
 
     return render( request, 'r.html', {'image': res_path} )
