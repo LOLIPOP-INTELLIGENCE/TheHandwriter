@@ -178,6 +178,9 @@ def make_line_list( _inp ):
 # Generates the final image using the words as input
 def generate_image( _words, _base_path ):
 
+
+    
+
     special_dct     =   {'.':'dot_x',
                         ',':'comma_x',
                         '?':'question_x',
@@ -349,6 +352,103 @@ def generate_image( _words, _base_path ):
 
     return border
 
+
+# Generates the final image using the words as input
+def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
+
+    special_dct     =   {'.':'dot_x',
+                        ',':'comma_x',
+                        '?':'question_x',
+                        '!':'exclam_x',
+                        '(':'openb_x',
+                        ')':'closeb_x',
+                        '{':'openc_x',
+                        '}':'closec_x',
+                        '[':'opens_x',
+                        ']':'closes_x',
+                        '+':'plus_x',
+                        '-':'minus_x',
+                        '*':'multiply_x',
+                        'div':'divide_x',
+                        '/':'frontslash_x',
+                        '\\':'backslash_x',
+                        '<':'lessthan_x',
+                        '>':'morethan_x',
+                        '=':'equals_x',
+                        '%':'percent_x',
+                        '@':'at_x',
+                        '\'':'squote_x',
+                        '"':'dquote_x',
+                        ':':'colon_x',
+                        ';':'scolon_x',
+                        '&':'and_x',
+                        '\n':'blank2',
+                        '~':'error'
+                        }
+
+    line_len        =   len(_lines)
+
+    #! Preload images by using buffer (cache)
+
+    # Finish 
+
+    final_image = np.ones( [line_len*100, 40 * line_char_limit] ) * 255
+    row = 0
+    for line in _lines:
+        col = 0
+        for char in line:
+            fil_name        = '{}' + str(np.random.randint(0,3)) + '.jpg'
+
+            if char.islower():      fil_name = fil_name.format( char + '_s' )
+            elif char.isupper():    fil_name = fil_name.format( char.lower() + '_b' )
+            elif char.isdigit():    fil_name = fil_name.format( char + '_d' )
+            else:                   fil_name = fil_name.format( special_dct.get( char, 'blank1_x' ) )
+
+
+            path            = _base_path + fil_name
+
+            if(os.path.isfile(path)):
+                char_img            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
+
+                mask                = cv2.inRange( char_img, 0, _black_thresh )
+                char_img[mask > 0]  = random.randint( 0, _black_thresh )
+
+                border          = cv2.copyMakeBorder(
+                    char_img,
+                    top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
+                    borderType = cv2.BORDER_CONSTANT,
+                    value = (255,) * 3
+                )
+
+                char_img          = Image.fromarray( border )
+                char_img           = np.asarray( char_img.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+                char_img            = cv2.resize( char_img, (40, 100) )
+            
+                final_image[( 100 * row ) : ( 100 * row ) + 100 , ( 40 * col ) : ( 40 * col ) + 40] = char_img
+
+
+
+            col = col + 1
+        row = row +1
+
+    border = cv2.copyMakeBorder(
+        final_image,
+        top=120,
+        bottom=40,
+        left=100,
+        right=30,
+        borderType=cv2.BORDER_CONSTANT,
+        value=[255,255,255]
+    )
+
+    white_lo        = 200
+    white_hi        = 255
+
+    mask            = cv2.inRange( border, white_lo, white_hi )
+    border[mask > 0]= 255
+
+    return border
+
 def add( request ):
     request.session["txt"] = request.GET["text"]
     return render( request, "hm.html" )
@@ -384,8 +484,8 @@ def upload( request ):
             detect_box( pro_path, dir_path )
 
             # Generate handwritten image
-            final_text  = make_words_final( inp_text )
-            img         = generate_image( final_text, dir_path + '/' )
+            final_text  = make_line_list( inp_text )
+            img         = generate_final_image( final_text, dir_path + '/' )
             cv2.imwrite( res_path, img )
 
             fs.url( filename )
@@ -403,8 +503,6 @@ def hx( request, _x ):
         set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
         res_path    = "static/res_{}.jpg".format( to_id( time.time_ns() ) )
 
-        final_text  = make_words_final( inp_text )
-        img         = generate_image( final_text, set_path )
+        final_text  = make_line_list( inp_text )
+        img         = generate_final_image( final_text, set_path )
         cv2.imwrite( res_path, img )
-
-    return render( request, 'r.html', {'image': res_path} )
