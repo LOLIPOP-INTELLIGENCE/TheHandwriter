@@ -11,6 +11,37 @@ from PIL import Image
 # Maximum number of characters per line
 line_char_limit = 60
 
+# Dictionary for special characters
+special_dct     =   {'.':'dot_x',
+                        ',':'comma_x',
+                        '?':'question_x',
+                        '!':'exclam_x',
+                        '(':'openb_x',
+                        ')':'closeb_x',
+                        '{':'openc_x',
+                        '}':'closec_x',
+                        '[':'opens_x',
+                        ']':'closes_x',
+                        '+':'plus_x',
+                        '-':'minus_x',
+                        '*':'multiply_x',
+                        'div':'divide_x',
+                        '/':'frontslash_x',
+                        '\\':'backslash_x',
+                        '<':'lessthan_x',
+                        '>':'morethan_x',
+                        '=':'equals_x',
+                        '%':'percent_x',
+                        '@':'at_x',
+                        '\'':'squote_x',
+                        '"':'dquote_x',
+                        ':':'colon_x',
+                        ';':'scolon_x',
+                        '&':'and_x',
+                        '\n':'blank2',
+                        '~':'error'
+                        }
+
 # Utility function to shorten a large number into a unique ID
 def to_id( _num, _base = 64 ):
 
@@ -176,96 +207,67 @@ def make_line_list( _inp ):
 # Generates the final image using the preprocessed line as input
 def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
 
-    special_dct     =   {'.':'dot_x',
-                        ',':'comma_x',
-                        '?':'question_x',
-                        '!':'exclam_x',
-                        '(':'openb_x',
-                        ')':'closeb_x',
-                        '{':'openc_x',
-                        '}':'closec_x',
-                        '[':'opens_x',
-                        ']':'closes_x',
-                        '+':'plus_x',
-                        '-':'minus_x',
-                        '*':'multiply_x',
-                        'div':'divide_x',
-                        '/':'frontslash_x',
-                        '\\':'backslash_x',
-                        '<':'lessthan_x',
-                        '>':'morethan_x',
-                        '=':'equals_x',
-                        '%':'percent_x',
-                        '@':'at_x',
-                        '\'':'squote_x',
-                        '"':'dquote_x',
-                        ':':'colon_x',
-                        ';':'scolon_x',
-                        '&':'and_x',
-                        '\n':'blank2',
-                        '~':'error'
-                        }
-
-    line_len        =   len(_lines)
-
     #! Preload images by using buffer (cache)
 
-    # Finish 
+    final_image = np.ones( [100 * len( _lines ), 40 * line_char_limit] ) * 255
 
-    final_image = np.ones( [line_len*100, 40 * line_char_limit] ) * 255
-    row = 0
-    for line in _lines:
-        col = 0
-        for char in line:
-            fil_name        = '{}' + str(np.random.randint(0,3)) + '.jpg'
+    for row in range( len( _lines ) ):
 
-            if char.islower():      fil_name = fil_name.format( char + '_s' )
-            elif char.isupper():    fil_name = fil_name.format( char.lower() + '_b' )
-            elif char.isdigit():    fil_name = fil_name.format( char + '_d' )
-            else:                   fil_name = fil_name.format( special_dct.get( char, 'blank1_x' ) )
+        rcoor   = row * 100
+        line    = _lines[row]
 
+        for col in range( line_char_limit ):
 
-            path            = _base_path + fil_name
+            ccoor       = col * 40
+            char        = line[col]
+            if char == ' ':
+                continue
 
-            if(os.path.isfile(path)):
-                char_img            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
+            fil_name    = '{}' + str( np.random.randint( 0, 3 ) ) + '.jpg'
 
-                mask                = cv2.inRange( char_img, 0, _black_thresh )
-                char_img[mask > 0]  = random.randint( 0, _black_thresh )
+            if char.islower():
+                fil_name = fil_name.format( char + '_s' )
+            elif char.isupper():
+                fil_name = fil_name.format( char.lower() + '_b' )
+            elif char.isdigit():
+                fil_name = fil_name.format( char + '_d' )
+            else:
+                fil_name = fil_name.format( special_dct.get( char, 'exclam_x' ) )
 
-                border          = cv2.copyMakeBorder(
-                    char_img,
-                    top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
-                    borderType = cv2.BORDER_CONSTANT,
-                    value = (255,) * 3
-                )
+            path        = _base_path + fil_name
+            char_img    = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
+            mask        = cv2.inRange( char_img, 0, _black_thresh )
 
-                char_img          = Image.fromarray( border )
-                char_img           = np.asarray( char_img.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
-                char_img            = cv2.resize( char_img, (40, 100) )
-            
-                final_image[( 100 * row ) : ( 100 * row ) + 100 , ( 40 * col ) : ( 40 * col ) + 40] = char_img
+            char_img[mask > 0]  = random.randint( 0, _black_thresh )
 
+            border      = cv2.copyMakeBorder(
+                char_img,
+                top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
+                borderType = cv2.BORDER_CONSTANT,
+                value = (255,) * 3
+            )
 
+            char_img    = Image.fromarray( border )
+            char_img    = np.asarray( char_img.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
+            char_img    = cv2.resize( char_img, (40, 100) )
 
-            col = col + 1
-        row = row +1
+            final_image[rcoor : rcoor + 100 , ccoor : ccoor + 40] = char_img
+
+    white_lo    = 200
+    white_hi    = 255
+    mask        = cv2.inRange( final_image, white_lo, white_hi )
+
+    final_image[mask > 0]   = 255
 
     border = cv2.copyMakeBorder(
         final_image,
-        top=120,
-        bottom=40,
-        left=100,
-        right=30,
-        borderType=cv2.BORDER_CONSTANT,
-        value=[255,255,255]
+        top     = 120,
+        bottom  = 40,
+        left    = 100,
+        right   = 30,
+        borderType = cv2.BORDER_CONSTANT,
+        value = (255,) * 3
     )
-
-    white_lo        = 200
-    white_hi        = 255
-
-    mask            = cv2.inRange( border, white_lo, white_hi )
-    border[mask > 0]= 255
 
     return border
 
