@@ -207,7 +207,42 @@ def make_line_list( _inp ):
 # Generates the final image using the preprocessed line as input
 def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
 
-    #! Preload images by using buffer (cache)
+    buff    = {}
+    def get_img( char ):
+        res = buff.get( char, None )
+
+        # If image not in buffer
+        if not res:
+            res = [0, 1, 2]
+
+            if char.islower():      file_name = char + "_s"
+            elif char.isupper():    file_name = char.lower() + "_b"
+            elif char.isdigit():    file_name = char + "_d"
+            else:                   file_name = special_dct.get( char, "exclam_x" )
+
+            file_name   = _base_path + file_name + "{}.jpg"
+
+            for i in range( 3 ):
+                res[i]  = cv2.cvtColor( cv2.imread( file_name.format( i ) ), cv2.COLOR_BGR2GRAY )
+                mask    = cv2.inRange( res[i], 0, _black_thresh )
+
+                res[i][mask > 0] = random.randint( 0, _black_thresh )
+
+                res[i]          = cv2.copyMakeBorder(
+                    res[i],
+                    top     = _ver_pad,
+                    bottom  = _ver_pad,
+                    left    = _hor_pad,
+                    right   = _hor_pad,
+                    borderType = cv2.BORDER_CONSTANT,
+                    value   = (255,) * 3
+                )
+
+            buff[char] = res
+
+        # Return image
+        return res[random.randint( 0, 2 )]
+
 
     final_image = np.ones( [100 * len( _lines ), 40 * line_char_limit] ) * 255
 
@@ -220,32 +255,11 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
 
             ccoor       = col * 40
             char        = line[col]
+
             if char == ' ':
                 continue
 
-            fil_name    = '{}' + str( np.random.randint( 0, 3 ) ) + '.jpg'
-
-            if char.islower():
-                fil_name = fil_name.format( char + '_s' )
-            elif char.isupper():
-                fil_name = fil_name.format( char.lower() + '_b' )
-            elif char.isdigit():
-                fil_name = fil_name.format( char + '_d' )
-            else:
-                fil_name = fil_name.format( special_dct.get( char, 'exclam_x' ) )
-
-            path        = _base_path + fil_name
-            char_img    = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
-            mask        = cv2.inRange( char_img, 0, _black_thresh )
-
-            char_img[mask > 0]  = random.randint( 0, _black_thresh )
-
-            border      = cv2.copyMakeBorder(
-                char_img,
-                top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
-                borderType = cv2.BORDER_CONSTANT,
-                value = (255,) * 3
-            )
+            border      = get_img( char )
 
             char_img    = Image.fromarray( border )
             char_img    = np.asarray( char_img.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
