@@ -5,7 +5,7 @@ from django.core.files.storage import FileSystemStorage
 import time, os
 import numpy as np
 import cv2, pygame
-import math, random
+import random
 from PIL import Image
 
 # Maximum number of characters per line
@@ -137,8 +137,6 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
                     cropped_img = cv2.imread( '{}/{}.jpg'.format( _final_path, name_lst[i - 4][j] ) )
 
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
-# Lambda function to generate spaces
-generate_blank = lambda _num_spaces : np.ones( [100, 40 * _num_spaces] ) * 255
 
 # Function to generate final words from raw input text
 def make_line_list( _inp ):
@@ -175,185 +173,7 @@ def make_line_list( _inp ):
 
     return lines
 
-# Generates the final image using the words as input
-def generate_image( _words, _base_path ):
-
-
-    
-
-    special_dct     =   {'.':'dot_x',
-                        ',':'comma_x',
-                        '?':'question_x',
-                        '!':'exclam_x',
-                        '(':'openb_x',
-                        ')':'closeb_x',
-                        '{':'openc_x',
-                        '}':'closec_x',
-                        '[':'opens_x',
-                        ']':'closes_x',
-                        '+':'plus_x',
-                        '-':'minus_x',
-                        '*':'multiply_x',
-                        'div':'divide_x',
-                        '/':'frontslash_x',
-                        '\\':'backslash_x',
-                        '<':'lessthan_x',
-                        '>':'morethan_x',
-                        '=':'equals_x',
-                        '%':'percent_x',
-                        '@':'at_x',
-                        '\'':'squote_x',
-                        '"':'dquote_x',
-                        ':':'colon_x',
-                        ';':'scolon_x',
-                        '&':'and_x',
-                        '\n':'blank2',
-                        '~':'error'
-                        }
-
-    #! Preload images by using buffer (cache)
-
-    # Function to generate a handwritten image for a given word
-    def generate_word( _img_prev, _curr_word, _num_spaces, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
-
-        #Retrieving path of revelant character
-        characters  = list(_curr_word )
-        # character_first     = str( characters[0] )
-
-        img         = None
-
-        for i in range( len( characters ) ):
-
-            characters_i    = str( characters[i] )
-
-            fil_name        = '{}' + str(np.random.randint(0,3)) + '.jpg'
-
-            if characters_i.islower():      fil_name = fil_name.format( characters_i + '_s' )
-            elif characters_i.isupper():    fil_name = fil_name.format( characters_i.lower() + '_b' )
-            elif characters_i.isdigit():    fil_name = fil_name.format( characters_i + '_d' )
-            else:                           fil_name = fil_name.format( special_dct.get( characters_i, 'blank1_x' ) )
-
-
-            path            = _base_path + fil_name
-
-            if(os.path.isfile(path)):
-                img2            = cv2.cvtColor( cv2.imread( path ), cv2.COLOR_BGR2GRAY )
-
-                mask            = cv2.inRange( img2, 0, _black_thresh )
-                img2[mask > 0]  = random.randint( 0, _black_thresh )
-
-                border          = cv2.copyMakeBorder(
-                    img2,
-                    top = _ver_pad, bottom = _ver_pad, left = _hor_pad, right = _hor_pad,
-                    borderType = cv2.BORDER_CONSTANT,
-                    value = (255,) * 3
-                )
-
-                im_pil          = Image.fromarray( border )
-                im_np           = np.asarray( im_pil.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
-                img2            = cv2.resize( im_np, (40, 100) )
-            else:
-                img2            = generate_blank(1)
-            img             = np.concatenate( (img, img2), axis = 1 ) if img is not None else img2
-
-        if _img_prev is not None:
-            final_img = np.concatenate( (_img_prev, img), axis = 1 )
-
-        if _num_spaces:
-            final_img = np.concatenate( (final_img, generate_blank( _num_spaces )), axis = 1 )
-
-        return final_img
-
-    # list of sentence images
-    sentences       = []
-
-    word_num        = 0
-    max_words       = len( _words )
-    while word_num < max_words:
-
-        # maximum number of characters in a line
-        max_line_char   = 59
-        line_output     = generate_blank( 1 )
-
-        # Repeat max_line_char times
-        while max_line_char > 0:
-
-            curr_word = _words[word_num]
-            curr_len = len( curr_word )
-
-            # LF character
-            if _words[word_num] == '\n':
-
-                # line_output = generate_blank( line_output, max_line_char )
-                line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
-                word_num += 1
-                break
-
-            # Regular word
-            else:
-
-                if curr_len >= 60:
-                    curr_word, next_word = curr_word[0:59], curr_word[59:]
-                    curr_len = len( curr_word )
-
-                    _words.insert( word_num + 1, next_word )
-                    max_words += 1
-                    # print(_words)
-
-                if max_line_char >= curr_len:
-
-                    # Number of characters we need to add to the right in case this is the final word
-                    right_pad = min( 2, max_line_char - curr_len )
-                    line_output = generate_word( line_output, curr_word, right_pad )
-
-                    # Subtracting the length of the word and the number of spaces added(t) from k\
-                    max_line_char -= curr_len + right_pad
-                    word_num += 1
-
-                    if word_num > max_words:
-                        if max_line_char:
-                            line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
-                        break
-
-                else:
-
-                    line_output = np.concatenate( (line_output, generate_blank( max_line_char )), axis = 1 )
-                    break
-
-        # Sentences hols all the sentences. line_output is the output for that line
-        sentences.append( line_output )
-
-    # for sentence in sentences:
-        # print( np.size( sentence, 0 ), np.size( sentence, 1 ) )
-
-    # Concatenatig all sentences to produce the final image
-    final_output = sentences[0]
-    # print(final_output.shape)
-    for i in range(1, len(sentences)):
-        # print(sentences[i].shape)
-        final_output = np.concatenate((final_output, sentences[i]), axis = 0)
-
-    # Adding a border for the page
-    border = cv2.copyMakeBorder(
-        final_output,
-        top=120,
-        bottom=40,
-        left=100,
-        right=30,
-        borderType=cv2.BORDER_CONSTANT,
-        value=[255,255,255]
-    )
-
-    white_lo        = 200
-    white_hi        = 255
-
-    mask            = cv2.inRange( border, white_lo, white_hi )
-    border[mask > 0]= 255
-
-    return border
-
-
-# Generates the final image using the words as input
+# Generates the final image using the preprocessed line as input
 def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
 
     special_dct     =   {'.':'dot_x',
@@ -506,3 +326,5 @@ def hx( request, _x ):
         final_text  = make_line_list( inp_text )
         img         = generate_final_image( final_text, set_path )
         cv2.imwrite( res_path, img )
+
+    return render( request, 'r.html', {'image': res_path} )
