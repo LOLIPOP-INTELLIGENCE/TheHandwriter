@@ -13,36 +13,22 @@ import bz2
 # Maximum number of characters per line
 line_char_limit = 60
 
-# Dictionary for special characters
-special_dct     =   {'.':'dot_x',
-                        ',':'comma_x',
-                        '?':'question_x',
-                        '!':'exclam_x',
-                        '(':'openb_x',
-                        ')':'closeb_x',
-                        '{':'openc_x',
-                        '}':'closec_x',
-                        '[':'opens_x',
-                        ']':'closes_x',
-                        '+':'plus_x',
-                        '-':'minus_x',
-                        '*':'multiply_x',
-                        'div':'divide_x',
-                        '/':'frontslash_x',
-                        '\\':'backslash_x',
-                        '<':'lessthan_x',
-                        '>':'morethan_x',
-                        '=':'equals_x',
-                        '%':'percent_x',
-                        '@':'at_x',
-                        '\'':'squote_x',
-                        '"':'dquote_x',
-                        ':':'colon_x',
-                        ';':'scolon_x',
-                        '&':'and_x',
-                        '\n':'blank2',
-                        '~':'error'
-                    }
+# Grid of character names in order of their appearanec in list
+name_lst        =   [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
+                    ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+                    ['I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', ',', '?', '!'],
+                    ['(', ')', '{', '}', '[', ']', '+', '-', '*', '÷', '/', '\\', '<', '>', '=', '%', '@', '\'', '"', ':', 's:', '&'],
+                    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
+                    ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+                    ['I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', ',', '?', '!'],
+                    ['(', ')', '{', '}', '[', ']', '+', '-', '*', '÷', '/', '\\', '<', '>', '=', '%', '@', '\'', '"', ':', 's:', '&'],
+                    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
+                    ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+                    ['I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', ',', '?', '!'],
+                    ['(', ')', '{', '}', '[', ']', '+', '-', '*', '÷', '/', '\\', '<', '>', '=', '%', '@', '\'', '"', ':', 's:', '&']]
+
+# utility function to crop out a part of an image using width and height
+crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
 
 # Utility function to shorten a large number into a unique ID (number in base 64 reversed)
 def to_id( _num, _base = 64 ):
@@ -94,21 +80,7 @@ def preprocess( _path, _final_path ):
 # Function to go through image and find rects
 def detect_box( _path, _final_path, _white_lo = 225 ):
 
-    name_lst = [['1_d0', '2_d0', '3_d0', '4_d0', '5_d0', '6_d0', '7_d0', '8_d0', '9_d0', '0_d0', 'a_s0', 'b_s0', 'c_s0', 'd_s0', 'e_s0', 'f_s0', 'g_s0', 'h_s0', 'i_s0', 'j_s0', 'k_s0', 'l_s0'],
-                ['m_s0', 'n_s0', 'o_s0', 'p_s0', 'q_s0', 'r_s0', 's_s0', 't_s0', 'u_s0', 'v_s0', 'w_s0', 'x_s0', 'y_s0', 'z_s0', 'a_b0', 'b_b0', 'c_b0', 'd_b0', 'e_b0', 'f_b0', 'g_b0', 'h_b0'],
-                ['i_b0', 'j_b0', 'k_b0', 'l_b0', 'm_b0', 'n_b0', 'o_b0', 'p_b0', 'q_b0', 'r_b0', 's_b0', 't_b0', 'u_b0', 'v_b0', 'w_b0', 'x_b0', 'y_b0', 'z_b0', 'dot_x0', 'comma_x0', 'question_x0', 'exclam_x0'],
-                ['openb_x0', 'closeb_x0', 'openc_x0', 'closec_x0', 'opens_x0', 'closes_x0', 'plus_x0', 'minus_x0', 'multiply_x0', 'divide_x0', 'frontslash_x0', 'backslash_x0', 'lessthan_x0', 'morethan_x0', 'equals_x0', 'percent_x0', 'at_x0', 'squote_x0', 'dquote_x0', 'colon_x0', 'scolon_x0', 'and_x0'],
-                ['1_d1', '2_d1', '3_d1', '4_d1', '5_d1', '6_d1', '7_d1', '8_d1', '9_d1', '0_d1', 'a_s1', 'b_s1', 'c_s1', 'd_s1', 'e_s1', 'f_s1', 'g_s1', 'h_s1', 'i_s1', 'j_s1', 'k_s1', 'l_s1'],
-                ['m_s1', 'n_s1', 'o_s1', 'p_s1', 'q_s1', 'r_s1', 's_s1', 't_s1', 'u_s1', 'v_s1', 'w_s1', 'x_s1', 'y_s1', 'z_s1', 'a_b1', 'b_b1', 'c_b1', 'd_b1', 'e_b1', 'f_b1', 'g_b1', 'h_b1'],
-                ['i_b1', 'j_b1', 'k_b1', 'l_b1', 'm_b1', 'n_b1', 'o_b1', 'p_b1', 'q_b1', 'r_b1', 's_b1', 't_b1', 'u_b1', 'v_b1', 'w_b1', 'x_b1', 'y_b1', 'z_b1', 'dot_x1', 'comma_x1', 'question_x1', 'exclam_x1'],
-                ['openb_x1', 'closeb_x1', 'openc_x1', 'closec_x1', 'opens_x1', 'closes_x1', 'plus_x1', 'minus_x1', 'multiply_x1', 'divide_x1', 'frontslash_x1', 'backslash_x1', 'lessthan_x1', 'morethan_x1', 'equals_x1', 'percent_x1', 'at_x1', 'squote_x1', 'dquote_x1', 'colon_x1', 'scolon_x1', 'and_x1'],
-                ['1_d2', '2_d2', '3_d2', '4_d2', '5_d2', '6_d2', '7_d2', '8_d2', '9_d2', '0_d2', 'a_s2', 'b_s2', 'c_s2', 'd_s2', 'e_s2', 'f_s2', 'g_s2', 'h_s2', 'i_s2', 'j_s2', 'k_s2', 'l_s2'],
-                ['m_s2', 'n_s2', 'o_s2', 'p_s2', 'q_s2', 'r_s2', 's_s2', 't_s2', 'u_s2', 'v_s2', 'w_s2', 'x_s2', 'y_s2', 'z_s2', 'a_b2', 'b_b2', 'c_b2', 'd_b2', 'e_b2', 'f_b2', 'g_b2', 'h_b2'],
-                ['i_b2', 'j_b2', 'k_b2', 'l_b2', 'm_b2', 'n_b2', 'o_b2', 'p_b2', 'q_b2', 'r_b2', 's_b2', 't_b2', 'u_b2', 'v_b2', 'w_b2', 'x_b2', 'y_b2', 'z_b2', 'dot_x2', 'comma_x2', 'question_x2', 'exclam_x2'],
-                ['openb_x2', 'closeb_x2', 'openc_x2', 'closec_x2', 'opens_x2', 'closes_x2', 'plus_x2', 'minus_x2', 'multiply_x2', 'divide_x2', 'frontslash_x2', 'backslash_x2', 'lessthan_x2', 'morethan_x2', 'equals_x2', 'percent_x2', 'at_x2', 'squote_x2', 'dquote_x2', 'colon_x2', 'scolon_x2', 'and_x2']]
-
-    # coords  = { name_lst[i][j] : None for i in range( len( name_lst ) ) for j in range( len( name_lst[i] ) )}
-    coords              = {}
+    coords              = { name_lst[i][j]: [] for i in range( len( name_lst ) ) for j in range( len( name_lst[i] ) ) }
 
     # Utility function to get cropped image
     crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
@@ -159,21 +131,17 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
         for j in range( len( name_lst[i] ) ):
 
             x, y, w, h  = lst[i][j]
-
-            cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
-            coords[name_lst[i][j]] = [x + 3, y + 3, w - 6, h - 6]
+            char        = name_lst[i][j]
+            coords[char].append( [x + 3, y + 3, w - 6, h - 6] )
 
             if i >= 4:
-                check_img   = crop_img( img_bin, x+3, y+3, w-6, h-6 )
+                check_img   = crop_img( img_bin, x + 3, y + 3, w - 6, h - 6 )
 
-                total_px = (w-6) * (h-6)
+                total_px = (w - 6) * (h - 6)
                 white_px = cv2.countNonZero( check_img )
 
                 if (total_px - white_px) < px_thresh:
-                    cropped_img = cv2.imread( '{}/{}.jpg'.format( _final_path, name_lst[i - 4][j] ) )
-                    coords[name_lst[i][j]] = coords[name_lst[i - 4][j]].copy()
-
-            cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
+                    coords[char][-1] = coords[char][-2].copy()
 
     # File to output all coordinates
     fout                = bz2.BZ2File( _final_path + "/dat.pbz2", "w" )
@@ -218,37 +186,34 @@ def make_line_list( _inp ):
 # Generates the final image using the preprocessed line as input
 def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
 
-    buff    = {}
+    buff        = {}
 
-    # base_img= cv2.imread( "{}/{}".format( _base_path, "processed_submission.jpg" ) )
-    # fin     = open( "{}/{}".format( _base_path, "dat.pbz2" ), "r")
-    # coords  = pickle.load( fin )
-    # fin.close()
-    # crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
+    fin         = bz2.BZ2File( "{}/{}".format( _base_path, "dat.pbz2" ), "r")
+    coords      = pickle.load( fin )
+    fin.close()
+
+    submission  = cv2.imread( "{}/{}".format( _base_path, "processed_submission.jpg" ) )
 
     def get_img( char ):
+
         res = buff.get( char, None )
 
-        # If image not in buffer
+        # Image not in buffer
         if not res:
-            res = [0, 1, 2]
 
-            if char.islower():      file_name = char + "_s"
-            elif char.isupper():    file_name = char.lower() + "_b"
-            elif char.isdigit():    file_name = char + "_d"
-            else:                   file_name = special_dct.get( char, "exclam_x" )
-
-            # elem_name   = file_name
-            file_name   = _base_path + file_name + "{}.jpg"
+            res = coords.get( char, None )
+            if not res:
+                return None
 
             for i in range( 3 ):
 
-                res[i]  = cv2.cvtColor( cv2.imread( file_name.format( i ) ), cv2.COLOR_BGR2GRAY )
-                mask    = cv2.inRange( res[i], 0, _black_thresh )
+                x, y, w, h  = res[i]
+                res[i]      = cv2.cvtColor( crop_img( submission,  x, y, w, h ), cv2.COLOR_BGR2GRAY )
+                mask        = cv2.inRange( res[i], 0, _black_thresh )
 
                 res[i][mask > 0] = random.randint( 0, _black_thresh )
 
-                res[i]          = cv2.copyMakeBorder(
+                res[i]      = cv2.copyMakeBorder(
                     res[i],
                     top     = _ver_pad,
                     bottom  = _ver_pad,
@@ -258,11 +223,10 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
                     value   = (255,) * 3
                 )
 
-            buff[char] = res
+            buff[char]      = res
 
         # Return image
         return res[random.randint( 0, 2 )]
-
 
     final_image = np.ones( [100 * len( _lines ), 40 * line_char_limit] ) * 255
 
