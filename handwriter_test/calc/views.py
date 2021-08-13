@@ -7,6 +7,8 @@ import numpy as np
 import cv2, pygame
 import random
 from PIL import Image
+import pickle
+import bz2
 
 # Maximum number of characters per line
 line_char_limit = 60
@@ -40,9 +42,9 @@ special_dct     =   {'.':'dot_x',
                         '&':'and_x',
                         '\n':'blank2',
                         '~':'error'
-                        }
+                    }
 
-# Utility function to shorten a large number into a unique ID
+# Utility function to shorten a large number into a unique ID (number in base 64 reversed)
 def to_id( _num, _base = 64 ):
 
     if _num <= 0: return '0'
@@ -55,7 +57,6 @@ def to_id( _num, _base = 64 ):
         _num    //= _base
         res     += charset[rem]
 
-    # return res[::-1]
     return res
 
 # Function to resize the image to constant width
@@ -105,6 +106,9 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
                 ['m_s2', 'n_s2', 'o_s2', 'p_s2', 'q_s2', 'r_s2', 's_s2', 't_s2', 'u_s2', 'v_s2', 'w_s2', 'x_s2', 'y_s2', 'z_s2', 'a_b2', 'b_b2', 'c_b2', 'd_b2', 'e_b2', 'f_b2', 'g_b2', 'h_b2'],
                 ['i_b2', 'j_b2', 'k_b2', 'l_b2', 'm_b2', 'n_b2', 'o_b2', 'p_b2', 'q_b2', 'r_b2', 's_b2', 't_b2', 'u_b2', 'v_b2', 'w_b2', 'x_b2', 'y_b2', 'z_b2', 'dot_x2', 'comma_x2', 'question_x2', 'exclam_x2'],
                 ['openb_x2', 'closeb_x2', 'openc_x2', 'closec_x2', 'opens_x2', 'closes_x2', 'plus_x2', 'minus_x2', 'multiply_x2', 'divide_x2', 'frontslash_x2', 'backslash_x2', 'lessthan_x2', 'morethan_x2', 'equals_x2', 'percent_x2', 'at_x2', 'squote_x2', 'dquote_x2', 'colon_x2', 'scolon_x2', 'and_x2']]
+
+    # coords  = { name_lst[i][j] : None for i in range( len( name_lst ) ) for j in range( len( name_lst[i] ) )}
+    coords              = {}
 
     # Utility function to get cropped image
     crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
@@ -157,6 +161,7 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
             x, y, w, h  = lst[i][j]
 
             cropped_img = crop_img( image, x+3, y+3, w-6, h-6 )
+            coords[name_lst[i][j]] = [x + 3, y + 3, w - 6, h - 6]
 
             if i >= 4:
                 check_img   = crop_img( img_bin, x+3, y+3, w-6, h-6 )
@@ -166,8 +171,14 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 
                 if (total_px - white_px) < px_thresh:
                     cropped_img = cv2.imread( '{}/{}.jpg'.format( _final_path, name_lst[i - 4][j] ) )
+                    coords[name_lst[i][j]] = coords[name_lst[i - 4][j]].copy()
 
             cv2.imwrite( '{}/{}.jpg'.format( _final_path, name_lst[i][j] ), cropped_img )
+
+    # File to output all coordinates
+    fout                = bz2.BZ2File( _final_path + "/dat.pbz2", "w" )
+    pickle.dump( coords, fout )
+    fout.close()
 
 # Function to generate final words from raw input text
 def make_line_list( _inp ):
@@ -208,6 +219,13 @@ def make_line_list( _inp ):
 def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh = 50, _hor_pad = 0, _ver_pad = 0 ):
 
     buff    = {}
+
+    # base_img= cv2.imread( "{}/{}".format( _base_path, "processed_submission.jpg" ) )
+    # fin     = open( "{}/{}".format( _base_path, "dat.pbz2" ), "r")
+    # coords  = pickle.load( fin )
+    # fin.close()
+    # crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
+
     def get_img( char ):
         res = buff.get( char, None )
 
@@ -220,9 +238,11 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
             elif char.isdigit():    file_name = char + "_d"
             else:                   file_name = special_dct.get( char, "exclam_x" )
 
+            # elem_name   = file_name
             file_name   = _base_path + file_name + "{}.jpg"
 
             for i in range( 3 ):
+
                 res[i]  = cv2.cvtColor( cv2.imread( file_name.format( i ) ), cv2.COLOR_BGR2GRAY )
                 mask    = cv2.inRange( res[i], 0, _black_thresh )
 
