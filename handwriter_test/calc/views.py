@@ -240,10 +240,10 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
             ccoor       = col * 40
             char        = line[col]
 
-            if char == ' ':
-                continue
-
             border      = get_img( char )
+
+            if border == None:
+                continue
 
             char_img    = Image.fromarray( border )
             char_img    = np.asarray( char_img.rotate( random.randint( _rot_rng[0], _rot_rng[1] ), fillcolor = 'white' ) )
@@ -304,19 +304,19 @@ def upload( request ):
             os.mkdir( dir_path )
             filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
 
-            start_time = time.time_ns()
+            # start_time = time.time_ns()
 
             preprocess( sub_path, pro_path )
             detect_box( pro_path, dir_path )
 
-            detect_time = time.time_ns()
+            # detect_time = time.time_ns()
 
             # Generate handwritten image
             final_text  = make_line_list( inp_text )
             img         = generate_final_image( final_text, dir_path + '/' )
             cv2.imwrite( res_path, img )
 
-            write_time = time.time_ns()
+            # write_time = time.time_ns()
 
             fs.url( filename )
 
