@@ -289,6 +289,11 @@ def upload( request ):
             # Get the current time and convert it to an ID
             cur_time    = to_id( time.time_ns() )
 
+            # Create file and save text
+            fout        = open("media/text_files/inp_{}.txt".format( cur_time ), "w")
+            fout.write( inp_text )
+            fout.close()
+
             # Relative paths to the scan folder, submission, processed submission and result
             dir_path    = "media/AllHandwritings/scan_{}".format( cur_time )
             sub_path    = dir_path + "/submission.jpg"
@@ -299,16 +304,25 @@ def upload( request ):
             os.mkdir( dir_path )
             filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
 
-            # Preprocess submission and detect boxes
+            start_time = time.time_ns()
+
             preprocess( sub_path, pro_path )
             detect_box( pro_path, dir_path )
+
+            detect_time = time.time_ns()
 
             # Generate handwritten image
             final_text  = make_line_list( inp_text )
             img         = generate_final_image( final_text, dir_path + '/' )
             cv2.imwrite( res_path, img )
 
+            write_time = time.time_ns()
+
             fs.url( filename )
+
+            # print("Scanning time: {}".format( (detect_time - start_time) / 1000000 ))
+            # print("Generation time: {}".format( (write_time - detect_time) / 1000000 ))
+            # print("Total time: {}".format( (write_time - start_time) / 1000000 ))
 
         return render( request, 'r.html', {'image':res_path} )
 
@@ -320,8 +334,16 @@ def hx( request, _x ):
     else:
         inp_text    = request.session["txt"]
 
+        # Get the current time and convert it to an ID
+        cur_time    = to_id( time.time_ns() )
+
+        # Create file and save text
+        fout        = open("media/text_files/inp_{}.txt".format( cur_time ), "w")
+        fout.write( inp_text )
+        fout.close()
+
         set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
-        res_path    = "static/res_{}.jpg".format( to_id( time.time_ns() ) )
+        res_path    = "static/res_{}.jpg".format( cur_time )
 
         final_text  = make_line_list( inp_text )
         img         = generate_final_image( final_text, set_path )
