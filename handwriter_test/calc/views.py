@@ -242,7 +242,7 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
 
             border      = get_img( char )
 
-            if border == None:
+            if border is None:
                 continue
 
             char_img    = Image.fromarray( border )
