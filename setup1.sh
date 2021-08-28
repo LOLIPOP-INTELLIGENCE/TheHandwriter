@@ -1,3 +1,6 @@
+# NAME OF PROJECT = handwriter_main
+# NAME OF APP = hwapp
+
 # create project, app boilerplate
 django-admin startproject $1
 cd $1

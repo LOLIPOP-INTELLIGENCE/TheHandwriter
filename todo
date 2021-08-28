@@ -1,5 +1,3 @@
-Fix gitignore
-
 Add nginx config file (for http only)
 Add gunicorn config file
 

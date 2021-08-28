@@ -1,19 +1,7 @@
 
 # Byte-compiled / optimized / DLL files
 handwriter_main
-
-handwriter_test/calc/__pycache__/
-handwriter_test/handwriter_test/__pycache__/
-handwriter_test/db.sqlite3
-.vscode/settings.json
-handwriter_test/media/AllHandwritings/
-handwriter_test/static_cdn/AllHandwritings/
-handwriter_test/static_cdn/DisplayedHandwritings/
-keys/
-handwriter_test/nohup.out
-handwriter_test/media/DisplayedHandwritings/res_imgs/
-handwriter_test/media/DisplayedHandwritings/set_*/result.jpg
-
+.vscode
 
 __pycache__/
 *.py[cod]
