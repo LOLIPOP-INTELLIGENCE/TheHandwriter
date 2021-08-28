@@ -10,6 +10,12 @@ from PIL import Image
 import pickle
 import bz2
 
+from pathlib import Path as PATH
+
+REPO_DIR        = str( PATH(__file__).resolve().parent.parent.parent )
+static_path     = REPO_DIR + '/static/'
+media_path      = REPO_DIR + '/media/'
+
 # Maximum number of characters per line
 line_char_limit = 60
 
@@ -279,7 +285,7 @@ def upload( request ):
 
         # Get the file, input text and reference to filesystem object
         if "txt" not in request.session:
-            res_path    = "static/default.jpg"
+            res_path    = static_path + "default.jpg"
         else:
             inp_text    = request.session["txt"]
 
@@ -290,19 +296,19 @@ def upload( request ):
             cur_time    = to_id( time.time_ns() )
 
             # Create file and save text
-            fout        = open("media/text_files/inp_{}.txt".format( cur_time ), "w")
-            fout.write( inp_text )
-            fout.close()
+            # fout        = open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w")
+            # fout.write( inp_text )
+            # fout.close()
 
             # Relative paths to the scan folder, submission, processed submission and result
-            dir_path    = "media/AllHandwritings/scan_{}".format( cur_time )
+            dir_path    = media_path + "AllHandwritings/scan_{}".format( cur_time )
             sub_path    = dir_path + "/submission.jpg"
             pro_path    = dir_path + "/processed_submission.jpg"
-            res_path    = "static/res_{}.jpg".format( cur_time )
+            res_path    = static_path + "res_{}.jpg".format( cur_time )
 
             # Create directory and save submission
             os.mkdir( dir_path )
-            filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
+            filename    = fs.save( media_path + "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
 
             # start_time = time.time_ns()
 
@@ -330,7 +336,7 @@ def hx( request, _x ):
 
     # Get input text and paths to resultant image, input set
     if "txt" not in request.session:
-        res_path    = "static/default.jpg"
+        res_path    = static_path + "default.jpg"
     else:
         inp_text    = request.session["txt"]
 
@@ -338,15 +344,18 @@ def hx( request, _x ):
         cur_time    = to_id( time.time_ns() )
 
         # Create file and save text
-        fout        = open("media/text_files/inp_{}.txt".format( cur_time ), "w")
-        fout.write( inp_text )
-        fout.close()
+        # fout        = open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w")
+        # fout.write( inp_text )
+        # fout.close()
 
-        set_path    = "media/DisplayedHandwritings/set_{}/".format( _x )
-        res_path    = "static/res_{}.jpg".format( cur_time )
+        set_path    = media_path + "DisplayedHandwritings/set_{}/".format( _x )
+        res_path    = static_path + "res_{}.jpg".format( cur_time )
 
         final_text  = make_line_list( inp_text )
         img         = generate_final_image( final_text, set_path )
         cv2.imwrite( res_path, img )
+
+        print("SET PATH: " + set_path)
+        print("RES PATH: " + res_path)
 
     return render( request, 'r.html', {'image': res_path} )
