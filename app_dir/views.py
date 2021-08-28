@@ -308,7 +308,7 @@ def upload( request ):
 
             # Create directory and save submission
             os.mkdir( dir_path )
-            filename    = fs.save( media_path + "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
+            filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
 
             # start_time = time.time_ns()
 
