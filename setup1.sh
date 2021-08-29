@@ -15,7 +15,7 @@ rm --force $2/urls.py
 rm --force $2/views.py
 
 # move urls, settings, views to correct locations
-cp ../project_dir/urls.py $1/urls.py
-cp ../project_dir/settings.py $1/settings.py
-cp ../app_dir/urls.py $2/urls.py
-cp ../app_dir/views.py $2/views.py
+ln ../project_dir/urls.py $1/urls.py
+ln ../project_dir/settings.py $1/settings.py
+ln ../app_dir/urls.py $2/urls.py
+ln ../app_dir/views.py $2/views.py
