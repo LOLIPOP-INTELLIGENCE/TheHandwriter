@@ -355,7 +355,4 @@ def hx( request, _x ):
         img         = generate_final_image( final_text, set_path )
         cv2.imwrite( res_path, img )
 
-        print("SET PATH: " + set_path)
-        print("RES PATH: " + res_path)
-
     return render( request, 'r.html', {'image': res_path} )

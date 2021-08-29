@@ -1,7 +1,11 @@
 
 # Byte-compiled / optimized / DLL files
 handwriter_main
+keys
 .vscode
+
+static/res_*
+media/AllHandwritings
 
 __pycache__/
 *.py[cod]
