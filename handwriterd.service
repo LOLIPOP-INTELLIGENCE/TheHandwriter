@@ -5,8 +5,8 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 WorkingDirectory=/home/ubuntu/TheHandwriter/handwriter_main
-ExecStart=sudo gunicorn handwriter_main.wsgi --bind localhost:8000
-Restart=always
+ExecStart=sudo python3 manage.py runserver --insecure 0.0.0.0:8000
+Restart=never
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=%n
