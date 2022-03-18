@@ -447,8 +447,8 @@ span{
 	font-size: 2em;
 	color: #ff6600;
 	text-align: center;
-  padding-left: 15%;
-  padding-right: 15%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 .bold{
 	font-size: 2.4em;
@@ -483,6 +483,11 @@ h5{
   -webkit-animation-duration: 1.5s;
   animation-name: fade;
   animation-duration: 1.5s;
+}
+
+.row {
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 @-webkit-keyframes fade {
@@ -548,56 +553,74 @@ section {
 
   <!-- Full-width images with number and caption text -->
   <div class="mySlides fade">
-    <div class="numbertext">1 / 9</div>
+    <div class="numbertext">1 / 12</div>
     <img src="{% static '1.jpg' %}" style="width:100%">
     <div class="text">Caption Text</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">2 / 9</div>
+    <div class="numbertext">2 / 12</div>
     <img src="{% static '2.jpg' %}" style="width:100%">
     <div class="text">Caption Two</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">3 / 9</div>
+    <div class="numbertext">3 / 12</div>
     <img src="{% static '3.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
     <div class="mySlides fade">
-    <div class="numbertext">4 / 9</div>
+    <div class="numbertext">4 / 12</div>
     <img src="{% static '4.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">5 / 9</div>
+    <div class="numbertext">5 / 12</div>
     <img src="{% static '5.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">6 / 9</div>
+    <div class="numbertext">6 / 12</div>
     <img src="{% static '6.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">7 / 9</div>
+    <div class="numbertext">7 / 12</div>
     <img src="{% static '7.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">8 / 9</div>
+    <div class="numbertext">8 / 12</div>
     <img src="{% static '8.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
   <div class="mySlides fade">
-    <div class="numbertext">9 / 9</div>
+    <div class="numbertext">9 / 12</div>
     <img src="{% static '9.jpg' %}" style="width:100%">
+    <div class="text">Caption Three</div>
+  </div>
+
+  <div class="mySlides fade">
+    <div class="numbertext">10 / 12</div>
+    <img src="{% static '10.jpg' %}" style="width:100%">
+    <div class="text">Caption Three</div>
+  </div>
+
+  <div class="mySlides fade">
+    <div class="numbertext">11 / 12</div>
+    <img src="{% static '11.jpg' %}" style="width:100%">
+    <div class="text">Caption Three</div>
+  </div>
+
+  <div class="mySlides fade">
+    <div class="numbertext">12 / 12</div>
+    <img src="{% static '12.jpg' %}" style="width:100%">
     <div class="text">Caption Three</div>
   </div>
 
@@ -609,6 +632,7 @@ section {
 
 <!-- The dots/circles -->
 <div style="text-align:center">
+  <span class="dot" onclick="currentSlide(0)"></span>
   <span class="dot" onclick="currentSlide(1)"></span>
   <span class="dot" onclick="currentSlide(2)"></span>
   <span class="dot" onclick="currentSlide(3)"></span>
@@ -620,10 +644,6 @@ section {
   <span class="dot" onclick="currentSlide(9)"></span>
   <span class="dot" onclick="currentSlide(10)"></span>
   <span class="dot" onclick="currentSlide(11)"></span>
-  <span class="dot" onclick="currentSlide(12)"></span>
-
-
-
 </div>
 
 
@@ -743,28 +763,54 @@ section {
 
 
 var slideIndex = 0;
-showSlides();
 
+showSlides(slideIndex);
 function plusSlides(n) {
-  slideIndex += n
-  showSlides(slideIndex);
+  showSlides(slideIndex += n);
+}
+function currentSlide(n) {
+  showSlides(slideIndex = n);
 }
 
-function showSlides() {
-  var slides = document.getElementsByClassName("mySlides");
+function showSlides(n) {
+
+  var slides  = document.getElementsByClassName("mySlides");
+  var dots    = document.getElementsByClassName("dot");
+
+  slideIndex  = (slideIndex + slides.length) % slides.length;
+
   for (var i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  // slideIndex++;
-  if (slideIndex >= slides.length) {
-    slideIndex = 0
+      slides[i].style.display = "none";
+      dots[i].className = dots[i].className.replace(" active", "");
   }
 
-  slides[slideIndex].style.display = "none"
-  // slides[slideIndex].style.display = "block"
-  // slides[slideIndex-1].style.display = "block";
-//   setTimeout(showSlides, 3600000); // Change image every 2 seconds
+  slides[slideIndex].style.display  = "contents";
+  dots[slideIndex].className      += " active";
 }
+
+// var slideIndex = 0;
+// showSlides();
+
+// function plusSlides(n) {
+//   slideIndex += n
+//   showSlides(slideIndex);
+// }
+
+// function showSlides() {
+//   var slides = document.getElementsByClassName("mySlides");
+//   for (var i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";
+//   }
+//   // slideIndex++;
+//   if (slideIndex >= slides.length) {
+//     slideIndex = 0
+//   }
+
+//   slides[slideIndex].style.display = "none"
+//   // slides[slideIndex].style.display = "block"
+//   // slides[slideIndex-1].style.display = "block";
+// //   setTimeout(showSlides, 3600000); // Change image every 2 seconds
+// }
 
 const Selector = (q) => document.querySelectorAll(q);
 const Creator = (...t) => t.map((e) => document.createElement(e));
