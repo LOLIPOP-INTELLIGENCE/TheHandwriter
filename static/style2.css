@@ -1,0 +1,86 @@
+/* violet is 7B8CDE */
+/* grey is 16262E */
+
+body {
+    background-color:   #16262E;
+}
+
+.navbar {
+    overflow:           hidden;
+
+    background-color:   #16262E;
+
+    position:           fixed;
+    top:                0;
+
+    width:              70%;
+    margin-left:        15%;
+    margin-right:       15%;
+    margin-top:         0%;
+    margin-bottom:      0%;
+
+    display:            inline-block;
+
+    border-style: hidden hidden solid hidden;
+    border-width: 3px;
+    border-color: #7B8CDE;
+}
+
+.navbar p {
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          40px;
+    font-weight:        700;
+
+    color:              #7B8CDE;
+
+    display:            inline-block;
+}
+
+.navbar_regular {
+    font-size:          18px !important;
+
+    color:              #7B8CDE;
+    background-color:   #16262E !important;
+
+    transition:         .33s;
+
+    text-align:         center;
+
+    margin:             0px 20px 0px 20px;
+
+    width:              100px;
+    height:             40px;
+    line-height:        40px;
+}
+
+.navbar_share {
+    background-color:   #7B8CDE !important;
+    color:              #16262E !important;
+
+    border-radius:      5px;
+}
+
+.navbar_regular:hover {
+    font-size:          18px !important;
+
+    background-color:   #16262E !important;
+    color:              #57fd15 !important;
+}
+
+.navbar_share:hover {
+    font-size:          18px !important;
+
+    background-color:   #57fd15 !important;
+    color:              #16262E !important;
+}
+
+/* Change background on mouse-over */
+/* .navbar a:hover {
+    color: 0xffffff !important;
+} */
+
+Main content
+.main {
+    margin-top: 30px; /* Add a top margin to avoid content overlay */
+}
