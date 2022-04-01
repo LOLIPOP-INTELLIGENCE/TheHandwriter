@@ -5,6 +5,40 @@ body {
     background-color:   #16262E;
 }
 
+.generic_section {
+
+    left:               0;
+
+    width:              70%;
+    margin-left:        15%;
+    margin-right:       15%;
+    margin-top:         0%;
+    margin-bottom:      0%;
+
+    display:            block;
+
+    border-style:       hidden hidden solid hidden;
+    border-width:       3px;
+    border-color:       #7B8CDE;
+
+    padding-top:        15px;
+    padding-bottom:     40px;
+}
+
+.generic_title {
+
+    display:            block;
+    width:              100%;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          48px;
+    font-weight:        700;
+
+    color:              #FFFFFF;
+    text-align:         center;
+}
+
 .navbar {
     overflow:           hidden;
 
@@ -124,32 +158,32 @@ body {
 
 .textentry textarea::-webkit-input-placeholder {
     opacity:            1;
-    font-size:          40px;
+    font-size:          48px;
 }
 
 .textentry textarea:-moz-placeholder {
     opacity:            1;
-    font-size:          40px;
+    font-size:          48px;
 }
 
 .textentry textarea::-moz-placeholder {
     opacity:            1;
-    font-size:          40px;
+    font-size:          48px;
 }
 
 .textentry textarea:-ms-input-placeholder {
     opacity:            1;
-    font-size:          40px;
+    font-size:          48px;
 }
 
 .textentry textarea::-ms-input-placeholder {
     opacity:            1;
-    font-size:          40px;
+    font-size:          48px;
 }
 
 .textentry textarea::placeholder {
     opacity:            1;
-    font-size:          40px;
+    font-size:          48px;
 }
 
 .textentry p {
@@ -188,4 +222,45 @@ body {
 
     background-color:   #57fd15 !important;
     color:              #000000 !important;
+}
+
+.hw_mode_button_div {
+
+    display:            inline-block;
+    margin-left:        auto;
+    margin-right:       auto;
+
+    height:             300px;
+}
+
+.hw_mode_button {
+
+    display:            inline-block;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        700;
+
+    background-color:   #7B8CDE !important;
+    color:              #FFFFFF !important;
+
+    border-radius:      15px;
+
+    transition:         .33s;
+
+    margin-left:        auto;
+    margin-right:       auto;
+
+    margin-top:         2%;
+    margin-bottom:      0;
+
+    text-align:         center;
+
+    width:              320px;
+    height:             40px;
+
+    line-height:        40px;
+
+    cursor:             pointer;
 }
