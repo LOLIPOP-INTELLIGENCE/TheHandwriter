@@ -264,3 +264,26 @@ body {
 
     cursor:             pointer;
 }
+
+
+/* Error Page 404 Styling */
+
+.error-text-line-1 {
+    text-align: center;
+
+    font-size: 54px;
+    font-weight: 700;
+    font-family: 'poppins';
+
+    margin-top: 64px;
+}
+
+.error-text-line-2 {
+    text-align: center;
+
+    font-size: 45px;
+    font-weight: 600;
+    font-family: 'poppins';
+
+    margin-top: 32px;
+}
