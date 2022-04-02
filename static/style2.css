@@ -5,7 +5,7 @@ body {
     background-color:   #16262E;
 }
 
-.generic_section {
+.generic-section {
 
     left:               0;
 
@@ -25,7 +25,7 @@ body {
     padding-bottom:     40px;
 }
 
-.generic_title {
+.generic-title {
 
     display:            block;
     width:              100%;
@@ -37,6 +37,41 @@ body {
 
     color:              #FFFFFF;
     text-align:         center;
+}
+
+.generic-button {
+
+    display:            block;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        700;
+
+    background-color:   #7B8CDE !important;
+    color:              #FFFFFF !important;
+
+    border-radius:      15px;
+
+    transition:         .33s;
+
+    margin-left:        auto;
+    margin-right:       auto;
+
+    text-align:         center;
+
+    width:              320px;
+    height:             40px;
+
+    line-height:        40px;
+
+    cursor:             pointer;
+}
+
+.generic-button:hover {
+
+    background-color:   #57fd15 !important;
+    color:              #000000 !important;
 }
 
 .navbar {
@@ -72,7 +107,7 @@ body {
     display:            inline-block;
 }
 
-.navbar_regular {
+.navbar-regular {
     font-size:          18px !important;
 
     color:              #7B8CDE;
@@ -91,21 +126,21 @@ body {
     cursor:             pointer;
 }
 
-.navbar_share {
-    background-color:   #7B8CDE !important;
-    color:              #16262E !important;
-
-    border-radius:      5px;
-}
-
-.navbar_regular:hover {
+.navbar-regular:hover {
     font-size:          18px !important;
 
     background-color:   #16262E !important;
     color:              #57fd15 !important;
 }
 
-.navbar_share:hover {
+.navbar-share {
+    background-color:   #7B8CDE !important;
+    color:              #16262E !important;
+
+    border-radius:      5px;
+}
+
+.navbar-share:hover {
     font-size:          18px !important;
 
     background-color:   #57fd15 !important;
@@ -227,15 +262,18 @@ body {
 .hw_mode_button_div {
 
     display:            inline-block;
+
+    width:              100%;
+
     margin-left:        auto;
     margin-right:       auto;
 
-    height:             300px;
+    height:             150px;
 }
 
 .hw_mode_button {
 
-    display:            inline-block;
+    display:            block;
 
     font-family:        'poppins';
     font-style:         normal;
@@ -252,9 +290,6 @@ body {
     margin-left:        auto;
     margin-right:       auto;
 
-    margin-top:         2%;
-    margin-bottom:      0;
-
     text-align:         center;
 
     width:              320px;
@@ -263,6 +298,8 @@ body {
     line-height:        40px;
 
     cursor:             pointer;
+
+    box-sizing:         border-box;
 }
 
 .team-member-rect {
@@ -303,7 +340,7 @@ body {
     font-family: 'poppins';
     font-size: 18px;
     font-weight: 600;
-    
+
     color: #E5E5E5;
 }
 
