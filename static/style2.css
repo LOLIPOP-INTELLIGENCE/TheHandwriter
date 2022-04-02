@@ -309,3 +309,21 @@ body {
 
     margin-top: 32px;
 }
+
+.res_img {
+    top: 0;
+    left: 0;
+    display: block;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    border-width: 3px;
+    border-color: #7B8CDE;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 30px;
+}
