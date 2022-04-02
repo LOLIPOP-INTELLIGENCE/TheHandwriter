@@ -265,6 +265,48 @@ body {
     cursor:             pointer;
 }
 
+.team-member-rect {
+    height: 274px;
+    width: 1100px;
+
+    background-color: #C4C4C4;
+
+    border-radius: 137px 0px 0px 137px;
+}
+
+.profile-image-left {
+    height: 274px;
+    width: 274px;
+
+    border-radius: 274px;
+
+    display: block;
+
+    margin: 0;
+}
+
+.footer-contact-us {
+    margin-top: 72px;
+
+    text-align: center;
+
+    font-family: 'poppins';
+    font-size: 24px;
+    font-weight: 700;
+    color: #7B8CDE;
+}
+
+.footer-copyright {
+    margin-top: 48px;
+    margin-left: 15%;
+
+    font-family: 'poppins';
+    font-size: 18px;
+    font-weight: 600;
+    
+    color: #E5E5E5;
+}
+
 
 /* Error Page 404 Styling */
 
