@@ -7,15 +7,16 @@ body {
 
 .generic-section {
 
-    left:               0;
+    display:            block;
 
     width:              70%;
+
+    left:               0;
+
     margin-left:        15%;
     margin-right:       15%;
     margin-top:         0%;
     margin-bottom:      0%;
-
-    display:            block;
 
     border-style:       hidden hidden solid hidden;
     border-width:       3px;
@@ -28,6 +29,7 @@ body {
 .generic-title {
 
     display:            block;
+
     width:              100%;
 
     font-family:        'poppins';
@@ -43,10 +45,13 @@ body {
 
     display:            block;
 
+    width:              320px;
+    height:             40px;
+
     font-family:        'poppins';
     font-style:         normal;
     font-size:          18px;
-    font-weight:        700;
+    font-weight:        500;
 
     background-color:   #7B8CDE !important;
     color:              #FFFFFF !important;
@@ -55,17 +60,13 @@ body {
 
     transition:         .33s;
 
-    margin-left:        auto;
-    margin-right:       auto;
-
     text-align:         center;
-
-    width:              320px;
-    height:             40px;
 
     line-height:        40px;
 
     cursor:             pointer;
+
+    box-sizing:         border-box;
 }
 
 .generic-button:hover {
@@ -75,16 +76,17 @@ body {
 }
 
 .navbar {
+
+    display:            block;
+
+    width:              70%;
+
     overflow:           hidden;
 
     background-color:   #16262E;
 
     top:                0;
     left:               0;
-
-    display:            block;
-
-    width:              70%;
 
     margin-left:        15%;
     margin-right:       15%;
@@ -97,17 +99,22 @@ body {
 }
 
 .navbar p {
+
+    display:            inline-block;
+
     font-family:        'poppins';
     font-style:         normal;
     font-size:          40px;
     font-weight:        700;
 
     color:              #7B8CDE;
-
-    display:            inline-block;
 }
 
 .navbar-regular {
+
+    width:              100px;
+    height:             40px;
+
     font-size:          18px !important;
 
     color:              #7B8CDE;
@@ -119,14 +126,13 @@ body {
 
     margin:             0px 20px 0px 20px;
 
-    width:              100px;
-    height:             40px;
     line-height:        40px;
 
     cursor:             pointer;
 }
 
 .navbar-regular:hover {
+
     font-size:          18px !important;
 
     background-color:   #16262E !important;
@@ -134,6 +140,7 @@ body {
 }
 
 .navbar-share {
+
     background-color:   #7B8CDE !important;
     color:              #16262E !important;
 
@@ -141,6 +148,7 @@ body {
 }
 
 .navbar-share:hover {
+
     font-size:          18px !important;
 
     background-color:   #57fd15 !important;
@@ -149,15 +157,16 @@ body {
 
 .textentry {
 
+    display:            block;
+    width:              70%;
+
     left:               0;
 
-    width:              70%;
     margin-left:        15%;
     margin-right:       15%;
     margin-top:         0%;
     margin-bottom:      0%;
 
-    display:            block;
 
     border-style:       hidden hidden solid hidden;
     border-width:       3px;
@@ -168,6 +177,9 @@ body {
 }
 
 .textentry textarea {
+
+    display:            block;
+    width:              75%;
 
     font-family:        'poppins';
     font-style:         normal;
@@ -180,13 +192,10 @@ body {
     border-radius:      28px;
     border:             3px solid #7B8CDE;
 
-    display:            block;
     margin-left:        auto;
     margin-right:       auto;
     margin-top:         0px;
     margin-bottom:      0px;
-
-    width:              75%;
 
     padding:            10px 25px 10px 25px;
 }
@@ -221,44 +230,6 @@ body {
     font-size:          48px;
 }
 
-.textentry p {
-
-    display:            block;
-
-    font-family:        'poppins';
-    font-style:         normal;
-    font-size:          18px;
-    font-weight:        700;
-
-    background-color:   #7B8CDE !important;
-    color:              #FFFFFF !important;
-
-    border-radius:      15px;
-
-    transition:         .33s;
-
-    margin-left:        auto;
-    margin-right:       auto;
-
-    margin-top:         2%;
-    margin-bottom:      0;
-
-    text-align:         center;
-
-    width:              320px;
-    height:             40px;
-
-    line-height:        40px;
-
-    cursor:             pointer;
-}
-
-.textentry p:hover {
-
-    background-color:   #57fd15 !important;
-    color:              #000000 !important;
-}
-
 .hw_mode_button_div {
 
     display:            inline-block;
@@ -271,55 +242,24 @@ body {
     height:             150px;
 }
 
-.hw_mode_button {
-
-    display:            block;
-
-    font-family:        'poppins';
-    font-style:         normal;
-    font-size:          18px;
-    font-weight:        700;
-
-    background-color:   #7B8CDE !important;
-    color:              #FFFFFF !important;
-
-    border-radius:      15px;
-
-    transition:         .33s;
-
-    margin-left:        auto;
-    margin-right:       auto;
-
-    text-align:         center;
-
-    width:              320px;
-    height:             40px;
-
-    line-height:        40px;
-
-    cursor:             pointer;
-
-    box-sizing:         border-box;
-}
-
 .team-member-rect {
-    height: 274px;
-    width: 1100px;
+    height:             274px;
+    width:              1100px;
 
-    background-color: #C4C4C4;
+    background-color:   #C4C4C4;
 
-    border-radius: 137px 0px 0px 137px;
+    border-radius:      137px 0px 0px 137px;
 }
 
 .profile-image-left {
-    height: 274px;
-    width: 274px;
 
-    border-radius: 274px;
+    display:            block;
+    width:              274px;
+    height:             274px;
 
-    display: block;
+    border-radius:      274px;
 
-    margin: 0;
+    margin:             0;
 }
 
 .footer-contact-us {
@@ -334,6 +274,9 @@ body {
 }
 
 .footer-copyright {
+
+    height: 72px;
+
     margin-top: 48px;
     margin-left: 15%;
 
