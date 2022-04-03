@@ -242,6 +242,23 @@ body {
     height:             150px;
 }
 
+.generic-list {
+    display:            block;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          28px;
+    font-weight:        500;
+
+    color:              #7B8CDE !important;
+
+    text-align:         left;
+
+    cursor:             pointer;
+
+    box-sizing:         border-box;
+}
+
 .team-member-rect {
     height:             274px;
     width:              1100px;
