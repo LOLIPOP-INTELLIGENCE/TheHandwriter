@@ -327,3 +327,102 @@ body {
     padding-bottom: 40px;
     border-radius: 30px;
 }
+
+/* Meet the team */
+
+.container
+{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+}
+.container .card
+{
+   width: 330px;
+   height: 416px;
+   padding: 60px 30px;
+   margin: 20px;
+   background: #16262E;
+   box-shadow: -5px 5px 10px rgba(20, 34, 41, 0.2), 5px -5px 10px rgba(20, 34, 41, 0.2), -5px -5px 10px rgba(24, 42, 51, 0.9), 5px 5px 13px rgba(20, 34, 41, 0.9), inset 1px 1px 2px rgba(24, 42, 51, 0.3), inset -1px -1px 2px rgba(20, 34, 41, 0.5);
+   border-radius: 20px;
+}
+.container .card .content
+{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+.container .card .content .imgBx
+{
+   width: 180px;
+   height: 180px;
+   border-radius: 50%;
+   position: relative;
+   margin-bottom: 20px;
+   overflow: hidden;
+}
+.container .card .content .imgBx img
+{
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+.container .card .content .contentBx h4
+{
+   color: #7B8CDE;
+   font-size: 1.7rem;
+   font-weight: bold;
+   text-align: center;
+   font-family: 'poppins';
+
+   margin-top: 15px;
+   margin-bottom: 0;
+}
+
+.container .card .content .contentBx .contentBxDsc
+{
+   color: #6E80B0;
+   font-size: 18px;
+   font-weight: 400;
+   text-align: center;
+   font-family: 'poppins';
+
+   margin-top: 15px;
+}
+
+.container .card .content .contentBx .contentBxWhoAmI
+{
+    display:            block;
+
+    width:              284px;
+    height:             40px;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        500;
+
+    background-color:   #7B8CDE !important;
+    color:              #FFFFFF !important;
+
+    border-radius:      15px;
+
+    transition:         .33s;
+
+    text-align:         center;
+
+    line-height:        40px;
+
+    cursor:             pointer;
+
+    box-sizing:         border-box;
+
+   margin-top: auto;
+   margin-left: auto;
+   margin-right: auto;
+}
