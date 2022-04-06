@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="/home/aditya/Documents/handwriter2/TheHandwriter/static/style.css">
     <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
 
+    <script src="/home/aditya/Documents/handwriter2/TheHandwriter/static/script.js"></script>
+
 </head>
 
 <body>
@@ -42,10 +44,10 @@
     <div class="textentry">
         <textarea cols=40 rows=15 maxlength=2100 placeholder="Type it in.
 We'll write it out."></textarea>
-    <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;">Next</p>
+    <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="nextClickScroll()">Next</p>
     </div>
 
-    <div class="generic-section">
+    <div class="generic-section" id="choose-handwriting">
 
         <div class="generic-title">
             <p>choose a handwriting</p>
@@ -60,7 +62,7 @@ We'll write it out."></textarea>
                         height:             100%;
                         box-sizing:         border-box;
                         width:              50%;">
-                <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;">I'll upload my own</p>
+                <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="userUploadHw()">I'll upload my own</p>
             </div><div style="border-style:       hidden hidden hidden solid;
                         border-width:       2px;
                         border-color:       #7B8CDE;
@@ -69,30 +71,31 @@ We'll write it out."></textarea>
                         height:             100%;
                         box-sizing:         border-box;
                         width:              50%;">
-                <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;">I'll use a default template</p>
+                <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="selectDefaultHw()">I'll use a default template</p>
             </div>
         </div>
     </div>
 
-    <div class="generic-section">
+    <div class="generic-section" id="user-upload-hw">
         <div class="generic-title">
             <p>upload your handwriting</p>
         </div>
         <div>
-            <div style="display: inline-block; width: 50%; box-sizing: border-box; padding-left: 64px; padding-right: 16px">
+            <div style="display: inline-block; width: 50%; height: 100%; box-sizing: border-box; padding-left: 64px; padding-right: 16px">
                 <ul class="generic-list">
                     <li>Download and print-out this template</li>
                     <li>Fill in each box with your handwritten characters in the same order as shown</li>
                     <li>Upload the filled template and await, as the magic happens :)</li>
                 </ul>
             </div><div style="display: inline-block; width: 50%; box-sizing: border-box; padding-left: 16px; padding-right: 64px;">
-                <p class="generic-button" style="display: inline-block; width: 180px !important;">Download</p>
-                <p class="generic-button" style="display: inline-block; width: 180px !important;">Upload</p>
+                <div><img style="display: inline-block; width: 480px;" src="/home/aditya/Documents/handwriter2/TheHandwriter/static/scan.jpg"></div>
+                <p class="generic-button" style="display: inline-block; width: 240px !important;">Download</p>
+                <p class="generic-button" style="display: inline-block; width: 240px !important;">Upload</p>
             </div>
         </div>
     </div>
 
-    <div class="generic-section">
+    <div class="generic-section" id="select-default-hw">
         <div class="generic-title">
             <p>select a default template</p>
         </div>
