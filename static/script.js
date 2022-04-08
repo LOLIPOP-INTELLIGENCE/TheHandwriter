@@ -19,3 +19,29 @@ function selectDefaultHw ()
     resSection = document.getElementById ("select-default-hw");
     resSection.scrollIntoView ();
 }
+
+function userUploadHwNext ()
+{
+    resSection = document.getElementById ("generate");
+    resSection.scrollIntoView ();
+}
+
+function aboutUsClick ()
+{
+    resSection = document.getElementByClass("footer-");
+    resSection.scroolIntoView ();
+}
+
+function ContactClick ()
+{
+    resSection = document.getElementByClass("contact");
+    resSection.scroolIntoView ();
+}
+
+// function chooseFile ()
+// {
+
+//     var loc = document.getElementById ("hw-upload-form");
+
+//     loc.appendChild (<p style="color: white; font-family: poppins;">Filename selected succesfully</p>);
+// }

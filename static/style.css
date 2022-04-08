@@ -1,3 +1,7 @@
+* {
+    box-sizing:         border-box;
+}
+
 html {
     scroll-behavior:    smooth;
 }
@@ -95,26 +99,24 @@ body {
 
 .navbar {
 
-    display:            block;
+    display:            flex;
 
-    width:              80%;
+    align-items:        center;
 
-    overflow:           hidden;
+    width:              max(80%, 720px);
+    height:             120px;
 
-    top:                0;
-    left:               0;
-
-    margin-left:        10%;
-    margin-right:       10%;
-    margin-top:         0%;
-    margin-bottom:      0%;
+    margin-left:        auto;
+    margin-right:       auto;
 
     border-style:       hidden hidden solid hidden;
-    border-width:       3px;
+    border-width:       0px 0px 3px 0px;
     border-color:       var(--border);
+
+    font-size:          0px;
 }
 
-.navbar p {
+.main-title {
 
     display:            inline-block;
 
@@ -123,28 +125,30 @@ body {
     font-size:          40px;
     font-weight:        700;
 
+    line-height:        100%;
+
     color:              var(--action-bg);
 }
 
 .navbar-regular {
 
-    width:              100px;
-    height:             40px;
+    flex:               1 1 0;
 
-    font-size:          18px !important;
+    width:              120px;
 
-    background-color:   var(--primary-bg) !important;
-    color:              var(--action-bg) !important;
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        700;
 
-    transition:         .33s;
-
+    background-color:   var(--primary-bg);
+    color:              var(--action-bg);
     text-align:         center;
 
-    margin:             0px 20px 0px 20px;
-
-    line-height:        40px;
-
     cursor:             pointer;
+
+    border-radius:      5px;
+    transition:         .33s;
 }
 
 .navbar-regular:hover {
@@ -159,8 +163,6 @@ body {
 
     background-color:   var(--action-bg) !important;
     color:              var(--primary-bg) !important;
-
-    border-radius:      5px;
 }
 
 .navbar-share:hover {
@@ -194,13 +196,12 @@ body {
 
 .textentry textarea {
     display:            block;
-    width:              75%;
+    width:              min(75%, 1080px);
 
     font-family:        'poppins';
     font-style:         normal;
     font-size:          18px;
     font-weight:        700;
-    
 
     background-color:   var(--primary-bg) !important;
     color:              var(--primary-fg);
@@ -521,9 +522,9 @@ body {
 
         margin-left:        0%;
         margin-right:       0%;
-        
+
         padding-top:        80px;
-        padding-bottom:     40px;        
+        padding-bottom:     40px;
     }
 }
 
@@ -531,23 +532,23 @@ body {
     .textentry textarea::-webkit-input-placeholder {
         font-size:          28px;
     }
-    
+
     .textentry textarea:-moz-placeholder {
         font-size:          28px;
     }
-    
+
     .textentry textarea::-moz-placeholder {
         font-size:          28px;
     }
-    
+
     .textentry textarea:-ms-input-placeholder {
         font-size:          28px;
     }
-    
+
     .textentry textarea::-ms-input-placeholder {
         font-size:          28px;
     }
-    
+
     .textentry textarea::placeholder {
         font-size:          28px;
     }

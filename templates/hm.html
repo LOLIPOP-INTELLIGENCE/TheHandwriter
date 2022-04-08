@@ -19,25 +19,33 @@
     </style>
 
     <!-- <link rel="stylesheet" href="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/style.css"> -->
-    <link rel="stylesheet" href="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/style.css">
+    <link rel="stylesheet" href="/home/aditya/Documents/handwriter2/TheHandwriter/static/style.css">
     <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
 
-    <script src="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/script.js"></script>
+    <!-- <script src="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/script.js"></script> -->
+    <script src="/home/aditya/Documents/handwriter2/TheHandwriter/static/script.js"></script>
+    <!-- <script src="{% static 'style.css' %}"></script> -->
+
 
 </head>
 
 <body>
 
     <div class="navbar">
-        <div style="display: inline-block; width: 60%; margin-left: 3%">
-            <p>Handwriter</p>
+        <div style="display:        flex;
+                    flex:           7 1 0;
+                    padding-left:   16px;
+                    font-size:      0px;">
+            <p class="main-title">Handwriter</p>
         </div>
-        <div style="display: inline-block; width: 35%; height: 100%; margin-right: 1%; border-left: 1px solid #7B8CDE">
-            <div style="float: right;">
-                <p class="navbar-regular" onclick="console.log('Clicked About us')" id="navbar-about-us">About Us</p>
-                <p class="navbar-regular" onclick="console.log('Clicked Contact')" id="navbar-contact">Contact</p>
-                <p class="navbar-regular navbar-share" onclick="console.log('Clicked Share')" id="navbar-share">Share</p>
-            </div>
+        <div style="display:        flex;
+                    flex:           3 1 0;
+                    padding-right:  16px;
+                    font-size:      0px;
+                    border-left:    1px solid #7B8CDE;">
+            <p class="navbar-regular" id="navbar-about-us">About Us</p>
+            <p class="navbar-regular" id="navbar-contact">Contact</p>
+            <p class="navbar-regular navbar-share" id="navbar-share">Share</p>
         </div>
     </div>
 
