@@ -27,12 +27,12 @@ body {
 
     display:            block;
 
-    width:              70%;
+    width:              80%;
 
     left:               0;
 
-    margin-left:        15%;
-    margin-right:       15%;
+    margin-left:        10%;
+    margin-right:       10%;
     margin-top:         0%;
     margin-bottom:      0%;
 
@@ -41,7 +41,7 @@ body {
     border-color:       var(--border);
 
     padding-top:        15px;
-    padding-bottom:     40px;
+    padding-bottom:     15px;
 }
 
 .generic-title {
@@ -97,15 +97,15 @@ body {
 
     display:            block;
 
-    width:              70%;
+    width:              80%;
 
     overflow:           hidden;
 
     top:                0;
     left:               0;
 
-    margin-left:        15%;
-    margin-right:       15%;
+    margin-left:        10%;
+    margin-right:       10%;
     margin-top:         0%;
     margin-bottom:      0%;
 
@@ -174,12 +174,12 @@ body {
 .textentry {
 
     display:            block;
-    width:              70%;
+    width:              80%;
 
     left:               0;
 
-    margin-left:        15%;
-    margin-right:       15%;
+    margin-left:        10%;
+    margin-right:       10%;
     margin-top:         0%;
     margin-bottom:      0%;
 
@@ -193,7 +193,6 @@ body {
 }
 
 .textentry textarea {
-
     display:            block;
     width:              75%;
 
@@ -201,6 +200,7 @@ body {
     font-style:         normal;
     font-size:          18px;
     font-weight:        700;
+    
 
     background-color:   var(--primary-bg) !important;
     color:              var(--primary-fg);
@@ -297,6 +297,8 @@ body {
 
 .footer-contact-us {
     margin-top:         72px;
+    margin-left: 15%;
+    margin-right: 15%;
 
     text-align:         center;
 
@@ -307,11 +309,10 @@ body {
 }
 
 .footer-copyright {
-
     height:             72px;
 
     margin-top:         48px;
-    margin-left:        15%;
+    margin-left:        10%;
 
     font-family:        'poppins';
     font-size:          18px;
@@ -376,7 +377,7 @@ body {
 {
     width: 330px;
     height: 416px;
-    padding: 60px 30px;
+    padding: 30px 15px;
     margin: 20px;
     background: var(--base-color);
     box-shadow: -5px 5px 10px rgba(20, 34, 41, 0.2), 5px -5px 10px rgba(20, 34, 41, 0.2), -5px -5px 10px rgba(24, 42, 51, 0.9), 5px 5px 13px rgba(20, 34, 41, 0.9), inset 1px 1px 2px rgba(24, 42, 51, 0.3), inset -1px -1px 2px rgba(20, 34, 41, 0.5);
@@ -467,4 +468,90 @@ body {
 
     background-color:   var(--hover-bg) !important;
     color:              var(--hover-fg) !important;
+}
+
+@media (max-width: 750px) {
+    .footer-contact-us {
+        margin-top: 32px;
+
+        font-size: 18px;
+    }
+
+    .footer-copyright {
+        margin-top: 21px;
+        margin-left: 0%;
+
+        font-size: 14px;
+    }
+
+    .generic-section {
+        overflow-x: hidden;
+
+        margin-left: 0;
+        margin-right: 0;
+
+        width: 100%;
+    }
+
+    .container .card {
+        width: 280px;
+    }
+
+    #choose-handwriting {
+        display: none;
+    }
+
+    #user-upload-hw {
+        display: none;
+    }
+
+    .navbar {
+        margin-left: 0;
+        margin-right: 0;
+
+        width: 100%;
+    }
+
+    #navbar-about-us, #navbar-contact, #navbar-share {
+        display: none;
+    }
+
+    .textentry {
+        width:              100%;
+
+        margin-left:        0%;
+        margin-right:       0%;
+        
+        padding-top:        80px;
+        padding-bottom:     40px;        
+    }
+}
+
+@media (max-width: 560px) {
+    .textentry textarea::-webkit-input-placeholder {
+        font-size:          28px;
+    }
+    
+    .textentry textarea:-moz-placeholder {
+        font-size:          28px;
+    }
+    
+    .textentry textarea::-moz-placeholder {
+        font-size:          28px;
+    }
+    
+    .textentry textarea:-ms-input-placeholder {
+        font-size:          28px;
+    }
+    
+    .textentry textarea::-ms-input-placeholder {
+        font-size:          28px;
+    }
+    
+    .textentry textarea::placeholder {
+        font-size:          28px;
+    }
+    .textentry textarea {
+        height: 15em;
+    }
 }
