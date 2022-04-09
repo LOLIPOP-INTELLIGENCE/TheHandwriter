@@ -42,7 +42,7 @@
                     flex:           3 1 0;
                     padding-right:  16px;
                     font-size:      0px;
-                    border-left:    1px solid #7B8CDE;">
+                    border-left:    1px solid var(--border);">
             <p class="navbar-regular" id="navbar-about-us" onclick="aboutUsClick()">About Us</p>
             <p class="navbar-regular" id="navbar-contact" onclick="contactClick()">Contact</p>
             <p class="navbar-regular navbar-share" id="navbar-share">Share</p>
@@ -63,15 +63,15 @@ We'll write it out."></textarea>
         </div>
 
         <div class="hw_mode_button_div">
-            <div style="border-right:       2px solid var(--border);
-                        padding:            10px 10px 10px 10px;
-                        flex:               1 1 0;">
-                <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="userUploadHw()">I'll upload my own</p>
+            <div style="padding:            10px 10px 10px 10px;
+                        flex:               1 1 0;
+                        border-right:       2px solid var(--border);">
+                <p class="generic-button" style="margin-left: auto; margin-right: auto; width: max(40%, 240px) !important;" onclick="userUploadHw()">I'll upload my own</p>
             </div>
-            <div style="border-left:        2px solid var(--border);
-                        padding:            10px 10px 10px 10px;
-                        flex:               1 1 0;">
-                <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="selectDefaultHw()">I'll use a default template</p>
+            <div style="padding:            10px 10px 10px 10px;
+                        flex:               1 1 0;
+                        border-left:        2px solid var(--border);">
+                <p class="generic-button" style="margin-left: auto; margin-right: auto; width: max(40%, 240px) !important;" onclick="selectDefaultHw()">I'll use a default template</p>
             </div>
         </div>
     </div>
