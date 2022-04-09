@@ -89,17 +89,27 @@ We'll write it out."></textarea>
         <div class="generic-title">
             <p>upload your handwriting</p>
         </div>
-        <div>
-            <div style="display: inline-block; width: 50%; height: 100%; box-sizing: border-box; padding-left: 64px; padding-right: 16px">
+        <div style="display: flex;">
+            <div style="flex:           1 1 0;
+                        display:        flex;
+                        height:         100%;
+                        padding-left:   64px;
+                        padding-right:  16px">
                 <ul class="generic-list">
                     <li>Download and print-out this template</li>
                     <li>Fill in each box with your handwritten characters in the same order as shown</li>
                     <li>Upload the filled template and await, as the magic happens :)</li>
                 </ul>
-            </div><div style="display: inline-block; width: 50%; box-sizing: border-box; padding-left: 16px; padding-right: 64px;">
-                <div><img style="display: inline-block; width: 480px;" src="/home/aditya/Documents/handwriter2/TheHandwriter/static/scan.jpg"></div>
-                <p class="generic-button" style="display: inline-block; width: 240px !important;">Download</p>
-                <p class="generic-button" style="display: inline-block; width: 240px !important;">Upload</p>
+            </div>
+            <div style="flex:           1 1 0;
+                            display:    flex;
+                            flex-direction: column;
+                            padding-left: 16px;">
+                <div><img style="width: min(480px, 66%)" src="/home/aditya/Documents/handwriter2/TheHandwriter/static/scan.jpg"></div>
+                <div style="display: flex; align-items: center; width: min(480px, 66%);">
+                    <p class="generic-button" style="width: 180px !important; margin-left: auto; margin-right: auto;">Download</p>
+                    <p class="generic-button" style="width: 180px !important; margin-left: auto; margin-right: auto;">Upload</p>
+                </div>
             </div>
         </div>
     </div>
