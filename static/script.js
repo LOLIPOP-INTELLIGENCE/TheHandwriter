@@ -28,14 +28,14 @@ function userUploadHwNext ()
 
 function aboutUsClick ()
 {
-    resSection = document.getElementByClass("footer-");
-    resSection.scroolIntoView ();
+    resSection = document.getElementById("meet-the-team");
+    resSection.scrollIntoView ();
 }
 
-function ContactClick ()
+function contactClick ()
 {
-    resSection = document.getElementByClass("contact");
-    resSection.scroolIntoView ();
+    resSection = document.getElementById("contact-us");
+    resSection.scrollIntoView ();
 }
 
 // function chooseFile ()

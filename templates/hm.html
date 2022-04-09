@@ -18,12 +18,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     </style>
 
-    <link rel="stylesheet" href="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/style.css">
-    <!-- <link rel="stylesheet" href="/home/aditya/Documents/handwriter2/TheHandwriter/static/style.css"> -->
+    <!-- <link rel="stylesheet" href="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/style.css"> -->
+    <link rel="stylesheet" href="/home/aditya/Documents/handwriter2/TheHandwriter/static/style.css">
     <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
 
-    <script src="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/script.js"></script>
-    <!-- <script src="/home/aditya/Documents/handwriter2/TheHandwriter/static/script.js"></script> -->
+    <!-- <script src="/Users/blackhole/Desktop/VS_Code.nosync/TheHandwriter/static/script.js"></script> -->
+    <script src="/home/aditya/Documents/handwriter2/TheHandwriter/static/script.js"></script>
     <!-- <script src="{% static 'style.css' %}"></script> -->
 
 
@@ -43,8 +43,8 @@
                     padding-right:  16px;
                     font-size:      0px;
                     border-left:    1px solid #7B8CDE;">
-            <p class="navbar-regular" id="navbar-about-us">About Us</p>
-            <p class="navbar-regular" id="navbar-contact">Contact</p>
+            <p class="navbar-regular" id="navbar-about-us" onclick="aboutUsClick()">About Us</p>
+            <p class="navbar-regular" id="navbar-contact" onclick="contactClick()">Contact</p>
             <p class="navbar-regular navbar-share" id="navbar-share">Share</p>
         </div>
         <p class="navbar-regular navbar-share" id="navbar-share-mobile">Share</p>
@@ -63,23 +63,14 @@ We'll write it out."></textarea>
         </div>
 
         <div class="hw_mode_button_div">
-            <div style="border-style:       hidden solid hidden hidden;
-                        border-width:       2px;
-                        border-color:       #7B8CDE;
-                        display:            inline-block;
+            <div style="border-right:       2px solid var(--border);
                         padding:            10px 10px 10px 10px;
-                        height:             100%;
-                        box-sizing:         border-box;
-                        width:              50%;">
+                        flex:               1 1 0;">
                 <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="userUploadHw()">I'll upload my own</p>
-            </div><div style="border-style:       hidden hidden hidden solid;
-                        border-width:       2px;
-                        border-color:       #7B8CDE;
-                        display:            inline-block;
+            </div>
+            <div style="border-left:        2px solid var(--border);
                         padding:            10px 10px 10px 10px;
-                        height:             100%;
-                        box-sizing:         border-box;
-                        width:              50%;">
+                        flex:               1 1 0;">
                 <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="selectDefaultHw()">I'll use a default template</p>
             </div>
         </div>
@@ -116,7 +107,7 @@ We'll write it out."></textarea>
 
     <!-- Meet the team  -->
 
-    <div class="container generic-section">
+    <div class="container generic-section" id="meet-the-team">
         <div class="card">
             <div class="content">
                 <div class="imgBx">
@@ -153,7 +144,6 @@ We'll write it out."></textarea>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Meet the team ends -->
@@ -161,7 +151,7 @@ We'll write it out."></textarea>
     <!-- Footer -->
 
     <div>
-        <p class="footer-contact-us">contact us at handwriter@handwriter.in</p>
+        <p class="footer-contact-us" id="contact-us">contact us at handwriter@handwriter.in</p>
         <p class="footer-copyright">© 2022 handwriter.in</p>
     </div>
 
