@@ -452,7 +452,7 @@ body {
     margin-right:       auto;
 }
 
-.contentBxWhoAmI:hover {
+.container .card .content .contentBx .contentBxWhoAmI:hover {
 
     background-color:   var(--hover-bg) !important;
     color:              var(--hover-fg) !important;
