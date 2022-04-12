@@ -8,16 +8,28 @@ html {
 
 /* 143f6b */
 
+/* :root {
+
+    --primary-bg:       #252525;
+    --primary-fg:       #FECE00;
+
+    --action-fg:        #DCDBCF;
+
+    --hover-bg:         hsl( 29, 54%, 61%);
+
+    --border:           #FECE00;
+} */
+
 :root {
 
-    --primary-bg:       #143F6B;
-    --primary-fg:       #F6F54D;
+    --primary-bg:       #252525;
+    --primary-fg:       rgb(221, 165, 92);
 
-    --action-fg:        #FFFFFF;
+    --action-fg:        #DCDBCF;
 
-    --hover-bg:         #F4C430;
+    --hover-bg:         #FECE00;
 
-    --border:           #F6F54D;
+    --border:           rgb(221, 165, 92);
 }
 
 body {
