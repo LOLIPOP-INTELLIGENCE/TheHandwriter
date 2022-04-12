@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Handwriter</title>
+    <title>Handwriter - Type it in. We'll write it out.</title>
+
+    <meta description="Handwriter is an online tool to convert typed text into handwritten images for free. You can use your own handwriting, or choose from one of our default handwritings.">
 
     <style>
         @import url(https://fonts.googleapis.com/css?family=Amatic+SC);
@@ -51,7 +53,7 @@
                     flex:           3 1 0;
                     padding-right:  16px;
                     font-size:      0px;
-                    border-left:    1px solid var(--border);">
+                    border-left:    1px solid var(--primary-fg);">
             <p class="navbar-regular" id="navbar-about-us" onclick="aboutUsClick()">About Us</p>
             <p class="navbar-regular" id="navbar-contact" onclick="contactClick()">Contact</p>
             <p class="navbar-regular navbar-share" id="navbar-share">Share</p>
@@ -60,7 +62,7 @@
     </div>
 
     <div class="textentry">
-        <textarea cols=40 rows=15 maxlength=2100 placeholder="Type it in.
+        <textarea style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder="Type it in.
 We'll write it out."></textarea>
         <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="nextClickScroll()">Next</p>
     </div>
@@ -94,7 +96,9 @@ We'll write it out."></textarea>
                         display:        flex;
                         height:         100%;
                         padding-left:   64px;
-                        padding-right:  16px">
+                        padding-right:  16px;
+                        margin-bottom:  auto;
+                        margin-top:     auto;">
                 <ul class="generic-list">
                     <li>Download and print-out this template</li>
                     <li>Fill in each box with your handwritten characters in the same order as shown</li>
@@ -105,13 +109,14 @@ We'll write it out."></textarea>
                             display:    flex;
                             flex-direction: column;
                             padding-left: 16px;">
-                <div><img style="width: min(480px, 66%)" src="/home/aditya/Documents/handwriter2/TheHandwriter/static/scan.jpg"></div>
-                <div style="display: flex; align-items: center; width: min(480px, 66%);">
-                    <p class="generic-button" style="width: 180px !important; margin-left: auto; margin-right: auto;">Download</p>
-                    <p class="generic-button" style="width: 180px !important; margin-left: auto; margin-right: auto;">Upload</p>
+                <div><img style="width: min(600px, 90%); padding-left: 16px;" src="/home/aditya/Documents/handwriter2/TheHandwriter/static/scan.jpg"></div>
+                <div style="display: flex; align-items: center; width: min(600px, 90%); padding-left: 16px">
+                    <p class="generic-button" style="width: 50% !important; margin-right: 5%;">Download</p>
+                    <p class="generic-button" style="width: 50% !important;">Upload</p>
                 </div>
             </div>
         </div>
+        <div style="height: 32px;"></div>
     </div>
 
     <div class="generic-section" id="select-default-hw">

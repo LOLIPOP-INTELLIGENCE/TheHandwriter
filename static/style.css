@@ -6,21 +6,18 @@ html {
     scroll-behavior:    smooth;
 }
 
+/* 143f6b */
+
 :root {
 
-    --primary-bg:       #16262E;
-    --primary-fg:       #FFFFFF;
+    --primary-bg:       #143F6B;
+    --primary-fg:       #F6F54D;
 
-    --action-bg:        #7B8CDE;
     --action-fg:        #FFFFFF;
 
-    --important-bg:     #16262E;
-    --important-fg:     #7B8CDE;
+    --hover-bg:         #F4C430;
 
-    --hover-bg:         #57fd15;
-    --hover-fg:         #000000;
-
-    --border:           #7B8CDE;
+    --border:           #F6F54D;
 }
 
 body {
@@ -56,8 +53,8 @@ body {
     font-size:          18px;
     font-weight:        500;
 
-    background-color:   var(--action-bg) !important;
-    color:              var(--action-fg) !important;
+    background-color:   var(--primary-fg) !important;
+    color:              var(--primary-bg) !important;
 
     border-radius:      15px;
 
@@ -98,6 +95,7 @@ body {
 .main-title {
 
     display:            inline-block;
+    /* display: block; */
 
     font-family:        'poppins';
     font-style:         normal;
@@ -106,7 +104,7 @@ body {
 
     line-height:        100%;
 
-    color:              var(--action-bg);
+    color:              var(--primary-fg);
 }
 
 .navbar-regular {
@@ -120,8 +118,8 @@ body {
     font-size:          18px;
     font-weight:        700;
 
-    background-color:   var(--important-bg);
-    color:              var(--important-fg);
+    background-color:   var(--primary-bg);
+    color:              var(--primary-fg);
     text-align:         center;
 
     cursor:             pointer;
@@ -136,13 +134,13 @@ body {
 }
 
 #about-us-link:link {
-    background-color:   var(--important-bg);
-    color:              var(--important-fg);
+    background-color:   var(--primary-bg);
+    color:              var(--primary-fg);
 }
 
 #about-us-link:visited {
-    background-color:   var(--important-bg);
-    color:              var(--important-fg);
+    background-color:   var(--primary-bg);
+    color:              var(--primary-fg);
 }
 
 #about-us-link:hover {
@@ -160,7 +158,7 @@ body {
 
 .navbar-share {
 
-    background-color:   var(--action-bg) !important;
+    background-color:   var(--primary-fg) !important;
     color:              var(--primary-bg) !important;
 }
 
@@ -193,6 +191,8 @@ body {
 
     padding-top:        80px;
     padding-bottom:     40px;
+
+    resize:             none;
 }
 
 /* Choose a handwriting */
@@ -220,8 +220,6 @@ body {
     color:              var(--primary-fg) !important;
 
     text-align:         left;
-
-    cursor:             pointer;
 }
 
 /* choose a default handwriting styling */
@@ -327,7 +325,7 @@ body {
 
 .container .card .content .contentBx h4
 {
-    color:              var(--focus-color);
+    color:              var(--primary-fg);
     font-size:          1.7rem;
     font-weight:        bold;
     text-align:         center;
@@ -397,7 +395,7 @@ body {
     font-size:          24px;
     font-weight:        700;
 
-    color:              var(--important-fg);
+    color:              var(--action-fg);
 }
 
 .footer-copyright {
@@ -429,7 +427,7 @@ body {
     margin-bottom:      0%;
 
     border-width:       3px;
-    border-color:       var(--border);
+    border-color:       var(--primary-fg);
     border-radius:      30px;
 
     padding-left:       0px;
@@ -458,6 +456,10 @@ body {
     font-family:        'poppins';
 
     margin-top:         32px;
+}
+
+.textentry textarea:focus {
+    outline: var(--primary-fg) solid 2px;
 }
 
 @media (min-width: 560px) {
@@ -501,10 +503,10 @@ body {
         font-weight:        700;
 
         background-color:   var(--primary-bg) !important;
-        color:              var(--primary-fg);
+        color:              var(--action-fg);
 
         border-radius:      28px;
-        border:             3px solid var(--border);
+        border:             3px solid var(--primary-fg);
 
         margin-left:        auto;
         margin-right:       auto;
@@ -558,10 +560,10 @@ body {
         font-weight:        700;
 
         background-color:   var(--primary-bg) !important;
-        color:              var(--primary-fg);
+        color:              var(--action-fg);
 
         border-radius:      28px;
-        border:             3px solid var(--border);
+        border:             3px solid var(--primary-fg);
 
         margin-left:        auto;
         margin-right:       auto;
