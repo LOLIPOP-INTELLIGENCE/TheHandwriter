@@ -32,6 +32,18 @@ html {
     --border:           rgb(221, 165, 92);
 }
 
+::-moz-selection { /* Code for Firefox */
+    color:              #252525;
+    background:         #FECE00;
+    border-radius:      5px;
+}
+
+::selection {
+    color:              #252525;
+    background:         #FECE00;
+    border-radius:      5px;
+}
+
 body {
     background-color:   var(--primary-bg);
 }
