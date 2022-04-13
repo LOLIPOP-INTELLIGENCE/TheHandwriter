@@ -56,9 +56,9 @@
     </div>
 
     <div class="textentry">
-        <textarea style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder="Type it in.
+        <textarea id="textinput" style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder="Type it in.
 We'll write it out."></textarea>
-        <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="nextClickScroll()">Next</p>
+        <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="nextClickScroll()" id="text-input-next">Next</p>
     </div>
 
     <div class="generic-section" id="choose-handwriting">
@@ -123,67 +123,15 @@ We'll write it out."></textarea>
             <div class="container-slider">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '1.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '2.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '3.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '4.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '5.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '6.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '7.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '8.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '9.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '10.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '11.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="card-image">
-                                <img src="{% static '12.png' %}" alt="Image Slider">
-                            </div>
-                        </div>
-
+                        {% for _ in ""|ljust:"12" %}
+                            {% with imgpath=forloop.counter|slugify|add:".png" %}
+                                <div class="swiper-slide">
+                                    <div class="card-image">
+                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}})">
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
                     </div>
                     <!-- Add Pagination -->
                     <div class="swiper-pagination"></div>

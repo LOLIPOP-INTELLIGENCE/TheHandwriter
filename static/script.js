@@ -1,10 +1,36 @@
 
+//stores what the user types in (this will later be used in the POST request while generating the handwriting)
+var typed = "";
+
+// stores which handwriting the user selects (if a default handwriting is selected)
+var selected_hw = -1;
+
+function restoreNextButton () {
+    nextbutton = document.getElementById ("text-input-next");
+    nextbutton.textContent = "Next";
+}
+
 function nextClickScroll() {
-    resSection = document.getElementById("choose-handwriting");
-    resSection.scrollIntoView()
+
+    textarea = document.getElementById ("textinput");
+    typed = textarea.value;
+
+    nextbutton = document.getElementById ("text-input-next");
+
+    if (typed == "") {
+        nextbutton.textContent = "Please enter some text first!";
+        setTimeout (restoreNextButton, 3000);
+    }
+    else {
+        resSection = document.getElementById("choose-handwriting");
+        resSection.scrollIntoView()
+    }
 }
 
 function userUploadHw() {
+
+    console.log (typed)
+
     resSection = document.getElementById("user-upload-hw");
     resSection.scrollIntoView();
 }
@@ -27,6 +53,16 @@ function aboutUsClick() {
 function contactClick() {
     resSection = document.getElementById("contact-us");
     resSection.scrollIntoView();
+}
+
+function defaultClick(number) {
+    console.log ("Clicked on handwriting " + number)
+    selected_hw = int (number)
+}
+
+function generateClick () {
+    console.log ("Sending POST request to server to create image")
+    console.log ("Redirecting to new page")
 }
 
 // Swiper Configuration
