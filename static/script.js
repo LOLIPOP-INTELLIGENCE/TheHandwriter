@@ -5,6 +5,22 @@ var typed = "";
 // stores which handwriting the user selects (if a default handwriting is selected)
 var selected_hw = -1;
 
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 function restoreNextButton () {
     nextbutton = document.getElementById ("text-input-next");
     nextbutton.textContent = "Next";
@@ -28,9 +44,6 @@ function nextClickScroll() {
 }
 
 function userUploadHw() {
-
-    console.log (typed)
-
     resSection = document.getElementById("user-upload-hw");
     resSection.scrollIntoView();
 }
@@ -56,13 +69,27 @@ function contactClick() {
 }
 
 function defaultClick(number) {
-    console.log ("Clicked on handwriting " + number)
-    selected_hw = int (number)
+    selected_hw = number
 }
 
 function generateClick () {
-    console.log ("Sending POST request to server to create image")
-    console.log ("Redirecting to new page")
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/res", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+    xhr.send(JSON.stringify({
+        "typed": typed,
+        "def-hw": selected_hw
+    }));
+
+    xhr.onload = function() {
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+    }
+
 }
 
 // Swiper Configuration

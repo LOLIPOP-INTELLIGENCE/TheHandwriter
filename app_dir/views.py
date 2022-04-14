@@ -356,3 +356,29 @@ def hx( request, _x ):
         cv2.imwrite( res_path, img )
 
     return render( request, 'r.html', {'image': res_path} )
+
+def serveImgPostReq (request):
+
+    print (f"Generating image...\n{request.body.decode()}")
+
+    info        = eval(request.body.decode())
+
+    # get the typed text and selected handwriting
+    inp_text    = info['typed']
+    _x          = info['def-hw']
+
+    # Get the current time and convert it to an ID
+    cur_time    = to_id( time.time_ns() )
+
+    # Create file and save text
+    # with open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w") as fout:
+    #     fout.write( inp_text )
+
+    set_path    = media_path + "DisplayedHandwritings/set_{}/".format( _x )
+    res_path    = static_path + "res_{}.jpg".format( cur_time )
+
+    final_text  = make_line_list( inp_text )
+    img         = generate_final_image( final_text, set_path )
+    cv2.imwrite( res_path, img )
+
+    return HttpResponse( f"{{\"path\": \"{res_path}\"}}")

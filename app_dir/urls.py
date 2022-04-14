@@ -19,5 +19,6 @@ urlpatterns = [
     path('h9', lambda req : views.hx( req, 9 ), name = 'h9' ),
     path('h10', lambda req : views.hx( req, 10 ), name = 'h10' ),
     path('h11', lambda req : views.hx( req, 11 ), name = 'h11' ),
-    path('h12', lambda req : views.hx( req, 12 ), name = 'h12' )
+    path('h12', lambda req : views.hx( req, 12 ), name = 'h12' ),
+    path('res', views.serveImgPostReq, name = 'res' ),
 ]
