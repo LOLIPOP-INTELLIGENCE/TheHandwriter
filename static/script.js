@@ -1,5 +1,5 @@
 
-//stores what the user types in (this will later be used in the POST request while generating the handwriting)
+// stores what the user types in (this will later be used in the POST request while generating the handwriting)
 var typed = "";
 
 // stores which handwriting the user selects (if a default handwriting is selected)
@@ -72,23 +72,49 @@ function defaultClick(number) {
     selected_hw = number
 }
 
+function goToResult () {
+
+    // parse the returned string data int a json object, the object contains only one
+    // member, the path, which is an extensionless string to the result image
+    var data = JSON.parse(this.responseText);
+    var path = data.path
+
+    // open the result in a new tab
+    window.open("http://localhost:8000/result/" + path, '_blank');
+
+    // change the generate button to a redirect button
+    var generateButtonExt  = document.getElementById("generate-button-extern");
+    var generateButtonInt  = document.getElementById("generate-button-intern");
+
+    // clicking should no longer send a post request, only redirect to the new page
+    generateButtonExt.setAttribute("onclick", "");
+
+    // the button should now open the result page in a new tab
+    generateButtonInt.textContent = "Click here if not automatically redirected";
+    generateButtonInt.setAttribute("href", "http://localhost:8000/result/" + path);
+    generateButtonInt.setAttribute("target", "_blank");
+}
+
 function generateClick () {
 
+    // create a new post request which tells the server the typed text, selected handwriting
+    // and requests it to create an image
     var xhr = new XMLHttpRequest();
-
     xhr.open("POST", "/res", true);
+
+    // the browser sends a json object containing the typed text and selected handwriting, set
+    // content-type header to application/json
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
 
+    // set the body of the request and send it
     xhr.send(JSON.stringify({
         "typed": typed,
         "def-hw": selected_hw
     }));
 
-    xhr.onload = function() {
-        var data = JSON.parse(this.responseText);
-        console.log(data);
-    }
+    // on recieve a response, invoke the goToResult function which performs the redirection, etc.
+    xhr.onload = goToResult;
 
 }
 

@@ -41,7 +41,7 @@ def to_id( _num, _base = 64 ):
 
     if _num <= 0: return '0'
 
-    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_#'
+    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-'
     res     = ''
 
     while _num:
@@ -332,31 +332,6 @@ def upload( request ):
 
         return render( request, 'r.html', {'image':res_path} )
 
-def hx( request, _x ):
-
-    # Get input text and paths to resultant image, input set
-    if "txt" not in request.session:
-        res_path    = static_path + "default.jpg"
-    else:
-        inp_text    = request.session["txt"]
-
-        # Get the current time and convert it to an ID
-        cur_time    = to_id( time.time_ns() )
-
-        # Create file and save text
-        # fout        = open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w")
-        # fout.write( inp_text )
-        # fout.close()
-
-        set_path    = media_path + "DisplayedHandwritings/set_{}/".format( _x )
-        res_path    = static_path + "res_{}.jpg".format( cur_time )
-
-        final_text  = make_line_list( inp_text )
-        img         = generate_final_image( final_text, set_path )
-        cv2.imwrite( res_path, img )
-
-    return render( request, 'r.html', {'image': res_path} )
-
 def serveImgPostReq (request):
 
     print (f"Generating image...\n{request.body.decode()}")
@@ -375,10 +350,18 @@ def serveImgPostReq (request):
     #     fout.write( inp_text )
 
     set_path    = media_path + "DisplayedHandwritings/set_{}/".format( _x )
-    res_path    = static_path + "res_{}.jpg".format( cur_time )
+    res_suf     = "res_{}.jpg".format( cur_time )
+    res_path    = static_path + res_suf
 
     final_text  = make_line_list( inp_text )
     img         = generate_final_image( final_text, set_path )
     cv2.imwrite( res_path, img )
 
-    return HttpResponse( f"{{\"path\": \"{res_path}\"}}")
+    return HttpResponse( f"{{\"path\": \"{res_suf[:-4]}\"}}")
+
+def renderResult (request, path):
+
+    res_path    = static_path + path + ".jpg"
+
+    print(res_path)
+    return render( request, 'r.html', {'image': res_path} )
