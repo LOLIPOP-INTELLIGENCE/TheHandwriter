@@ -1,17 +1,18 @@
 
 // stores what the user types in (this will later be used in the POST request while generating the handwriting)
-var typed = "";
+var typed           = "";
+
+var upload_hw       = -1;
 
 // stores which handwriting the user selects (if a default handwriting is selected)
-var selected_hw = -1;
+var selected_hw     = -1;
 
 function getCookie(name) {
-    var cookieValue = null;
+    var cookieValue     = null;
     if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
+        var cookies     = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
+            var cookie  = cookies[i].trim();
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -70,6 +71,49 @@ function contactClick() {
 
 function defaultClick(number) {
     selected_hw = number
+}
+
+function uploadClick() {
+
+    // var validExt = ["BMP", "GIF", "JPEG", "JPG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XPM"];
+
+    var uploadInput     = document.getElementById("upload-input");
+    var uploadButton    = document.getElementById("upload-button");
+    var numFiles        = uploadInput.files.length;
+
+    // check to see if a file has been selected (the number of files selected should be non-zero)
+    if (!(numFiles === 0)) {
+
+        // get the file object and its name (complete path + extension)
+        upload_hw       = uploadInput.files[0];
+        var filename    = upload_hw.name;
+        // var fileExt     = filename.split('.').pop().toUpperCase();
+
+        // the text on the upload button should change if the image is valid
+        // this does not change the behaviour of the button
+        // clicking on the button will allow the user to select another file
+        // selecting a new file (valid or not) will unselect the current file
+        // if (validExt.indexOf(fileExt) != -1) {
+        if (upload_hw.type.split('/')[0] === "image") {
+            uploadButton.textContent = "\"" + filename + "\" selected";
+        }
+        else {
+
+            // unselect the file
+            upload_hw   = -1;
+
+            // change the text (and color) to indicate invalid file (behaviour of button does not change)
+            uploadButton.textContent = "File type not supported!";
+            uploadButton.setAttribute("style", "width: 100% !important; color: #FF0000 !important;");
+
+            // after 3 seconds, restore the text and color back to normal (once again, without altering behaviour)
+            setTimeout(function () {
+                var uploadButton = document.getElementById("upload-button");
+                uploadButton.textContent = "Upload";
+                uploadButton.setAttribute("style", "width: 100% !important;");
+            }, 3000);
+        }
+    }
 }
 
 function goToResult () {

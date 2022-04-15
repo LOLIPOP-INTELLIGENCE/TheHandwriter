@@ -334,8 +334,6 @@ def upload( request ):
 
 def serveImgPostReq (request):
 
-    print (f"Generating image...\n{request.body.decode()}")
-
     info        = eval(request.body.decode())
 
     # get the typed text and selected handwriting
@@ -362,6 +360,4 @@ def serveImgPostReq (request):
 def renderResult (request, path):
 
     res_path    = static_path + path + ".jpg"
-
-    print(res_path)
     return render( request, 'r.html', {'image': res_path} )

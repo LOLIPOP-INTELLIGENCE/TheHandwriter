@@ -106,7 +106,10 @@ We'll write it out."></textarea>
                 <div><img style="width: min(600px, 90%); padding-left: 16px;" src="{% static 'scan.jpg' %}"></div>
                 <div style="display: flex; align-items: center; width: min(600px, 90%); padding-left: 16px">
                     <p class="generic-button" style="width: 50% !important; margin-right: 5%;">Download</p>
-                    <p class="generic-button" style="width: 50% !important;">Upload</p>
+                    <label for="upload-input" style="width: 50% !important;" onchange="uploadClick()">
+                        <input type="file" style="display: none;" id="upload-input">
+                        <p class="generic-button" style="width: 100% !important;" id="upload-button">Upload</p>
+                    </label>
                 </div>
             </div>
         </div>
