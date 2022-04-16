@@ -7,6 +7,7 @@ var upload_hw       = -1;
 // stores which handwriting the user selects (if a default handwriting is selected)
 var selected_hw     = -1;
 
+// utility function to get session cookie (for post requests)
 function getCookie(name) {
     var cookieValue     = null;
     if (document.cookie && document.cookie !== '') {
@@ -21,6 +22,14 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+// utility function to convert from arrayBuffer to base 64 encoded bytes-string
+function arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
+    return window.btoa(binary);
+};
 
 function restoreNextButton () {
     nextbutton = document.getElementById ("text-input-next");
@@ -139,7 +148,7 @@ function goToResult () {
     generateButtonInt.setAttribute("target", "_blank");
 }
 
-function generateClick () {
+async function generateClick () {
 
     // create a new post request which tells the server the typed text, selected handwriting
     // and requests it to create an image
@@ -151,15 +160,20 @@ function generateClick () {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
 
+    body = {"typed": typed, "def-hw": selected_hw, "upl-hw": -1};
+
+    if (upload_hw != -1) {
+
+        var txt = await upload_hw.arrayBuffer();
+        txt = arrayBufferToBase64(txt);
+        body["upl-hw"] = txt;
+    }
+
     // set the body of the request and send it
-    xhr.send(JSON.stringify({
-        "typed": typed,
-        "def-hw": selected_hw
-    }));
+    xhr.send(JSON.stringify(body));
 
     // on recieve a response, invoke the goToResult function which performs the redirection, etc.
     xhr.onload = goToResult;
-
 }
 
 // Swiper Configuration

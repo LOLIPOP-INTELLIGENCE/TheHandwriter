@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
+from django.views.decorators.csrf import csrf_exempt
 
 import time, os
 import numpy as np
@@ -9,6 +10,8 @@ import random
 from PIL import Image
 import pickle
 import bz2
+
+import base64
 
 from pathlib import Path as PATH
 
@@ -332,27 +335,51 @@ def upload( request ):
 
         return render( request, 'r.html', {'image':res_path} )
 
+@csrf_exempt
 def serveImgPostReq (request):
 
+    # from the request body, evaluate the JS object into a python dictionary
     info        = eval(request.body.decode())
 
-    # get the typed text and selected handwriting
+    # get the typed text
     inp_text    = info['typed']
-    _x          = info['def-hw']
 
     # Get the current time and convert it to an ID
     cur_time    = to_id( time.time_ns() )
 
-    # Create file and save text
+    # start building the set path (it will start from media path)
+    set_path    = media_path
+
+    if info["upl-hw"] != -1:
+
+        dir_path    = media_path + "AllHandwritings/scan_{}".format( cur_time )
+        sub_path    = dir_path + "/submission.jpg"
+        pro_path    = dir_path + "/processed_submission.jpg"
+
+        os.mkdir(dir_path)
+
+        info["upl-hw"] = base64.b64decode(info["upl-hw"])
+        with open(sub_path, "wb") as f:
+            f.write(info["upl-hw"])
+
+        preprocess( sub_path, pro_path )
+        detect_box( pro_path, dir_path )
+
+        set_path    += "AllHandwritings/scan_{}".format( cur_time )
+
+    else:
+        set_path    += "DisplayedHandwritings/set_{}/".format( info["def-hw"] )
+
+    # Create file and save typed text
     # with open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w") as fout:
     #     fout.write( inp_text )
 
-    set_path    = media_path + "DisplayedHandwritings/set_{}/".format( _x )
     res_suf     = "res_{}.jpg".format( cur_time )
     res_path    = static_path + res_suf
 
     final_text  = make_line_list( inp_text )
     img         = generate_final_image( final_text, set_path )
+
     cv2.imwrite( res_path, img )
 
     return HttpResponse( f"{{\"path\": \"{res_suf[:-4]}\"}}")
