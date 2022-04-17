@@ -437,7 +437,7 @@ body {
 
 /* result page styling */
 
-.res_img {
+.res-img {
     top:                0;
     left:               0;
 
@@ -450,14 +450,16 @@ body {
     margin-top:         0%;
     margin-bottom:      0%;
 
-    border-width:       3px;
-    border-color:       var(--primary-fg);
-    border-radius:      30px;
-
     padding-left:       0px;
     padding-right:      0px;
     padding-top:        40px;
     padding-bottom:     40px;
+}
+
+.img-styling {
+    width:              100%;
+
+    border-radius:      15px;
 }
 
 /* error Page 404 Styling */

@@ -41,7 +41,7 @@
                     flex:           7 1 0;
                     padding-left:   16px;
                     font-size:      0px;">
-            <p class="main-title">Handwriter</p>
+            <h1 class="main-title" id="main-title">Handwriter</h1>
         </div>
         <div style="display:        flex;
                     flex:           3 1 0;
@@ -50,11 +50,14 @@
                     border-left:    1px solid var(--primary-fg);">
             <p class="navbar-regular" id="navbar-about-us" onclick="aboutUsClick()">About Us</p>
             <p class="navbar-regular" id="navbar-contact" onclick="contactClick()">Contact</p>
-            <p class="navbar-regular navbar-share" id="navbar-share">Share</p>
+            <p class="navbar-regular navbar-share" id="navbar-share" onclick="shareClick()">Share</p> 
         </div>
         <p class="navbar-regular navbar-share" id="navbar-share-mobile">Share</p>
     </div>
 
+    <script>
+        window.onload = function() { placeholderAnimation(); };
+    </script>
     <div class="textentry">
         <textarea id="textinput" style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder="Type it in.
 We'll write it out."></textarea>
@@ -130,7 +133,7 @@ We'll write it out."></textarea>
                             {% with imgpath=forloop.counter|slugify|add:".png" %}
                                 <div class="swiper-slide">
                                     <div class="card-image">
-                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}})">
+                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}}) , scrollL ()">
                                     </div>
                                 </div>
                             {% endwith %}
@@ -151,7 +154,7 @@ We'll write it out."></textarea>
 
     </div>
 
-    <div class="generic-section">
+    <div class="generic-section" id="generate-button-div">
         <p id="generate-button-extern" class="generic-button" style="display: block; margin-left: 32.5%; margin-right: 32.5%; width: 35% !important; margin-top:50px; margin-bottom: 50px;" onclick="generateClick()"><a id="generate-button-intern" style="text-decoration: none; color: var(--primary-bg);">Generate</a></p>
     </div>
 
