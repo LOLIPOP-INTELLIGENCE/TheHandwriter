@@ -133,7 +133,7 @@ We'll write it out."></textarea>
                             {% with imgpath=forloop.counter|slugify|add:".png" %}
                                 <div class="swiper-slide">
                                     <div class="card-image">
-                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}}) , scrollL ()">
+                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}}) , scrollToGenerate ()">
                                     </div>
                                 </div>
                             {% endwith %}

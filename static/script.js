@@ -98,7 +98,7 @@ function defaultClick(number) {
     selected_hw = number
 }
 
-function scrollL () {
+function scrollToGenerate () {
     resSection = document.getElementById("generate-button-div");
     resSection.scrollIntoView();
 }
@@ -129,7 +129,14 @@ function uploadClick() {
         // selecting a new file (valid or not) will unselect the current file
         // if (validExt.indexOf(fileExt) != -1) {
         if (upload_hw.type.split('/')[0] === "image") {
-            uploadButton.textContent = "\"" + filename + "\" selected";
+            filename_display = filename;
+            //reduce length of long file names and display
+            console.log(filename.length)
+            if(filename.length > 10) {
+                filename_display = filename.substring(0, 8) + "..."
+            }
+            uploadButton.textContent = "\"" + filename_display + "\" selected";
+            setTimeout (scrollToGenerate, 3000);
         }
         else {
 

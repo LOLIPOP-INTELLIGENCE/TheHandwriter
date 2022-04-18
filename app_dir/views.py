@@ -39,7 +39,7 @@ name_lst        =   [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b'
 # utility function to crop out a part of an image using width and height
 crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
 
-# Utility function to shorten a large number into a unique ID (number in base 64 reversed)
+# Utility function to shorten a large number into a unique ID (number in base 62 reversed)
 def to_id( _num, _base = 62 ):
 
     if _num <= 0: return '0'
