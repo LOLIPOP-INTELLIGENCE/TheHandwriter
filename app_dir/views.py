@@ -40,11 +40,11 @@ name_lst        =   [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b'
 crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
 
 # Utility function to shorten a large number into a unique ID (number in base 64 reversed)
-def to_id( _num, _base = 64 ):
+def to_id( _num, _base = 62 ):
 
     if _num <= 0: return '0'
 
-    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-'
+    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     res     = ''
 
     while _num:
