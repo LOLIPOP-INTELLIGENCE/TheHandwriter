@@ -106,7 +106,11 @@ We'll write it out."></textarea>
                             display:    flex;
                             flex-direction: column;
                             padding-left: 16px;">
-                <div><img style="width: min(600px, 90%); padding-left: 16px;" src="{% static 'scan.jpg' %}"></div>
+                <div>
+                    <a download="reference.jpg" href="{% static 'scan.jpg' %}">
+                        <img style="width: min(600px, 90%); padding-left: 16px;" src="{% static 'scan.jpg' %}">
+                    </a>
+                </div>
                 <div style="display: flex; align-items: center; width: min(600px, 90%); padding-left: 16px">
                     <p class="generic-button" style="width: 50% !important; margin-right: 5%;">Download</p>
                     <label for="upload-input" style="width: 50% !important;" onchange="uploadClick()">
