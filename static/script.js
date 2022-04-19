@@ -7,6 +7,10 @@ var upload_hw       = -1;
 // stores which handwriting the user selects (if a default handwriting is selected)
 var selected_hw     = -1;
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // utility function to get session cookie (for post requests)
 function getCookie(name) {
     var cookieValue     = null;
@@ -53,8 +57,21 @@ function nextClickScroll() {
     }
 }
 
-function placeholderAnimation() {
+async function placeholderAnimation() {
     textInput = document.getElementById("textinput");
+    textInput["placeholder"] = "";
+
+    text = "Type it in.\nWe'll write it out."
+    for (const char of text) {
+        textInput["placeholder"] = textInput["placeholder"] + char;
+        console.log(textInput["placeholder"]);
+        if (char == '\n') {
+            await sleep(200);
+        }
+        if (char != ' ') {
+            await sleep(100);
+        }
+    }
 }
 
 function userUploadHw() {
@@ -210,3 +227,4 @@ async function generateClick () {
     xhr.onload = goToResult;
 }
 
+window.onload = function() { placeholderAnimation(); }

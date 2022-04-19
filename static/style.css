@@ -494,22 +494,17 @@ body {
         font-size:          48px;
     }
 
-    .textentry textarea:-moz-placeholder {
-        opacity:            1;
-        font-size:          48px;
-    }
-
     .textentry textarea::-moz-placeholder {
         opacity:            1;
         font-size:          48px;
     }
 
-    .textentry textarea:-ms-input-placeholder {
+    .textentry textarea::-ms-input-placeholder {
         opacity:            1;
         font-size:          48px;
     }
 
-    .textentry textarea::-ms-input-placeholder {
+    .textentry textarea::-ms-placeholder {
         opacity:            1;
         font-size:          48px;
     }
@@ -549,17 +544,7 @@ body {
         font-size:          28px;
     }
 
-    .textentry textarea:-moz-placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
     .textentry textarea::-moz-placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
-    .textentry textarea:-ms-input-placeholder {
         opacity:            1;
         font-size:          28px;
     }
@@ -567,6 +552,11 @@ body {
     .textentry textarea::-ms-input-placeholder {
         opacity:            1;
         font-size:          28px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          48px;
     }
 
     .textentry textarea::placeholder {
