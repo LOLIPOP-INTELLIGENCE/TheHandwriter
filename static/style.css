@@ -494,27 +494,27 @@ a {
 @media (min-width: 560px) {
     .textentry textarea::-webkit-input-placeholder {
         opacity:            1;
-        font-size:          48px;
+        font-size:          36px;
     }
 
     .textentry textarea::-moz-placeholder {
         opacity:            1;
-        font-size:          48px;
+        font-size:          36px;
     }
 
     .textentry textarea::-ms-input-placeholder {
         opacity:            1;
-        font-size:          48px;
+        font-size:          36px;
     }
 
     .textentry textarea::-ms-placeholder {
         opacity:            1;
-        font-size:          48px;
+        font-size:          36px;
     }
 
     .textentry textarea::placeholder {
         opacity:            1;
-        font-size:          48px;
+        font-size:          36px;
     }
 
     .textentry textarea {
@@ -559,7 +559,7 @@ a {
 
     .textentry textarea::-ms-placeholder {
         opacity:            1;
-        font-size:          48px;
+        font-size:          28px;
     }
 
     .textentry textarea::placeholder {

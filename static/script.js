@@ -61,15 +61,20 @@ async function placeholderAnimation() {
     textInput = document.getElementById("textinput");
     textInput["placeholder"] = "";
 
-    text = "Type it in.\nWe'll write it out."
+    text = "Convert text to handwriting or calligraphy.\n\nYou type it in...\n ...We'll write it out."
+    // text = "Handwriter converts text to handwriting.\nGet started by typing it in,\n\nWe'll write it out.";
+    total_time = 5000;
+    sleep_time = total_time / text.length;
+
+    // text = "Type it in.\nWe'll write it out.";
+
     for (const char of text) {
         textInput["placeholder"] = textInput["placeholder"] + char;
-        console.log(textInput["placeholder"]);
         if (char == '\n') {
-            await sleep(200);
+            await sleep(2 * sleep_time);
         }
         if (char != ' ') {
-            await sleep(100);
+            await sleep(sleep_time);
         }
     }
 }
