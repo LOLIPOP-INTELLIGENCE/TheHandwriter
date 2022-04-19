@@ -275,7 +275,7 @@ body {
 
 .main .container-slider .swiper-container .swiper-pagination-bullet {
     opacity:            0.8;
-    background:         var(--action-bg);
+    background:         var(--primary-bg);
 }
 
 .main .container-slider .swiper-container .swiper-pagination-bullet-active {
