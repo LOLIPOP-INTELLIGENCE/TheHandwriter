@@ -305,8 +305,11 @@ def serveImgPostReq (request):
         with open(sub_path, "wb") as f:
             f.write(info["upl-hw"])
 
-        preprocess( sub_path, pro_path )
-        detect_box( pro_path, dir_path )
+        try:
+            preprocess( sub_path, pro_path )
+            detect_box( pro_path, dir_path )
+        except:
+            return HttpResponse( f"{{\"path\": -1}}")
 
         set_path    += "AllHandwritings/scan_{}".format( cur_time )
 

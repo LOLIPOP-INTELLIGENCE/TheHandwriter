@@ -35,10 +35,28 @@ function arrayBufferToBase64(buffer) {
     return window.btoa(binary);
 };
 
+function saveText() {
+    // restoreOriginalGenerate();
+
+    textarea = document.getElementById ("textinput");
+    typed = textarea.value;
+}
+
 function restoreNextButton () {
     nextbutton = document.getElementById ("text-input-next");
     nextbutton.textContent = "Next";
 }
+
+// function restoreOriginalGenerate() {
+//     var generateButtonExt  = document.getElementById("generate-button-extern");
+//     var generateButtonInt  = document.getElementById("generate-button-intern");
+
+//     generateButtonExt.setAttribute("onclick", "generateClick()");
+
+//     generateButtonInt.textContent = "Generate";
+//     generateButtonInt.setAttribute("href", "");
+//     generateButtonInt.setAttribute("target", "");
+// }
 
 function nextClickScroll() {
 
@@ -117,7 +135,8 @@ function restoreShareButton() {
 }
 
 function defaultClick(number) {
-    selected_hw = number
+    // restoreOriginalGenerate();
+    selected_hw = number;
 }
 
 function scrollToGenerate () {
@@ -132,6 +151,8 @@ function redirectToHome() {
 function uploadClick() {
 
     // var validExt = ["BMP", "GIF", "JPEG", "JPG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XPM"];
+
+    // restoreOriginalGenerate();
 
     var uploadInput     = document.getElementById("upload-input");
     var uploadButton    = document.getElementById("upload-button");
@@ -188,24 +209,42 @@ function uploadClick() {
                 filename_display = filename.substring(0, 8) + "..."
             }
             uploadButton.textContent = "\"" + filename_display + "\" selected";
-            setTimeout (scrollToGenerate, 3000);
+            setTimeout (scrollToGenerate, 2000);
         }
     }
 }
 
+function invalidImageRestore() {
+
+    res = document.getElementById ("user-upload-hw");
+    var generateButtonInt  = document.getElementById("generate-button-intern");
+
+    res.scrollIntoView();
+
+    generateButtonInt.textContent = "Generate";
+}
+
 function goToResult () {
+
+    // change the generate button to a redirect button
+    var generateButtonExt  = document.getElementById("generate-button-extern");
+    var generateButtonInt  = document.getElementById("generate-button-intern");
 
     // parse the returned string data int a json object, the object contains only one
     // member, the path, which is an extensionless string to the result image
     var data = JSON.parse(this.responseText);
     var path = data.path
 
+    // image is invalid
+    if (path == -1) {
+        generateButtonInt.textContent = "Invalid Image detected. Please check again.";
+        setTimeout(invalidImageRestore, 2000);
+
+        return;
+    }
+
     // open the result in a new tab
     window.open("http://localhost:8000/result/" + path, '_blank');
-
-    // change the generate button to a redirect button
-    var generateButtonExt  = document.getElementById("generate-button-extern");
-    var generateButtonInt  = document.getElementById("generate-button-intern");
 
     // clicking should no longer send a post request, only redirect to the new page
     generateButtonExt.setAttribute("onclick", "");
@@ -216,7 +255,37 @@ function goToResult () {
     generateButtonInt.setAttribute("target", "_blank");
 }
 
+async function noHwRestore() {
+
+    res = document.getElementById ("choose-handwriting");
+    var generateButtonInt  = document.getElementById("generate-button-intern");
+
+    res.scrollIntoView();
+
+    generateButtonInt.textContent = "Generate";
+}
+
 async function generateClick () {
+
+    var generateButtonExt  = document.getElementById("generate-button-extern");
+    var generateButtonInt  = document.getElementById("generate-button-intern");
+
+    if (typed == "") {
+        nextbutton = document.getElementById ("text-input-next");
+        navbar = document.getElementById("navbar");
+        navbar.scrollIntoView();
+        nextbutton.textContent = "Please enter some text first!";
+        setTimeout (restoreNextButton, 2000);
+
+        return;
+    }
+
+    if (selected_hw == -1 && upload_hw == -1) {
+        generateButtonInt.textContent = "Please select or upload a handwriting!";
+        setTimeout(noHwRestore, 2000);
+
+        return;
+    }
 
     // create a new post request which tells the server the typed text, selected handwriting
     // and requests it to create an image

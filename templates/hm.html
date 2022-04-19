@@ -47,7 +47,7 @@
 
 <body>
 
-    <div class="navbar">
+    <div class="navbar" id="navbar">
         <div style="display:        flex;
                     flex:           7 1 0;
                     padding-left:   16px;
@@ -67,7 +67,7 @@
     </div>
 
     <div class="textentry">
-        <textarea id="textinput" style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder=""></textarea>
+        <textarea id="textinput" style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder="" onfocusout="saveText()"></textarea>
         <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="nextClickScroll()" id="text-input-next">Next</p>
     </div>
 
