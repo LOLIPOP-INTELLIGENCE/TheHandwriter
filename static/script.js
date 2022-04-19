@@ -142,23 +142,7 @@ function uploadClick() {
         var filename    = upload_hw.name;
         // var fileExt     = filename.split('.').pop().toUpperCase();
 
-        // the text on the upload button should change if the image is valid
-        // this does not change the behaviour of the button
-        // clicking on the button will allow the user to select another file
-        // selecting a new file (valid or not) will unselect the current file
-        // if (validExt.indexOf(fileExt) != -1) {
-        if (upload_hw.type.split('/')[0] === "image") {
-            filename_display = filename;
-            //reduce length of long file names and display
-            console.log(filename.length)
-            if(filename.length > 10) {
-                filename_display = filename.substring(0, 8) + "..."
-            }
-            uploadButton.textContent = "\"" + filename_display + "\" selected";
-            setTimeout (scrollToGenerate, 3000);
-        }
-        else {
-
+        if (!(upload_hw.type.split('/')[0] === "image")) {
             // unselect the file
             upload_hw   = -1;
 
@@ -172,6 +156,36 @@ function uploadClick() {
                 uploadButton.textContent = "Upload";
                 uploadButton.setAttribute("style", "width: 100% !important;");
             }, 3000);
+        }
+        else if (upload_hw.size > 1000000) {
+            // unselect the file
+            upload_hw   = -1;
+
+            // change the text (and color) to indicate invalid file (behaviour of button does not change)
+            uploadButton.textContent = "File size > 10 MB!";
+            uploadButton.setAttribute("style", "width: 100% !important; color: #FF0000 !important;");
+
+            // after 3 seconds, restore the text and color back to normal (once again, without altering behaviour)
+            setTimeout(function () {
+                var uploadButton = document.getElementById("upload-button");
+                uploadButton.textContent = "Upload";
+                uploadButton.setAttribute("style", "width: 100% !important;");
+            }, 3000);
+        }
+        // the text on the upload button should change if the image is valid
+        // this does not change the behaviour of the button
+        // clicking on the button will allow the user to select another file
+        // selecting a new file (valid or not) will unselect the current file
+        // if (validExt.indexOf(fileExt) != -1) {
+        else {
+            filename_display = filename;
+            //reduce length of long file names and display
+            console.log(filename.length)
+            if(filename.length > 10) {
+                filename_display = filename.substring(0, 8) + "..."
+            }
+            uploadButton.textContent = "\"" + filename_display + "\" selected";
+            setTimeout (scrollToGenerate, 3000);
         }
     }
 }
