@@ -278,63 +278,6 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
 
     return border
 
-def add( request ):
-    request.session["txt"] = request.GET["text"]
-    return render( request, "hm.html" )
-
-def upload( request ):
-
-    if request.method == "POST":
-
-        # Get the file, input text and reference to filesystem object
-        if "txt" not in request.session:
-            res_path    = static_path + "default.jpg"
-        else:
-            inp_text    = request.session["txt"]
-
-            myfile      = request.FILES["myfile"]
-            fs          = FileSystemStorage()
-
-            # Get the current time and convert it to an ID
-            cur_time    = to_id( time.time_ns() )
-
-            # Create file and save text
-            # fout        = open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w")
-            # fout.write( inp_text )
-            # fout.close()
-
-            # Relative paths to the scan folder, submission, processed submission and result
-            dir_path    = media_path + "AllHandwritings/scan_{}".format( cur_time )
-            sub_path    = dir_path + "/submission.jpg"
-            pro_path    = dir_path + "/processed_submission.jpg"
-            res_path    = static_path + "res_{}.jpg".format( cur_time )
-
-            # Create directory and save submission
-            os.mkdir( dir_path )
-            filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
-
-            # start_time = time.time_ns()
-
-            preprocess( sub_path, pro_path )
-            detect_box( pro_path, dir_path )
-
-            # detect_time = time.time_ns()
-
-            # Generate handwritten image
-            final_text  = make_line_list( inp_text )
-            img         = generate_final_image( final_text, dir_path + '/' )
-            cv2.imwrite( res_path, img )
-
-            # write_time = time.time_ns()
-
-            fs.url( filename )
-
-            # print("Scanning time: {}".format( (detect_time - start_time) / 1000000 ))
-            # print("Generation time: {}".format( (write_time - detect_time) / 1000000 ))
-            # print("Total time: {}".format( (write_time - start_time) / 1000000 ))
-
-        return render( request, 'r.html', {'image':res_path} )
-
 @csrf_exempt
 def serveImgPostReq (request):
 
