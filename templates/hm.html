@@ -120,7 +120,9 @@ We'll write it out."></textarea>
                     </a>
                 </div>
                 <div style="display: flex; align-items: center; width: min(600px, 90%); padding-left: 16px">
-                    <p class="generic-button" style="width: 50% !important; margin-right: 5%;">Download</p>
+                    <a download="template" href="{% static 'upload_template.pdf' %}" target="_blank">
+                        <p class="generic-button" style="width: 50% !important; margin-right: 5%;">Download</p>
+                    </a>
                     <label for="upload-input" style="width: 50% !important;" onchange="uploadClick()">
                         {% csrf_token %}
                         <input type="file" style="display: none;" id="upload-input">
