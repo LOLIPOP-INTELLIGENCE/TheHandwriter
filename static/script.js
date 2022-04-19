@@ -113,8 +113,6 @@ function shareClick() {
 }
 
 function restoreShareButton() {
-
-    shareClickButton = document,getElementById("navbar-share");
     shareClickButton.textContent = "Share"
 }
 
