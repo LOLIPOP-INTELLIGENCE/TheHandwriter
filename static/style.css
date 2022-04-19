@@ -152,12 +152,15 @@ body {
     transition:         .33s;
 }
 
-#about-us-link {
-    transition:         .33s;
+a {
     text-decoration:    none;
+    background-color:   inherit;
+    color:              inherit;
+
+    transition:         .33s;
 }
 
-#about-us-link:link {
+/* #about-us-link:link {
     background-color:   var(--primary-bg);
     color:              var(--primary-fg);
 }
@@ -170,7 +173,7 @@ body {
 #about-us-link:hover {
     background-color:   var(--hover-fg);
     color:              var(--hover-bg);
-}
+} */
 
 .navbar-regular:hover {
 
