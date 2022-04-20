@@ -126,7 +126,11 @@ function contactClick() {
 }
 
 function shareClick(id) {
-    navigator.clipboard.writeText("Check out www.handwriter.in to convert text to handwriting! You can use it for personalised letters, assignments and so much more!");
+    if(id == "navbar-share-result") {
+        navigator.clipboard.writeText(window.location.href + "\nCheck out this awesome website that helped me convert text into handwriting! You can use it for personalised letters, assignments and so much more!\nCreated using www.handwriter.in");
+    } else {
+        navigator.clipboard.writeText("Check out www.handwriter.in to convert text to handwriting!\nYou can use it for personalised letters, assignments and so much more!");
+    }
 
     shareClickButton = document.getElementById(id);
     shareClickButton.textContent = "Copied";
