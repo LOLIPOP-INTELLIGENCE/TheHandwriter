@@ -140,6 +140,8 @@ function restoreShareButton() {
 function defaultClick(number) {
     restoreOriginalGenerate();
     selected_hw = number;
+    console.log(selected_hw);
+    console.log(upload_hw);
 }
 
 function scrollToGenerate () {
@@ -184,7 +186,7 @@ function uploadClick() {
                 uploadButton.setAttribute("style", "width: 100% !important;");
             }, 3000);
         }
-        else if (upload_hw.size > 1000000) {
+        else if (upload_hw.size > 10000000) {
             // unselect the file
             upload_hw   = -1;
 
@@ -207,7 +209,6 @@ function uploadClick() {
         else {
             filename_display = filename;
             //reduce length of long file names and display
-            console.log(filename.length)
             if(filename.length > 10) {
                 filename_display = filename.substring(0, 8) + "..."
             }

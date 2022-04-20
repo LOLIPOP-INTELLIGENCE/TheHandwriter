@@ -22,25 +22,25 @@ html {
 
 :root {
 
-    --primary-bg:       #252525;
-    --primary-fg:       rgb(221, 165, 92);
+    --primary-bg:       #16262E;
+    --primary-fg:       #7B8CDE;
 
     --action-fg:        #DCDBCF;
 
-    --hover-bg:         #FECE00;
+    --hover-bg:         #5268D4;
 
-    --border:           rgb(221, 165, 92);
+    --border:           #7B8CDE;
 }
 
 ::-moz-selection { /* Code for Firefox */
-    color:              #252525;
-    background:         #FECE00;
+    color:              #16262E;
+    background:         #7B8CDE;
     border-radius:      5px;
 }
 
 ::selection {
-    color:              #252525;
-    background:         #FECE00;
+    color:              #16262E;
+    background:         #7B8CDE;
     border-radius:      5px;
 }
 
@@ -467,7 +467,7 @@ a {
     padding:            30px 15px;
     margin:             20px;
     background:         var(--primary-bg);
-    box-shadow:         -8px 8px 16px rgba(28, 28, 28, 0.2), 8px -8px 16px rgba(28, 28, 28, 0.2), -8px -8px 16px rgba(46, 46, 46, 0.9), 8px 8px 20px rgba(28, 28, 28, 0.9), inset 1px 1px 2px rgba(46, 46, 46, 0.3), inset -1px -1px 2px rgba(28, 28, 28, 0.5);
+    box-shadow: -6px 6px 12px rgba(17, 29, 35, 0.2), 6px -6px 12px rgba(17, 29, 35, 0.2), -6px -6px 12px rgba(28, 48, 58, 0.9), 6px 6px 15px rgba(17, 29, 35, 0.9), inset 1px 1px 2px rgba(28, 48, 58, 0.3), inset -1px -1px 2px rgba(17, 29, 35, 0.5);
     border-radius:      20px;
 }
 .container .card .content
@@ -510,7 +510,7 @@ a {
 
 .container .card .content .contentBx .contentBxDsc
 {
-    color:              var(--action-bg);
+    color:              var(--action-fg);
     font-size:          18px;
     font-weight:        400;
     text-align:         center;
@@ -532,7 +532,7 @@ a {
     font-weight:        500;
 
     background-color:   var(--action-bg) !important;
-    color:              var(--action-fg) !important;
+    color:              var(--primary-fg) !important;
 
     border-radius:      15px;
 
@@ -551,7 +551,7 @@ a {
 
 .container .card .content .contentBx .contentBxWhoAmI:hover {
 
-    background-color:   var(--hover-bg) !important;
+    background-color:   var(--primary-fg) !important;
     color:              var(--hover-fg) !important;
 }
 
