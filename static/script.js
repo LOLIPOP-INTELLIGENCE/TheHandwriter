@@ -139,6 +139,7 @@ function restoreShareButton() {
 
 function defaultClick(number) {
     restoreOriginalGenerate();
+    restoreUpload();
     selected_hw = number;
     upload_hw = -1;
 }
@@ -215,6 +216,11 @@ function uploadClick() {
             setTimeout (scrollToGenerate, 2000);
         }
     }
+}
+
+function restoreUpload() {
+    var uploadButton = document.getElementById("upload-button");
+    uploadButton.textContent = "Upload";
 }
 
 function invalidImageRestore() {
