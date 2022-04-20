@@ -71,6 +71,9 @@ function nextClickScroll() {
     }
     else {
         resSection = document.getElementById("choose-handwriting");
+        if (window.getComputedStyle(resSection).display == "none") {
+            resSection = document.getElementById("select-default-hw");
+        }
         resSection.scrollIntoView()
     }
 }
@@ -313,4 +316,9 @@ async function generateClick () {
     xhr.onload = goToResult;
 }
 
-window.onload = function() { placeholderAnimation(); }
+window.onload = function() {
+    var slider = document.getElementById("slider");
+    if (slider != null) {
+        placeholderAnimation();
+    }
+}
