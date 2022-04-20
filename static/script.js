@@ -320,8 +320,6 @@ window.onload = function() {
     var slider = document.getElementById("slider");
     if (slider != null) {
         placeholderAnimation();
-    }
-    else {
         if (window.getComputedStyle(document.getElementById("user-upload-hw")).display === "none") {
             var res = document.getElementById("select-default-hw");
             res = res.getElementsByTagName("div")[0];
@@ -329,5 +327,4 @@ window.onload = function() {
             res.textContent = "choose handwriting";
         }
     }
-
 }
