@@ -57,11 +57,26 @@ body {
 
     font-family:        'poppins';
     font-style:         normal;
-    font-size:          48px;
     font-weight:        700;
 
     color:              var(--action-fg);
     text-align:         center;
+}
+
+@media (min-width: 751px) {
+    .generic-title {
+        font-size:      40px;
+    }
+}
+
+@media (max-width: 750px) {
+    .generic-title {
+        font-size:      32px;
+    }
+
+    .generic-title p {
+        margin-bottom: 0px;
+    }
 }
 
 /* Class for generic button (used everywhere for clickable widget other than at the navbar) */
@@ -116,19 +131,36 @@ body {
     font-size:          0px;
 }
 
-.main-title {
+@media (min-width: 751px) {
+    .main-title {
 
-    display:            inline-block;
-    /* display: block; */
+        display:            inline-block;
 
-    font-family:        'poppins';
-    font-style:         normal;
-    font-size:          40px;
-    font-weight:        700;
+        font-family:        'poppins';
+        font-style:         normal;
+        font-size:          40px;
+        font-weight:        700;
 
-    line-height:        100%;
+        line-height:        100%;
 
-    color:              var(--primary-fg);
+        color:              var(--primary-fg);
+    }
+}
+
+@media (max-width: 750px) {
+    .main-title {
+
+        display:            inline-block;
+
+        font-family:        'poppins';
+        font-style:         normal;
+        font-size:          32px;
+        font-weight:        700;
+
+        line-height:        100%;
+
+        color:              var(--primary-fg);
+    }
 }
 
 .navbar-regular {
@@ -159,21 +191,6 @@ a {
 
     transition:         .33s;
 }
-
-/* #about-us-link:link {
-    background-color:   var(--primary-bg);
-    color:              var(--primary-fg);
-}
-
-#about-us-link:visited {
-    background-color:   var(--primary-bg);
-    color:              var(--primary-fg);
-}
-
-#about-us-link:hover {
-    background-color:   var(--hover-fg);
-    color:              var(--hover-bg);
-} */
 
 .navbar-regular:hover {
 
@@ -222,6 +239,122 @@ a {
     resize:             none;
 }
 
+.textentry textarea {
+    display:            block;
+    width:              min(70%, 1080px);
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        700;
+
+    background-color:   var(--primary-bg) !important;
+    color:              var(--action-fg);
+
+    border-radius:      28px;
+    border:             3px solid var(--primary-fg);
+
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-top:         0px;
+    margin-bottom:      0px;
+
+    padding:            10px 25px 10px 25px;
+}
+
+.textentry textarea:focus {
+    outline: none;
+}
+
+@media (min-width: 751px) {
+
+    .textentry textarea::-webkit-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-moz-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+}
+
+@media (max-width: 750px) and (min-width: 561px) {
+
+    .textentry textarea::-webkit-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-moz-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .textentry textarea {
+        height:             15em !important;
+        width:              320px !important;
+    }
+
+    .textentry textarea::-webkit-input-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::-moz-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::-ms-input-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+}
+
 /* Choose a handwriting */
 
 .hw_mode_button_div {
@@ -250,6 +383,19 @@ a {
 }
 
 /* choose a default handwriting styling */
+
+#desktop-invite {
+    font-size: 14px;
+    color: var(--primary-fg);
+    margin: none none none none;
+}
+
+@media (min-width: 751px) {
+    #desktop-invite {
+        display:        none;
+    }
+}
+
 .container-slider {
     max-width:          75rem;
     width:              100%;
@@ -485,112 +631,6 @@ a {
     font-family:        'poppins';
 
     margin-top:         32px;
-}
-
-.textentry textarea:focus {
-    outline: none;
-}
-
-@media (min-width: 560px) {
-    .textentry textarea::-webkit-input-placeholder {
-        opacity:            1;
-        font-size:          36px;
-    }
-
-    .textentry textarea::-moz-placeholder {
-        opacity:            1;
-        font-size:          36px;
-    }
-
-    .textentry textarea::-ms-input-placeholder {
-        opacity:            1;
-        font-size:          36px;
-    }
-
-    .textentry textarea::-ms-placeholder {
-        opacity:            1;
-        font-size:          36px;
-    }
-
-    .textentry textarea::placeholder {
-        opacity:            1;
-        font-size:          36px;
-    }
-
-    .textentry textarea {
-        display:            block;
-        width:              min(70%, 1080px);
-
-        font-family:        'poppins';
-        font-style:         normal;
-        font-size:          18px;
-        font-weight:        700;
-
-        background-color:   var(--primary-bg) !important;
-        color:              var(--action-fg);
-
-        border-radius:      28px;
-        border:             3px solid var(--primary-fg);
-
-        margin-left:        auto;
-        margin-right:       auto;
-        margin-top:         0px;
-        margin-bottom:      0px;
-
-        padding:            10px 25px 10px 25px;
-    }
-}
-
-@media (max-width: 560px) {
-    .textentry textarea::-webkit-input-placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
-    .textentry textarea::-moz-placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
-    .textentry textarea::-ms-input-placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
-    .textentry textarea::-ms-placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
-    .textentry textarea::placeholder {
-        opacity:            1;
-        font-size:          28px;
-    }
-
-    .textentry textarea {
-
-        display:            block;
-        width:              min(75%, 1080px);
-        height:             15em;
-
-        font-family:        'poppins';
-        font-style:         normal;
-        font-size:          18px;
-        font-weight:        700;
-
-        background-color:   var(--primary-bg) !important;
-        color:              var(--action-fg);
-
-        border-radius:      28px;
-        border:             3px solid var(--primary-fg);
-
-        margin-left:        auto;
-        margin-right:       auto;
-        margin-top:         0px;
-        margin-bottom:      0px;
-
-        padding:            10px 25px 10px 25px;
-    }
 }
 
 /* screen width < 750px, set width of generic section to screen width */

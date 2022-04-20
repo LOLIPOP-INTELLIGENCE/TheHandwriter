@@ -61,9 +61,9 @@
                     border-left:    1px solid var(--primary-fg);">
             <p class="navbar-regular" id="navbar-about-us" onclick="aboutUsClick()">About Us</p>
             <p class="navbar-regular" id="navbar-contact" onclick="contactClick()">Contact</p>
-            <p class="navbar-regular navbar-share" id="navbar-share" onclick="shareClick()">Share</p>
+            <p class="navbar-regular navbar-share" id="navbar-share" onclick="shareClick('navbar-share')">Share</p>
         </div>
-        <p class="navbar-regular navbar-share" id="navbar-share-mobile">Share</p>
+        <p class="navbar-regular navbar-share" id="navbar-share-mobile" onclick="shareClick('navbar-share-mobile')">Share</p>
     </div>
 
     <div class="textentry">
@@ -134,6 +134,7 @@
     <div class="generic-section" id="select-default-hw">
         <div class="generic-title">
             <p>select a default template</p>
+            <p id="desktop-invite" style="margin-top: 0px;">visit us on desktop to use your own handwriting</p>
         </div>
 
         <!-- slider -->

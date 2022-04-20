@@ -125,11 +125,11 @@ function contactClick() {
     resSection.scrollIntoView();
 }
 
-function shareClick() {
+function shareClick(id) {
     navigator.clipboard.writeText("Check out www.handwriter.in to convert text to handwriting! You can use it for personalised letters, assignments and so much more!");
 
-    shareClickButton = document.getElementById("navbar-share");
-    shareClickButton.textContent = "Link Copied!"
+    shareClickButton = document.getElementById(id);
+    shareClickButton.textContent = "Copied";
     setTimeout (restoreShareButton, 2000);
 }
 
@@ -321,4 +321,13 @@ window.onload = function() {
     if (slider != null) {
         placeholderAnimation();
     }
+    else {
+        if (window.getComputedStyle(document.getElementById("user-upload-hw")).display === "none") {
+            var res = document.getElementById("select-default-hw");
+            res = res.getElementsByTagName("div")[0];
+            res = res.getElementsByTagName("p")[0];
+            res.textContent = "choose handwriting";
+        }
+    }
+
 }
