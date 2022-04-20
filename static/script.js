@@ -36,7 +36,7 @@ function arrayBufferToBase64(buffer) {
 };
 
 function saveText() {
-    // restoreOriginalGenerate();
+    restoreOriginalGenerate();
 
     textarea = document.getElementById ("textinput");
     typed = textarea.value;
@@ -47,16 +47,16 @@ function restoreNextButton () {
     nextbutton.textContent = "Next";
 }
 
-// function restoreOriginalGenerate() {
-//     var generateButtonExt  = document.getElementById("generate-button-extern");
-//     var generateButtonInt  = document.getElementById("generate-button-intern");
+function restoreOriginalGenerate() {
+    var generateButtonExt  = document.getElementById("generate-button-extern");
+    var generateButtonInt  = document.getElementById("generate-button-intern");
 
-//     generateButtonExt.setAttribute("onclick", "generateClick()");
+    generateButtonExt.setAttribute("onclick", "generateClick()");
 
-//     generateButtonInt.textContent = "Generate";
-//     generateButtonInt.setAttribute("href", "");
-//     generateButtonInt.setAttribute("target", "");
-// }
+    generateButtonInt.textContent = "Generate";
+    generateButtonInt.removeAttribute("href");
+    generateButtonInt.removeAttribute("target");
+}
 
 function nextClickScroll() {
 
@@ -135,7 +135,7 @@ function restoreShareButton() {
 }
 
 function defaultClick(number) {
-    // restoreOriginalGenerate();
+    restoreOriginalGenerate();
     selected_hw = number;
 }
 
@@ -152,7 +152,7 @@ function uploadClick() {
 
     // var validExt = ["BMP", "GIF", "JPEG", "JPG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XPM"];
 
-    // restoreOriginalGenerate();
+    restoreOriginalGenerate();
 
     var uploadInput     = document.getElementById("upload-input");
     var uploadButton    = document.getElementById("upload-button");
