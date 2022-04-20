@@ -140,8 +140,7 @@ function restoreShareButton() {
 function defaultClick(number) {
     restoreOriginalGenerate();
     selected_hw = number;
-    console.log(selected_hw);
-    console.log(upload_hw);
+    upload_hw = -1;
 }
 
 function scrollToGenerate () {
@@ -156,7 +155,7 @@ function redirectToHome() {
 function uploadClick() {
 
     // var validExt = ["BMP", "GIF", "JPEG", "JPG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XPM"];
-
+    selected_hw = -1;
     restoreOriginalGenerate();
 
     var uploadInput     = document.getElementById("upload-input");
