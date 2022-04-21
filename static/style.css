@@ -645,6 +645,8 @@ a {
         margin-left:        0;
         margin-right:       0;
 
+        border-bottom:      3px solid var(--border);
+
         width:              100%;
     }
 }
