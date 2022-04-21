@@ -258,7 +258,7 @@ function goToResult () {
     }
 
     // open the result in a new tab
-    window.open("http://localhost:8000/result/" + path, '_blank');
+    window.open("https://handwriter.in/result/" + path, '_blank');
 
     // clicking should no longer send a post request, only redirect to the new page
     generateButtonExt.setAttribute("onclick", "");
@@ -273,7 +273,7 @@ function goToResult () {
     } else {
         generateButtonInt.textContent = "Click here if not automatically redirected";
     }
-    generateButtonInt.setAttribute("href", "http://localhost:8000/result/" + path);
+    generateButtonInt.setAttribute("href", "https://handwriter.in/result/" + path);
     generateButtonInt.setAttribute("target", "_blank");
 }
 
