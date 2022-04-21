@@ -263,7 +263,15 @@ function goToResult () {
     generateButtonExt.setAttribute("onclick", "");
 
     // the button should now open the result page in a new tab
-    generateButtonInt.textContent = "Click here if not automatically redirected";
+
+    //check if view == mobile
+    if (window.getComputedStyle(document.getElementById("user-upload-hw")).display === "none") {
+        var textMobile = document.getElementById("generate-text-mobile");
+        textMobile.textContent = "Click again if not redirected";
+        document.getElementById("generate-text-mobile").style.display = "block";
+    } else {
+        generateButtonInt.textContent = "Click here if not automatically redirected";
+    }
     generateButtonInt.setAttribute("href", "http://localhost:8000/result/" + path);
     generateButtonInt.setAttribute("target", "_blank");
 }
@@ -276,9 +284,18 @@ async function noHwRestore() {
     res.scrollIntoView();
 
     generateButtonInt.textContent = "Generate";
+
+    document.getElementById("generate-text-mobile").style.display = "none";
 }
 
 async function generateClick () {
+    var isMobile = false;
+    var textMobile = document.getElementById("generate-text-mobile");
+
+    //check if view == mobile
+    if (window.getComputedStyle(document.getElementById("user-upload-hw")).display === "none") {
+        isMobile = true;
+    }
 
     var generateButtonExt  = document.getElementById("generate-button-extern");
     var generateButtonInt  = document.getElementById("generate-button-intern");
@@ -287,14 +304,19 @@ async function generateClick () {
         nextbutton = document.getElementById ("text-input-next");
         navbar = document.getElementById("navbar");
         navbar.scrollIntoView();
-        nextbutton.textContent = "Text can not be empty";
+        nextbutton.textContent = "Text cannot be empty";
         setTimeout (restoreNextButton, 2000);
 
         return;
     }
 
     if (selected_hw == -1 && upload_hw == -1) {
-        generateButtonInt.textContent = "Please select or upload a handwriting!";
+        if(isMobile) {
+            textMobile.style.display = "block";
+            textMobile.textContent = "Please select a template";
+        } else {
+            generateButtonInt.textContent = "Please select or upload a handwriting";
+        }
         setTimeout(noHwRestore, 2000);
 
         return;

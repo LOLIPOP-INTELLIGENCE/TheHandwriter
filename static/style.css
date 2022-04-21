@@ -382,6 +382,21 @@ a {
     text-align:         left;
 }
 
+/* button error text for mobile */
+
+#generate-text-mobile {
+    font-size:          14px;
+    font-family:        'poppins';
+    color:              var(--primary-fg);
+    display:            none;
+}
+
+@media (min-width: 751px) {
+    #generate-text-mobile {
+        display:        none;
+    }
+}
+
 /* choose a default handwriting styling */
 
 #desktop-invite {
@@ -621,6 +636,24 @@ a {
     width:              100%;
 
     border-radius:      15px;
+}
+
+@media (max-width: 750px) {
+    .res-img {
+        margin-left:    2.5%;
+        width:          95%;
+        margin-right:   2.5%;
+    }
+
+    .img-styling {
+        border-radius:  7px;
+    }
+
+    #download-result {
+        margin-left:    5%;
+        width:          90%;
+        margin-right:   5%
+    }   
 }
 
 /* error Page 404 Styling */
