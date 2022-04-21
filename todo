@@ -1,5 +1,0 @@
-Add nginx config file (for http only)
-Add gunicorn config file
-
-Add scripts for-
-    Moving gunicorn config file to correct location

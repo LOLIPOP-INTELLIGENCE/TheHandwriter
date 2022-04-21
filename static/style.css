@@ -1,0 +1,801 @@
+* {
+    box-sizing:         border-box;
+}
+
+html {
+    scroll-behavior:    smooth;
+}
+
+/* 143f6b */
+
+/* :root {
+
+    --primary-bg:       #252525;
+    --primary-fg:       #FECE00;
+
+    --action-fg:        #DCDBCF;
+
+    --hover-bg:         hsl( 29, 54%, 61%);
+
+    --border:           #FECE00;
+} */
+
+:root {
+
+    --primary-bg:       #16262E;
+    --primary-fg:       #7B8CDE;
+
+    --action-fg:        #DCDBCF;
+
+    --hover-bg:         #5268D4;
+
+    --border:           #7B8CDE;
+}
+
+::-moz-selection { /* Code for Firefox */
+    color:              #16262E;
+    background:         #7B8CDE;
+    border-radius:      5px;
+}
+
+::selection {
+    color:              #16262E;
+    background:         #7B8CDE;
+    border-radius:      5px;
+}
+
+body {
+    background-color:   var(--primary-bg);
+}
+
+/* Class to represent generic title of a generic section (not used for main title of website) */
+.generic-title {
+
+    display:            block;
+
+    width:              100%;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-weight:        700;
+
+    color:              var(--action-fg);
+    text-align:         center;
+}
+
+@media (min-width: 751px) {
+    .generic-title {
+        font-size:      40px;
+    }
+}
+
+@media (max-width: 750px) {
+    .generic-title {
+        font-size:      32px;
+    }
+
+    .generic-title p {
+        margin-bottom: 0px;
+    }
+}
+
+/* Class for generic button (used everywhere for clickable widget other than at the navbar) */
+.generic-button {
+
+    display:            block;
+
+    width:              320px;
+    height:             40px;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        500;
+
+    background-color:   var(--primary-fg) !important;
+    color:              var(--primary-bg) !important;
+
+    border-radius:      15px;
+
+    transition:         .33s;
+
+    text-align:         center;
+
+    line-height:        40px;
+
+    cursor:             pointer;
+}
+
+.generic-button:hover {
+
+    background-color:   var(--hover-bg) !important;
+    color:              var(--hover-fg) !important;
+}
+
+/* Navigation bar */
+
+.navbar {
+
+    display:            flex;
+
+    align-items:        center;
+
+    width:              max(80%, 720px);
+    height:             120px;
+
+    margin-left:        auto;
+    margin-right:       auto;
+
+    border-bottom:      3px solid var(--border);
+
+    font-size:          0px;
+}
+
+@media (min-width: 751px) {
+    .main-title {
+
+        display:            inline-block;
+
+        font-family:        'poppins';
+        font-style:         normal;
+        font-size:          40px;
+        font-weight:        700;
+
+        line-height:        100%;
+
+        color:              var(--primary-fg);
+    }
+}
+
+@media (max-width: 750px) {
+    .main-title {
+
+        display:            inline-block;
+
+        font-family:        'poppins';
+        font-style:         normal;
+        font-size:          32px;
+        font-weight:        700;
+
+        line-height:        100%;
+
+        color:              var(--primary-fg);
+    }
+}
+
+.navbar-regular {
+
+    flex:               1 1 0;
+
+    width:              120px;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        700;
+
+    background-color:   var(--primary-bg);
+    color:              var(--primary-fg);
+    text-align:         center;
+
+    cursor:             pointer;
+
+    border-radius:      5px;
+    transition:         .33s;
+}
+
+a {
+    text-decoration:    none;
+    background-color:   inherit;
+    color:              inherit;
+
+    transition:         .33s;
+}
+
+.navbar-regular:hover {
+
+    font-size:          18px !important;
+
+    background-color:   var(--primary-bg) !important;
+    color:              var(--hover-bg) !important;
+}
+
+.navbar-share {
+
+    background-color:   var(--primary-fg) !important;
+    color:              var(--primary-bg) !important;
+}
+
+.navbar-share:hover {
+
+    font-size:          18px !important;
+
+    background-color:   var(--hover-bg) !important;
+    color:              var(--hover-fg) !important;
+}
+
+/* Text Entry section */
+
+.textentry {
+
+    display:            block;
+    width:              80%;
+
+    left:               0;
+
+    margin-left:        10%;
+    margin-right:       10%;
+    margin-top:         0%;
+    margin-bottom:      0%;
+
+
+    border-style:       hidden hidden solid hidden;
+    border-width:       3px;
+    border-color:       var(--border);
+
+    padding-top:        80px;
+    padding-bottom:     40px;
+
+    resize:             none;
+}
+
+.textentry textarea {
+    display:            block;
+    width:              min(70%, 1080px);
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        700;
+
+    background-color:   var(--primary-bg) !important;
+    color:              var(--action-fg);
+
+    border-radius:      28px;
+    border:             3px solid var(--primary-fg);
+
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-top:         0px;
+    margin-bottom:      0px;
+
+    padding:            10px 25px 10px 25px;
+}
+
+.textentry textarea:focus {
+    outline: none;
+}
+
+@media (min-width: 751px) {
+
+    .textentry textarea::-webkit-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-moz-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+}
+
+@media (max-width: 750px) and (min-width: 561px) {
+
+    .textentry textarea::-webkit-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-moz-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-input-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+
+    .textentry textarea::placeholder {
+        opacity:            1;
+        font-size:          36px;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .textentry textarea {
+        height:             15em !important;
+        width:              320px !important;
+    }
+
+    .textentry textarea::-webkit-input-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::-moz-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::-ms-input-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::-ms-placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+
+    .textentry textarea::placeholder {
+        opacity:            1;
+        font-size:          24px;
+    }
+}
+
+/* Choose a handwriting */
+
+.hw_mode_button_div {
+
+    display:            flex;
+    flex-direction:     row;
+
+    height:             150px;
+
+    padding-bottom:     32px;
+}
+
+/* Upload Handwriting */
+
+.generic-list {
+    display:            block;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          28px;
+    font-weight:        500;
+
+    color:              var(--primary-fg) !important;
+
+    text-align:         left;
+}
+
+/* button error text for mobile */
+
+#generate-text-mobile {
+    font-size:          14px;
+    font-family:        'poppins';
+    color:              var(--primary-fg);
+    display:            none;
+}
+
+@media (min-width: 751px) {
+    #generate-text-mobile {
+        display:        none;
+    }
+}
+
+/* choose a default handwriting styling */
+
+#desktop-invite {
+    font-size: 14px;
+    color: var(--primary-fg);
+    margin: none none none none;
+}
+
+@media (min-width: 751px) {
+    #desktop-invite {
+        display:        none;
+    }
+}
+
+@media (min-width: 751px) {
+    #slider-mobile {
+        display:        none;
+    }
+}
+
+@media (max-width: 750px) {
+    #slider-regular {
+        display:        none;
+    }
+}
+
+.container-slider {
+    max-width:          75rem;
+    width:              100%;
+    padding:            4rem 2rem;
+    margin:             0 auto;
+}
+
+.main .container-slider .swiper-container .swiper-wrapper .swiper-slide .card-image {
+    background:         #ffffff;
+    border:             none;
+    outline:            none;
+    box-shadow:         0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24);
+    border-radius:      2px;
+}
+
+.main .container-slider .swiper-container .swiper-wrapper .swiper-slide .card-image img {
+    display:            block;
+    position:           relative;
+    left:               0;
+    bottom:             0;
+    width:              100%;
+    height:             auto;
+    -o-object-fit:      cover;
+    object-fit:         cover;
+}
+
+.main .container-slider .swiper-container .swiper-pagination-bullet {
+    opacity:            0.8;
+    background:         var(--primary-bg);
+}
+
+.main .container-slider .swiper-container .swiper-pagination-bullet-active {
+    background:         var(--hover-bg);
+}
+
+.main .container-slider .swiper-container .swiper-button-next,
+.main .container-slider .swiper-container .swiper-button-prev {
+    background-image:   none;
+    background-size:    0;
+    background-repeat:  no-repeat;
+    background-position:0;
+    margin-top:         -1rem;
+}
+
+.main .container-slider .swiper-container .swiper-button-next .arrow-icon,
+.main .container-slider .swiper-container .swiper-button-prev .arrow-icon {
+    font-size:          2rem;
+    color:              var(--action-bg) !important;
+}
+
+/* Meet the team */
+
+.container
+{
+    display:            flex !important;
+    justify-content:    center;
+    align-items:        center;
+    flex-wrap:          wrap;
+}
+
+.container * {
+    box-sizing:         content-box !important;
+}
+
+.container .card
+{
+    width:              330px;
+    height:             416px;
+    padding:            30px 15px;
+    margin:             20px;
+    background:         var(--primary-bg);
+    box-shadow: -6px 6px 12px rgba(17, 29, 35, 0.2), 6px -6px 12px rgba(17, 29, 35, 0.2), -6px -6px 12px rgba(28, 48, 58, 0.9), 6px 6px 15px rgba(17, 29, 35, 0.9), inset 1px 1px 2px rgba(28, 48, 58, 0.3), inset -1px -1px 2px rgba(17, 29, 35, 0.5);
+    border-radius:      20px;
+}
+.container .card .content
+{
+    display:            flex;
+    justify-content:    center;
+    align-items:        center;
+    flex-direction:     column;
+}
+.container .card .content .imgBx
+{
+    width:              180px;
+    height:             180px;
+    border-radius:      50%;
+    position:           relative;
+    margin-bottom:      20px;
+    overflow:           hidden;
+}
+.container .card .content .imgBx img
+{
+    position:           absolute;
+    top:                0;
+    left:               0;
+    width:              100%;
+    height:             100%;
+    object-fit:         cover;
+}
+
+.container .card .content .contentBx h4
+{
+    color:              var(--primary-fg);
+    font-size:          1.7rem;
+    font-weight:        bold;
+    text-align:         center;
+    font-family:        'poppins';
+
+    margin-top:         15px;
+    margin-bottom:      0;
+}
+
+.container .card .content .contentBx .contentBxDsc
+{
+    color:              var(--action-fg);
+    font-size:          18px;
+    font-weight:        400;
+    text-align:         center;
+    font-family:        'poppins';
+
+    margin-top:         15px;
+}
+
+.container .card .content .contentBx .contentBxWhoAmI
+{
+    display:            block;
+
+    width:              284px;
+    height:             40px;
+
+    font-family:        'poppins';
+    font-style:         normal;
+    font-size:          18px;
+    font-weight:        500;
+
+    background-color:   var(--action-bg) !important;
+    color:              var(--primary-fg) !important;
+
+    border-radius:      15px;
+
+    transition:         .33s;
+
+    text-align:         center;
+
+    line-height:        40px;
+
+    cursor:             pointer;
+
+    margin-top:         auto;
+    margin-left:        auto;
+    margin-right:       auto;
+}
+
+.container .card .content .contentBx .contentBxWhoAmI:hover {
+
+    background-color:   var(--primary-fg) !important;
+    color:              var(--hover-fg) !important;
+}
+
+/* footer styling*/
+
+.footer-contact-us {
+    margin-top:         72px;
+    margin-left:        15%;
+    margin-right:       15%;
+
+    text-align:         center;
+
+    font-family:        'poppins';
+    font-size:          24px;
+    font-weight:        700;
+
+    color:              var(--action-fg);
+}
+
+.footer-copyright {
+    height:             72px;
+
+    margin-top:         48px;
+    margin-left:        10%;
+
+    font-family:        'poppins';
+    font-size:          18px;
+    font-weight:        600;
+
+    color:              var(--primary-fg);
+}
+
+/* result page styling */
+
+.res-img {
+    top:                0;
+    left:               0;
+
+    display:            block;
+
+    width:              70%;
+
+    margin-left:        15%;
+    margin-right:       15%;
+    margin-top:         0%;
+    margin-bottom:      0%;
+
+    padding-left:       0px;
+    padding-right:      0px;
+    padding-top:        40px;
+    padding-bottom:     40px;
+}
+
+.img-styling {
+    width:              100%;
+
+    border-radius:      15px;
+}
+
+@media (max-width: 750px) {
+    .res-img {
+        margin-left:    2.5%;
+        width:          95%;
+        margin-right:   2.5%;
+    }
+
+    .img-styling {
+        border-radius:  7px;
+    }
+
+    #download-result {
+        margin-left:    auto;
+        width:          90%;
+        margin-right:   auto;
+        text-align:     center;
+    }   
+}
+
+@media (min-width: 751px) {
+    #download-result {
+        margin-left:    15%;
+        width:          350px;
+        margin-right:   auto;
+        text-align:     center;
+    }
+}
+
+/* error Page 404 Styling */
+
+.error-text-line-1 {
+    text-align:         center;
+
+    font-size:          54px;
+    font-weight:        700;
+    font-family:        'poppins';
+
+    margin-top:         64px;
+}
+
+.error-text-line-2 {
+    text-align:         center;
+
+    font-size:          45px;
+    font-weight:        600;
+    font-family:        'poppins';
+
+    margin-top:         32px;
+}
+
+/* screen width < 750px, set width of generic section to screen width */
+
+@media (max-width: 750px) {
+
+    .generic-section {
+        overflow-x:         hidden;
+
+        font-size:          0px;
+
+        margin-left:        0;
+        margin-right:       0;
+
+        border-bottom:      3px solid var(--border);
+
+        width:              100%;
+    }
+}
+
+/* screen width > 750px, set width of generic section to 80% of screen width */
+
+@media (min-width: 750px) {
+
+    .generic-section {
+        display:            block;
+
+        width:              80%;
+
+        font-size:          0px;
+
+        left:               0;
+
+        margin-left:        10%;
+        margin-right:       10%;
+        margin-top:         0%;
+        margin-bottom:      0%;
+
+        border-bottom:      3px solid var(--border);
+
+        padding-top:        15px;
+        padding-bottom:     15px;
+    }
+}
+
+/* screen width > 750px, don't show mobile share button */
+
+@media (min-width: 750px) {
+    #navbar-share-mobile {
+        display: none;
+    }
+}
+
+/* screen width < 750px, change UI of (i) footer (ii) meet the team cards (iii) navbar (iv) choose handwriting (v) upload handwriting (vi) textbox sections */
+
+@media (max-width: 750px) {
+    .footer-contact-us {
+        margin-top: 32px;
+
+        font-size: 18px;
+    }
+
+    .footer-copyright {
+        margin-top: 21px;
+        margin-left: 0%;
+
+        font-size: 14px;
+    }
+
+    .container .card {
+        width: 280px;
+    }
+
+    #choose-handwriting {
+        display: none;
+    }
+
+    #user-upload-hw {
+        display: none;
+    }
+
+    .navbar {
+        margin-left: 0;
+        margin-right: 0;
+
+        width: 100%;
+    }
+
+    #navbar-about-us, #navbar-contact, #navbar-share {
+        display: none;
+    }
+
+    #navbar-share-mobile {
+        display: block;
+
+        margin-right: 40px;
+
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .textentry {
+        width:              100%;
+
+        margin-left:        0%;
+        margin-right:       0%;
+
+        padding-top:        80px;
+        padding-bottom:     40px;
+    }
+}

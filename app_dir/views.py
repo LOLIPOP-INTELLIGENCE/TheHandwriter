@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
+from django.views.decorators.csrf import csrf_exempt
 
 import time, os
 import numpy as np
@@ -9,6 +10,8 @@ import random
 from PIL import Image
 import pickle
 import bz2
+
+import base64
 
 from pathlib import Path as PATH
 
@@ -36,12 +39,12 @@ name_lst        =   [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b'
 # utility function to crop out a part of an image using width and height
 crop_img = lambda  _img, _x, _y, _w, _h: _img[_y:_y+_h , _x:_x+_w]
 
-# Utility function to shorten a large number into a unique ID (number in base 64 reversed)
-def to_id( _num, _base = 64 ):
+# Utility function to shorten a large number into a unique ID (number in base 62 reversed)
+def to_id( _num, _base = 62 ):
 
     if _num <= 0: return '0'
 
-    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_#'
+    charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     res     = ''
 
     while _num:
@@ -275,84 +278,59 @@ def generate_final_image( _lines, _base_path, _rot_rng = (-8, 3), _black_thresh 
 
     return border
 
-def add( request ):
-    request.session["txt"] = request.GET["text"]
-    return render( request, "hm.html" )
+@csrf_exempt
+def serveImgPostReq (request):
 
-def upload( request ):
+    # from the request body, evaluate the JS object into a python dictionary
+    info        = eval(request.body.decode())
 
-    if request.method == "POST":
+    # get the typed text
+    inp_text    = info['typed']
 
-        # Get the file, input text and reference to filesystem object
-        if "txt" not in request.session:
-            res_path    = static_path + "default.jpg"
-        else:
-            inp_text    = request.session["txt"]
+    # Get the current time and convert it to an ID
+    cur_time    = to_id( time.time_ns() )
 
-            myfile      = request.FILES["myfile"]
-            fs          = FileSystemStorage()
+    # start building the set path (it will start from media path)
+    set_path    = media_path
 
-            # Get the current time and convert it to an ID
-            cur_time    = to_id( time.time_ns() )
+    if info["upl-hw"] != -1:
 
-            # Create file and save text
-            # fout        = open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w")
-            # fout.write( inp_text )
-            # fout.close()
+        dir_path    = media_path + "AllHandwritings/scan_{}".format( cur_time )
+        sub_path    = dir_path + "/submission.jpg"
+        pro_path    = dir_path + "/processed_submission.jpg"
 
-            # Relative paths to the scan folder, submission, processed submission and result
-            dir_path    = media_path + "AllHandwritings/scan_{}".format( cur_time )
-            sub_path    = dir_path + "/submission.jpg"
-            pro_path    = dir_path + "/processed_submission.jpg"
-            res_path    = static_path + "res_{}.jpg".format( cur_time )
+        os.mkdir(dir_path)
 
-            # Create directory and save submission
-            os.mkdir( dir_path )
-            filename    = fs.save( "AllHandwritings/scan_{}/submission.jpg".format( cur_time ), myfile )
+        info["upl-hw"] = base64.b64decode(info["upl-hw"])
+        with open(sub_path, "wb") as f:
+            f.write(info["upl-hw"])
 
-            # start_time = time.time_ns()
-
+        try:
             preprocess( sub_path, pro_path )
             detect_box( pro_path, dir_path )
+        except:
+            return HttpResponse( f"{{\"path\": -1}}")
 
-            # detect_time = time.time_ns()
+        set_path    += "AllHandwritings/scan_{}".format( cur_time )
 
-            # Generate handwritten image
-            final_text  = make_line_list( inp_text )
-            img         = generate_final_image( final_text, dir_path + '/' )
-            cv2.imwrite( res_path, img )
-
-            # write_time = time.time_ns()
-
-            fs.url( filename )
-
-            # print("Scanning time: {}".format( (detect_time - start_time) / 1000000 ))
-            # print("Generation time: {}".format( (write_time - detect_time) / 1000000 ))
-            # print("Total time: {}".format( (write_time - start_time) / 1000000 ))
-
-        return render( request, 'r.html', {'image':res_path} )
-
-def hx( request, _x ):
-
-    # Get input text and paths to resultant image, input set
-    if "txt" not in request.session:
-        res_path    = static_path + "default.jpg"
     else:
-        inp_text    = request.session["txt"]
+        set_path    += "DisplayedHandwritings/set_{}/".format( info["def-hw"] )
 
-        # Get the current time and convert it to an ID
-        cur_time    = to_id( time.time_ns() )
+    # Create file and save typed text
+    # with open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w") as fout:
+    #     fout.write( inp_text )
 
-        # Create file and save text
-        # fout        = open(media_path + "text_files/inp_{}.txt".format( cur_time ), "w")
-        # fout.write( inp_text )
-        # fout.close()
+    res_suf     = "res_{}.jpg".format( cur_time )
+    res_path    = static_path + res_suf
 
-        set_path    = media_path + "DisplayedHandwritings/set_{}/".format( _x )
-        res_path    = static_path + "res_{}.jpg".format( cur_time )
+    final_text  = make_line_list( inp_text )
+    img         = generate_final_image( final_text, set_path )
 
-        final_text  = make_line_list( inp_text )
-        img         = generate_final_image( final_text, set_path )
-        cv2.imwrite( res_path, img )
+    cv2.imwrite( res_path, img )
 
+    return HttpResponse( f"{{\"path\": \"{res_suf[:-4]}\"}}")
+
+def renderResult (request, path):
+
+    res_path    = static_path + path + ".jpg"
     return render( request, 'r.html', {'image': res_path} )

@@ -23,7 +23,7 @@ REPO_DIR = BASE_DIR.parent # ~/Documents/TheHandwriter
 SECRET_KEY = 'django-insecure-b5fd-7!1myx6w1+@b-1m58!48^bfk$evjy6o(=6b9k+h8sf4yr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['192.168.1.3','127.0.0.1', '172.31.6.0']
 ALLOWED_HOSTS = ['*', 'handwriter.in', 'www.handwriter.in']
