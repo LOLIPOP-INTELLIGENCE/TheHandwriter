@@ -66,7 +66,7 @@ function nextClickScroll() {
     nextbutton = document.getElementById ("text-input-next");
 
     if (typed == "") {
-        nextbutton.textContent = "Please enter some text first!";
+        nextbutton.textContent = "Text can not be empty";
         setTimeout (restoreNextButton, 3000);
     }
     else {
@@ -180,7 +180,7 @@ function uploadClick() {
             upload_hw   = -1;
 
             // change the text (and color) to indicate invalid file (behaviour of button does not change)
-            uploadButton.textContent = "File type not supported!";
+            uploadButton.textContent = "File must be image";
             uploadButton.setAttribute("style", "width: 100% !important; color: #FF0000 !important;");
 
             // after 3 seconds, restore the text and color back to normal (once again, without altering behaviour)
@@ -195,7 +195,7 @@ function uploadClick() {
             upload_hw   = -1;
 
             // change the text (and color) to indicate invalid file (behaviour of button does not change)
-            uploadButton.textContent = "File size > 10 MB!";
+            uploadButton.textContent = "Size must not exceed 10 MB";
             uploadButton.setAttribute("style", "width: 100% !important; color: #FF0000 !important;");
 
             // after 3 seconds, restore the text and color back to normal (once again, without altering behaviour)
@@ -217,7 +217,7 @@ function uploadClick() {
                 filename_display = filename.substring(0, 8) + "..."
             }
             uploadButton.textContent = "\"" + filename_display + "\" selected";
-            setTimeout (scrollToGenerate, 2000);
+            setTimeout (scrollToGenerate, 1000);
         }
     }
 }
@@ -287,7 +287,7 @@ async function generateClick () {
         nextbutton = document.getElementById ("text-input-next");
         navbar = document.getElementById("navbar");
         navbar.scrollIntoView();
-        nextbutton.textContent = "Please enter some text first!";
+        nextbutton.textContent = "Text can not be empty";
         setTimeout (restoreNextButton, 2000);
 
         return;
