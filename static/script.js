@@ -125,8 +125,8 @@ function contactClick() {
     resSection.scrollIntoView();
 }
 
-function shareClick(id) {
-    if(id == "navbar-share-result") {
+function shareClick(id, resultMode = false) {
+    if(resultMode) {
         navigator.clipboard.writeText(window.location.href + "\nCheck out this awesome website that helped me convert text into handwriting! You can use it for personalised letters, assignments and so much more!\nCreated using www.handwriter.in");
     } else {
         navigator.clipboard.writeText("Check out www.handwriter.in to convert text to handwriting!\nYou can use it for personalised letters, assignments and so much more!");

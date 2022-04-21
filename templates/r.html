@@ -40,23 +40,23 @@
 
 <body>
 
-    <div class="navbar">
+    <div class="navbar" id="navbar">
         <div style="display:        flex;
                     flex:           7 1 0;
                     padding-left:   16px;
                     font-size:      0px;">
-            <p class="main-title" id="main-title"><a id="about-us-link" href="http://localhost:8000" target="_blank">Handwriter</a></p>
+            <h1 class="main-title" id="main-title">Handwriter</h1>
         </div>
         <div style="display:        flex;
                     flex:           3 1 0;
                     padding-right:  16px;
                     font-size:      0px;
-                    border-left:    1px solid var(--border);">
+                    border-left:    1px solid var(--primary-fg);">
             <p class="navbar-regular" id="navbar-about-us"><a id="about-us-link" href="http://localhost:8000#meet-the-team" target="_blank">About Us</a></p>
-            <p class="navbar-regular" id="navbar-contact""><a id="about-us-link" href="http://localhost:8000#contact-us" target="_blank">Contact</a></p>
-            <p class="navbar-regular navbar-share" id="navbar-share-result" onclick="shareClick('navbar-share-result')">Share</p>
+            <p class="navbar-regular" id="navbar-contact"><a id="about-us-link" href="http://localhost:8000#contact-us" target="_blank">Contact</a></p>
+            <p class="navbar-regular navbar-share" id="navbar-share" onclick="shareClick('navbar-share', true)">Share</p>
         </div>
-        <p class="navbar-regular navbar-share" id="navbar-share-mobile">Share</p>
+        <p class="navbar-regular navbar-share" id="navbar-share-mobile" onclick="shareClick('navbar-share-mobile', true)">Share</p>
     </div>
 
     <div class="res-img">
