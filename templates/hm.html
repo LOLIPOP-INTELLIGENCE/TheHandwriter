@@ -138,7 +138,7 @@
         </div>
 
         <!-- slider -->
-        <main class="main" id="slider">
+        <div id="slider-regular"><main class="main" id="slider">
             <div class="container-slider">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
@@ -163,7 +163,34 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </main></div>
+
+        <div id="slider-mobile"><main class="main" id="slider">
+            <div class="container-slider">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for _ in ""|ljust:"12" %}
+                            {% with imgpath=forloop.counter|slugify|add:"_mobile.png" %}
+                                <div class="swiper-slide">
+                                    <div class="card-image">
+                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}}) , scrollToGenerate ()">
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-button-next">
+                        <i class="fas fa-chevron-circle-right arrow-icon"></i>
+                    </div>
+                    <div class="swiper-button-prev">
+                        <i class="fas fa-chevron-circle-left arrow-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </main></div>
 
     </div>
 
