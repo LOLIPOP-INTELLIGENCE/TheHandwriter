@@ -650,10 +650,20 @@ a {
     }
 
     #download-result {
-        margin-left:    5%;
+        margin-left:    auto;
         width:          90%;
-        margin-right:   5%
+        margin-right:   auto;
+        text-align:     center;
     }   
+}
+
+@media (min-width: 751px) {
+    #download-result {
+        margin-left:    15%;
+        width:          350px;
+        margin-right:   auto;
+        text-align:     center;
+    }
 }
 
 /* error Page 404 Styling */

@@ -146,6 +146,7 @@ function defaultClick(number) {
     restoreUpload();
     selected_hw = number;
     upload_hw = -1;
+    document.getElementById("generate-text-mobile").style.display = "none";
 }
 
 function scrollToGenerate () {
