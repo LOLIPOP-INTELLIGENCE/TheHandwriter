@@ -161,7 +161,7 @@ def detect_box( _path, _final_path, _white_lo = 225 ):
 def make_line_list( _inp ):
 
     lines = []
-    raw_lines = _inp.strip().split( '\r\n' )
+    raw_lines = _inp.strip().split( '\n' )
 
     for line in raw_lines:
 
