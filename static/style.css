@@ -675,6 +675,8 @@ a {
         font-family:        'poppins';
 
         margin-top:         64px;
+
+        line-height:        120px;
     }
 
     .error-text-line-2 {
@@ -685,6 +687,8 @@ a {
         font-family:        'poppins';
 
         margin-top:         32px;
+
+        line-height:        120px;
     }
 }
 
