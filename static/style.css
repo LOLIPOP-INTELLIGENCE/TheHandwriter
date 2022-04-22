@@ -186,7 +186,15 @@ body {
 
 a {
     text-decoration:    none;
-    background-color:   inherit;
+    background-color:   rgba(1, 1, 1, 0);
+    color:              inherit;
+    width:              100%;
+    border-radius:      inherit;
+}
+
+a:hover {
+    text-decoration:    none;
+    background-color:   rgba(1, 1, 1, 0);
     color:              inherit;
 }
 
@@ -578,6 +586,7 @@ a {
 
     background-color:   var(--primary-fg) !important;
     color:              var(--hover-fg) !important;
+    transition:         .33s;
 }
 
 /* result page styling */
