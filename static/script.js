@@ -66,7 +66,7 @@ function nextClickScroll() {
     nextbutton = document.getElementById ("text-input-next");
 
     if (typed == "") {
-        nextbutton.textContent = "Text can not be empty";
+        nextbutton.textContent = "Text cannot be empty";
         setTimeout (restoreNextButton, 3000);
     }
     else {

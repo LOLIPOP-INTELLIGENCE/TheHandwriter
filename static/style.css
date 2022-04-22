@@ -188,8 +188,6 @@ a {
     text-decoration:    none;
     background-color:   inherit;
     color:              inherit;
-
-    transition:         .33s;
 }
 
 .navbar-regular:hover {
