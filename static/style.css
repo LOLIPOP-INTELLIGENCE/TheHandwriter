@@ -652,7 +652,7 @@ a {
         width:          90%;
         margin-right:   auto;
         text-align:     center;
-    }   
+    }
 }
 
 @media (min-width: 751px) {
@@ -666,25 +666,50 @@ a {
 
 /* error Page 404 Styling */
 
-.error-text-line-1 {
-    text-align:         center;
+@media (min-width: 751px) {
+    .error-text-line-1 {
+        text-align:         center;
 
-    font-size:          54px;
-    font-weight:        700;
-    font-family:        'poppins';
+        font-size:          54px;
+        font-weight:        700;
+        font-family:        'poppins';
 
-    margin-top:         64px;
+        margin-top:         64px;
+    }
+
+    .error-text-line-2 {
+        text-align:         center;
+
+        font-size:          45px;
+        font-weight:        600;
+        font-family:        'poppins';
+
+        margin-top:         32px;
+    }
 }
 
-.error-text-line-2 {
-    text-align:         center;
+@media (max-width: 750px) {
+    .error-text-line-1 {
+        text-align:         center;
 
-    font-size:          45px;
-    font-weight:        600;
-    font-family:        'poppins';
+        font-size:          30px;
+        font-weight:        700;
+        font-family:        'poppins';
 
-    margin-top:         32px;
+        margin-top:         64px;
+    }
+
+    .error-text-line-2 {
+        text-align:         center;
+
+        font-size:          24px;
+        font-weight:        600;
+        font-family:        'poppins';
+
+        margin-top:         32px;
+    }
 }
+
 
 /* screen width < 750px, set width of generic section to screen width */
 
