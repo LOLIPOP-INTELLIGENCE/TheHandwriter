@@ -580,35 +580,6 @@ a {
     color:              var(--hover-fg) !important;
 }
 
-/* footer styling*/
-
-.footer-contact-us {
-    margin-top:         72px;
-    margin-left:        15%;
-    margin-right:       15%;
-
-    text-align:         center;
-
-    font-family:        'poppins';
-    font-size:          24px;
-    font-weight:        700;
-
-    color:              var(--action-fg);
-}
-
-.footer-copyright {
-    height:             72px;
-
-    margin-top:         48px;
-    margin-left:        10%;
-
-    font-family:        'poppins';
-    font-size:          18px;
-    font-weight:        600;
-
-    color:              var(--primary-fg);
-}
-
 /* result page styling */
 
 .res-img {
@@ -768,20 +739,60 @@ a {
 
 /* screen width < 750px, change UI of (i) footer (ii) meet the team cards (iii) navbar (iv) choose handwriting (v) upload handwriting (vi) textbox sections */
 
-@media (max-width: 750px) {
-    .footer-contact-us {
-        margin-top: 32px;
+.footer-contact-us {
+    margin-left:        auto;
+    margin-right:       auto;
 
-        font-size: 18px;
+    text-align:         center;
+
+    font-family:        'poppins';
+    font-weight:        700;
+
+    color:              var(--action-fg);
+}
+
+.footer-copyright {
+
+    font-family:        'poppins';
+    font-weight:        600;
+
+    height:             72px;
+
+    color:              var(--primary-fg);
+}
+
+@media (min-width: 751px) {
+
+    .footer-contact-us {
+        margin-top:         72px;
+        font-size:          24px;
     }
 
     .footer-copyright {
-        margin-top: 21px;
-        margin-left: 0%;
+        margin-left:        10%;
+        margin-top:         48px;
+        font-size:          18px;
+    }
+}
 
-        font-size: 14px;
+@media (max-width: 750px) {
+    .footer-contact-us {
+        margin-top: 32px;
+        font-size: 16px;
     }
 
+    .footer-copyright {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 21px;
+
+        text-align:         center;
+
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 750px) {
     .container .card {
         width: 280px;
     }
