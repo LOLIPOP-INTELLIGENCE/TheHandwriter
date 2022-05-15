@@ -9,7 +9,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Handwriter</title>
+    <title>Handwriter - Convert Text to Handwriting and Calligraphy</title>
+
+    <meta name="description" content="Handwriter is an online tool to convert text into handwriting and calligraphy for free. You can use your own handwriting, or choose from one of our default handwritings. Use this for your assignments, projects, personalised letters and so much more!" />
+
+    <meta property="og:url" content="https://handwriter.in" />
+    <meta property="og:title" content="Handwriter - Convert Text to Handwriting and Calligraphy" />
+    <meta property="og:site_name" content="Handwriter" />
+    <meta property="og:description" content="Handwriter is an online tool to convert text into handwriting and calligraphy for free. You can use your own handwriting, or choose from one of our default handwritings. Use this for your assignments, projects, personalised letters and so much more!" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://handwriter.in{% static 'favicon.ico' %}" />
+    <meta property="og:video" content="https://youtu.be/9UoRj0Gn1y0" />
+
+    <meta property="og:locale" content="en_US" />
 
     <style>
         @import url(https://fonts.googleapis.com/css?family=Amatic+SC);
@@ -20,12 +33,15 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     </style>
 
-    <meta property="robots" content="noindex, nofollow" />
 
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <script src="{% static 'script.js' %}"></script>
+
+    <!-- Stylesheets for slider -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css'>
 
 </head>
 
@@ -36,23 +52,198 @@
                     flex:           7 1 0;
                     padding-left:   16px;
                     font-size:      0px;">
-            <h1 class="main-title" id="main-title"><a id="about-us-link" href="https://handwriter.in" target="_blank">Handwriter</a></h1>
+            <h1 class="main-title" id="main-title">Handwriter</h1>
+        </div>
+        <div style="display:        flex;
+                    flex:           3 1 0;
+                    padding-right:  16px;
+                    font-size:      0px;
+                    border-left:    1px solid var(--primary-fg);">
+            <p class="navbar-regular" id="navbar-about-us" onclick="aboutUsClick()">About Us</p>
+            <p class="navbar-regular" id="navbar-contact" onclick="contactClick()">Contact</p>
+            <p class="navbar-regular navbar-share" id="navbar-share" onclick="shareClick('navbar-share')">Share</p>
+        </div>
+        <p class="navbar-regular navbar-share" id="navbar-share-mobile" onclick="shareClick('navbar-share-mobile')">Share</p>
+    </div>
+
+    <div class="textentry">
+        <textarea id="textinput" style="resize: none;" cols=40 rows=15 maxlength=2100 placeholder="" onfocusout="saveText()"></textarea>
+        <p class="generic-button" style="display: block; margin-left: auto; margin-right: auto;" onclick="nextClickScroll()" id="text-input-next">Next</p>
+    </div>
+
+    <div class="generic-section" id="choose-handwriting">
+
+        <div class="generic-title">
+            <p>choose a handwriting</p>
+        </div>
+
+        <div class="hw_mode_button_div">
+            <div style="padding:            10px 10px 10px 10px;
+                        flex:               1 1 0;
+                        border-right:       2px solid var(--border);">
+                <p class="generic-button" style="margin-left: auto; margin-right: auto; width: max(40%, 240px) !important;" onclick="userUploadHw()">I'll upload my own</p>
+            </div>
+            <div style="padding:            10px 10px 10px 10px;
+                        flex:               1 1 0;
+                        border-left:        2px solid var(--border);">
+                <p class="generic-button" style="margin-left: auto; margin-right: auto; width: max(40%, 240px) !important;" onclick="selectDefaultHw()">I'll use a default template</p>
+            </div>
         </div>
     </div>
 
-    <div class="error-text-line-1">
-        <p class="error-text-line-1" style="margin: 0;"><span style="color: white;">We are Under</span><span style="color: #7B8CDE;"> Maintenance :/</span></p>
+    <div class="generic-section" id="user-upload-hw">
+        <div class="generic-title">
+            <p>upload your handwriting</p>
+        </div>
+        <div style="display: flex;">
+            <div style="flex:           1 1 0;
+                        display:        flex;
+                        height:         100%;
+                        padding-left:   64px;
+                        padding-right:  16px;
+                        margin-bottom:  auto;
+                        margin-top:     auto;">
+                <ul class="generic-list">
+                    <li>Download and print-out this template</li>
+                    <li>Fill in each box with your handwritten characters in the same order as shown</li>
+                    <li>Upload the filled template and await, as the magic happens :)</li>
+                </ul>
+            </div>
+            <div style="flex:           1 1 0;
+                            display:    flex;
+                            flex-direction: column;
+                            padding-left: 16px;">
+                <div>
+                    <a download="reference.jpg" href="{% static 'scan.jpg' %}">
+                        <img style="width: min(600px, 90%); padding-left: 16px;" src="{% static 'scan.jpg' %}">
+                    </a>
+                </div>
+                <div style="display: flex; align-items: center; width: min(600px, 90%); padding-left: 16px">
+                    <p class="generic-button" style="width: 50% !important; margin-right: 5%;"><a href="{% static 'upload_template.pdf' %}" target="_blank">Download</a></p>
+                    <label for="upload-input" style="width: 50% !important;" onchange="uploadClick()">
+                        {% csrf_token %}
+                        <input type="file" style="display: none;" id="upload-input">
+                        <p class="generic-button" style="width: 100% !important;" id="upload-button">Upload</p>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div style="height: 32px;"></div>
     </div>
 
-    <div class="error-text-line-2">
-        <p style="margin: 0;"><span style="color: white;">But don't worry, we will back very soon!</span></p>
+    <div class="generic-section" id="select-default-hw">
+        <div class="generic-title">
+            <p>select a default template</p>
+            <p id="desktop-invite" style="margin-top: 0px;">visit us on desktop to use your own handwriting</p>
+        </div>
+
+        <!-- slider -->
+        <div id="slider-regular"><main class="main" id="slider">
+            <div class="container-slider">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for _ in ""|ljust:"12" %}
+                            {% with imgpath=forloop.counter|slugify|add:".png" %}
+                                <div class="swiper-slide">
+                                    <div class="card-image">
+                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}}) , scrollToGenerate ()">
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-button-next">
+                        <i class="fas fa-chevron-circle-right arrow-icon"></i>
+                    </div>
+                    <div class="swiper-button-prev">
+                        <i class="fas fa-chevron-circle-left arrow-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </main></div>
+
+        <div id="slider-mobile"><main class="main" id="slider">
+            <div class="container-slider">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for _ in ""|ljust:"12" %}
+                            {% with imgpath=forloop.counter|slugify|add:"_mobile.png" %}
+                                <div class="swiper-slide">
+                                    <div class="card-image">
+                                        <img src="{% static imgpath %}" alt="Image Slider" onclick="defaultClick ({{ forloop.counter}}) , scrollToGenerate ()">
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-button-next">
+                        <i class="fas fa-chevron-circle-right arrow-icon"></i>
+                    </div>
+                    <div class="swiper-button-prev">
+                        <i class="fas fa-chevron-circle-left arrow-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </main></div>
+
     </div>
 
-    <!-- <div>
-        <iframe style="border: 0; display: block; margin-top: 64px; margin-bottom: 64px; margin-left: auto; margin-right: auto; width: 55%; height: 500px;" src="https://www.youtube.com/embed/jUrc__hvwwY"></iframe>
-    </div> -->
+    <div class="generic-section" id="generate-button-div">
+        <p id="generate-button-extern" class="generic-button" style="display: block; margin-left: 32.5%; margin-right: 32.5%; width: 35% !important; margin-top:50px; margin-bottom: 35px;" onclick="generateClick()"><a id="generate-button-intern" style="text-decoration: none; color: var(--primary-bg);">Generate</a></p>
+        <p id="generate-text-mobile" style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 7px; text-align: center;">Click again if not redirected</p>
+    </div>
 
-    <div class="generic-section" style="margin-bottom: 64px !important;"></div>
+    <!-- Meet the team  -->
+
+    <div class="container generic-section" id="meet-the-team">
+        <div class="generic-title">
+            <p>behind the magic</p>
+        </div>
+        <div class="card">
+            <div class="content">
+                <div class="imgBx">
+                    <img src="{% static 'aditya.png' %}" alt="">
+                </div>
+                <div class="contentBx">
+                    <h4>Aditya Agarwal</h4>
+                    <p class="contentBxDsc">Developer by day,<br>and also by night. Creating tech to power the future.</p>
+                    <p class="contentBxWhoAmI"><a href="https://linktr.ee/aditya_a_garwal" target="_blank">Who is Aditya?</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="content">
+                <div class="imgBx">
+                    <img src="{% static 'samarth.png' %}" alt="">
+                </div>
+                <div class="contentBx">
+                    <h4>Samarth P</h4>
+                    <p class="contentBxDsc">An artist who wants to make it possible to paint worlds beyond earth.</p>
+                    <p class="contentBxWhoAmI"><a href="https://samarth777.github.io" target="_blank">Who is Samarth?</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="content">
+                <div class="imgBx">
+                    <img src="{% static 'manas.png' %}" alt="">
+                </div>
+                <div class="contentBx">
+                    <h4>Manas Bam</h4>
+                    <p class="contentBxDsc">Always remember, it's the step upgrades to objects and processes. Happy 'hand-writing'!!</p>
+                    <p class="contentBxWhoAmI"><a href="https://www.manasbam.com/linktree" target="_blank">Who is Manas?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meet the team ends -->
 
     <!-- Footer -->
 
@@ -60,8 +251,11 @@
         <p class="footer-contact-us" id="contact-us">contact us at handwriter@handwriter.in</p>
         <p class="footer-copyright">© 2022 handwriter.in</p>
     </div>
-
     <!-- Footer ends -->
+
+    <!-- scripts for slider -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js'></script>
+    <script src="{% static 'swiper.js' %}"></script>
 
 </body>
 
