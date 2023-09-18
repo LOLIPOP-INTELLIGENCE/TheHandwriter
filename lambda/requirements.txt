@@ -1,0 +1,7 @@
+numpy
+opencv-python-headless
+pygame
+Pillow
+bz2file
+boto3
+requests
