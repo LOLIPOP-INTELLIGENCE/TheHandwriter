@@ -6,7 +6,7 @@ url = "https://dtpylwwmiaeer5nz6y2pkzrir40hymid.lambda-url.ap-south-1.on.aws/"
 
 params = {
     "typed": "this is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test stringthis is another random test string",
-    "upl-hw": "https://i.imgur.com/r4EXvQY.jpg",
+    "upl-hw": "https://handwriter.s3.ap-south-1.amazonaws.com/submission_jytKXhDNG12.jpg",
     "sel-hw": "3"
 }
 
